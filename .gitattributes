@@ -1,3 +1,6 @@
 *.changes filter=lfs diff=lfs merge=lfs -text
 *.png filter=lfs diff=lfs merge=lfs -text
 *.wktree filter=lfs diff=lfs merge=lfs -text
+.plastic/29b703b9-7475-4822-b7fd-d8ea0d500085 filter=lfs diff=lfs merge=lfs -text
+.plastic/6c8739c0-30a5-4514-99af-c0566e5bcaea filter=lfs diff=lfs merge=lfs -text
+.plastic/78a00501-36ec-45c5-a59a-9756aba35103 filter=lfs diff=lfs merge=lfs -text

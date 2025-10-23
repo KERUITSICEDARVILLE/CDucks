@@ -16,8 +16,8 @@ public class EntryAnimation : MonoBehaviour
     private float brunner;
     private int fIndex = 0;
     private float increment = 0.01f;
-    private const int FRAME_MAX = 60;
-    private const int TRACK_MAX = 7;
+    private const int FRAME_MAX = 83;
+    private const int TRACK_MAX = 10;
 
     public float[,] tracks = new float[TRACK_MAX, 2] {
     {-2.09f, 2.54f},
@@ -26,14 +26,17 @@ public class EntryAnimation : MonoBehaviour
     {-3.12f, 1.58f},
     {-3.45f, 1.26f},
     {-3.81f, 0.95f},
-    {-3.72f, 0.66f}};
+    {-3.77f, 0.66f},
+    {-2.03f, 0.33f},
+    {-1.23f, 0f},
+    {-0.78f, -0.37f}};
 
     private int[] track_count = new int[TRACK_MAX] {
-    3, 5, 8, 9, 12, 11, 13
+    3, 5, 8, 9, 11, 12, 13, 9, 7, 6
     };
 
     private int[] track_iterate = new int[TRACK_MAX] {
-    0, 0, 0, 0, 0, 0, 0
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     };
 
     // Start is called before the first frame update
