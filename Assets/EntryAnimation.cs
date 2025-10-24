@@ -20,7 +20,7 @@ public class EntryAnimation : MonoBehaviour
     private float brunner;
     private int fIndex = 0;
     private float increment = 0.01f;
-    private const int FRAME_MAX = 83;
+    private const int FRAME_MAX = 84;
     private const int TRACK_MAX = 10;
     private const int FRAME_BTC = 5;
 
@@ -50,7 +50,7 @@ public class EntryAnimation : MonoBehaviour
     {-0.78f, -0.37f}};
 
     private int[] track_maxes = new int[TRACK_MAX] {
-    3, 5, 8, 9, 11, 12, 13, 9, 7, 6
+    13, 5, 8, 9, 11, 12, 13, 9, 7, 6
     };
 
     private int[] track_iterators = new int[TRACK_MAX] {
@@ -102,7 +102,10 @@ public class EntryAnimation : MonoBehaviour
         int startFrame = batch_iterator * FRAME_BTC;
         int which;
         for (int i = 0; i < FRAME_BTC; i++) {
-        which = (int)Random.Range(0f, (float)TRACK_MAX);
+        which = (int)Random.Range(0f, (float)TRACK_MAX - increment);
+            while (track_iterators[which] == track_maxes[which]) {
+            which = (int)Random.Range(0f, (float)TRACK_MAX - increment);
+            }
         BatchCoords[i] = new Vector3(track_bases[which, 0] + track_iterators[which] * 0.35f, track_bases[which, 1], (float)(i + startFrame) + 0.5f);
         track_iterators[which]++;
         }
