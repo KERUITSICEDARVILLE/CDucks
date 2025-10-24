@@ -6,6 +6,9 @@ public class EntryAnimation : MonoBehaviour
 {
 
 // make generation from same side of map as rows grow
+// make frames jangle jingle. Maybe some visually interesting waves?
+// find insertion point for hexagon tilemap
+// 
 
     public PointAndDuck script;
     public float animationKey = 0f;
