@@ -5,6 +5,8 @@ using UnityEngine;
 public class EntryAnimation : MonoBehaviour
 {
 
+// make generation from same side of map as rows grow
+
     public PointAndDuck script;
     public float animationKey = 0f;
     public GameObject OriginFrame;
@@ -26,8 +28,8 @@ public class EntryAnimation : MonoBehaviour
     {-3.12f, 1.58f},
     {-3.45f, 1.26f},
     {-3.81f, 0.95f},
-    {-3.77f, 0.66f},
-    {-2.03f, 0.33f},
+    {-3.77f, 0.63f},
+    {-2.03f, 0.32f},
     {-1.23f, 0f},
     {-0.78f, -0.37f}};
 
