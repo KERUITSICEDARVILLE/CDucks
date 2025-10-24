@@ -10,7 +10,6 @@ public class EntryAnimation : MonoBehaviour
 // find insertion point for hexagon tilemap
 // 
 
-    public PointAndDuck script;
     public GameObject OriginFrame;
     public GameObject Blob;
     private GameObject[] Frames;
@@ -20,7 +19,7 @@ public class EntryAnimation : MonoBehaviour
     private float brunner;
     private int fIndex = 0;
     private float increment = 0.01f;
-    private const int FRAME_MAX = 84;
+    private const int FRAME_MAX = 82;
     private const int TRACK_MAX = 10;
     private const int FRAME_BTC = 5;
 
@@ -46,16 +45,24 @@ public class EntryAnimation : MonoBehaviour
     {-3.81f, 0.95f},
     {-3.77f, 0.63f},
     {-2.03f, 0.32f},
-    {-1.23f, 0f},
+    {-1.23f, -0.03f},
     {-0.78f, -0.37f}};
 
     private int[] track_maxes = new int[TRACK_MAX] {
-    13, 5, 8, 9, 11, 12, 13, 9, 7, 6
+    3, 5, 7, 9, 11, 12, 13, 9, 7, 6
     };
 
-    private int[] track_iterators = new int[TRACK_MAX] {
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-    };
+    private int[] track_iterators = new int[TRACK_MAX];
+
+    private bool[] track_usage = new bool[TRACK_MAX];
+
+    public bool tracksFull() {
+    bool ret = true;
+        for (int i = 0; i < TRACK_MAX; i++) {
+        ret &= track_usage[i];
+        }
+    return ret;
+    }
 
     public Vector3 giveCoord(int index) {
     return BatchCoords[index % FRAME_BTC];
@@ -103,7 +110,12 @@ public class EntryAnimation : MonoBehaviour
         int which;
         for (int i = 0; i < FRAME_BTC; i++) {
         which = (int)Random.Range(0f, (float)TRACK_MAX - increment);
-            while (track_iterators[which] == track_maxes[which]) {
+            while (!tracksFull()) {
+                if (track_iterators[which] != track_maxes[which]) {
+                break;
+                } else {
+                track_usage[which] = true;
+                }
             which = (int)Random.Range(0f, (float)TRACK_MAX - increment);
             }
         BatchCoords[i] = new Vector3(track_bases[which, 0] + track_iterators[which] * 0.35f, track_bases[which, 1], (float)(i + startFrame) + 0.5f);
@@ -113,6 +125,11 @@ public class EntryAnimation : MonoBehaviour
 
     void Start()
     {
+        for (int i = 0; i < TRACK_MAX; i++) {
+        track_iterators[i] = 0;
+        track_usage[i] = false;
+        }
+  
         Frames = new GameObject[FRAME_MAX];
         for (int i = 0; i < FRAME_MAX; i++) {
         Frames[i] = Instantiate(OriginFrame, transform);
