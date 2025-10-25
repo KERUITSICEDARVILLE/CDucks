@@ -9,10 +9,11 @@ private float increment = 0.05f;
 private Vector3 nextCoord;
 private Vector3 currCoord;
 private int which;
-private float spontaneousGeneration = 0f;
+private float frameBlightVal = 0f;
 
 public EntryAnimation parentScript;
-public Sprite BlightF1, BlightF2, FrameSprite;
+public Sprite BlightF1, BlightF2;
+private Sprite FrameSprite;
 
     // Start is called before the first frame update
     void Start()
@@ -26,8 +27,13 @@ public Sprite BlightF1, BlightF2, FrameSprite;
         // take distance from cursor and go opposite direction that distance.
     }
 
+    void OnMouseOver() {
+    // move away from cursor
+    }
+
     void OnMouseDown() {
-    spontaneousGeneration = 0f;
+    Debug.Log("magic fix on down");
+    frameBlightVal = 0f;
     GetComponent<SpriteRenderer>().sprite = FrameSprite;
     transform.localScale = new Vector3(0.154f, 0.154f, 0.154f);
     }
@@ -35,22 +41,22 @@ public Sprite BlightF1, BlightF2, FrameSprite;
     // Update is called once per frame
     void Update()
     {
-        if (Random.Range(0f, 1f) < 0.001f && spontaneousGeneration < increment) {
-        spontaneousGeneration = increment;
+        if (Random.Range(0f, 1f) < 0.001f && frameBlightVal < increment) {
+        frameBlightVal = increment;
         GetComponent<SpriteRenderer>().sprite = BlightF1;
-        transform.localScale *= 10f - Random.Range(0f, 5f); // Vector3(1.54f, 1.54f, 1.54f);
+        transform.localScale *= 1f - Random.Range(0f, 0.5f);
         }
 
-        if (spontaneousGeneration > 0f /*&& spontaneousGeneration < 1f*/) {
-        spontaneousGeneration += increment;
-           if ( (spontaneousGeneration * 100) % 5 < 2) {
+        if (frameBlightVal > 0f /*&& frameBlightVal < 1f*/) {
+        frameBlightVal += increment;
+           if ( (frameBlightVal * 100) % 5 < 2) {
            GetComponent<SpriteRenderer>().sprite = BlightF1;
            } else {
            GetComponent<SpriteRenderer>().sprite = BlightF2;
            }
         }
 
-        if (spontaneousGeneration > 1f && spontaneousGeneration < 2f) {
+        if (frameBlightVal > 1f && frameBlightVal < 2f) {
         // fully formed algea bloom (bad!)
         }
 
