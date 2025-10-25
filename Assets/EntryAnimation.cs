@@ -15,13 +15,14 @@ public class EntryAnimation : MonoBehaviour
     private GameObject[] Frames;
     private Vector3 nextCoord;
     private Vector3 currCoord;
-    private float runner;
-    private float brunner;
-    private int fIndex = 0;
     private float increment = 0.01f;
     private const int FRAME_MAX = 82;
     private const int TRACK_MAX = 10;
     private const int FRAME_BTC = 5;
+
+    public Texture2D duckHammer;
+    public Texture2D duckHammerDown;
+    public CursorMode cMode = CursorMode.Auto;
 
     // set forward conversion between Frame index and gridspace
     // set backward conversion
@@ -121,6 +122,24 @@ public class EntryAnimation : MonoBehaviour
         BatchCoords[i] = new Vector3(track_bases[which, 0] + track_iterators[which] * 0.35f, track_bases[which, 1], (float)(i + startFrame) + 0.5f);
         track_iterators[which]++;
         }
+    }
+
+    void OnMouseEnter()
+    {
+        Cursor.SetCursor(duckHammer, Vector2.zero, cMode);
+    }
+
+    void OnMouseDown() {
+        Cursor.SetCursor(duckHammerDown, Vector2.zero, cMode);
+    }
+
+    void OnMouseUp() {
+        Cursor.SetCursor(duckHammer, Vector2.zero, cMode);
+    }
+
+    void OnMouseExit()
+    {
+        Cursor.SetCursor(null, Vector2.zero, cMode);
     }
 
     void Start()
