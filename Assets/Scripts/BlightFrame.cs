@@ -24,6 +24,10 @@ private Sprite FrameSprite;
 
     void OnMouseEnter()
     {
+    Debug.Log("magic fix on down");
+    frameBlightVal = 0f;
+    GetComponent<SpriteRenderer>().sprite = FrameSprite;
+    transform.localScale = new Vector3(0.154f, 0.154f, 0.154f);
         // take distance from cursor and go opposite direction that distance.
         Debug.Log("Mouse entered blight frame " + which);
     }
@@ -33,10 +37,7 @@ private Sprite FrameSprite;
     }
 
     void OnMouseDown() {
-    Debug.Log("magic fix on down");
-    frameBlightVal = 0f;
-    GetComponent<SpriteRenderer>().sprite = FrameSprite;
-    transform.localScale = new Vector3(0.154f, 0.154f, 0.154f);
+
     }
 
     // Update is called once per frame
