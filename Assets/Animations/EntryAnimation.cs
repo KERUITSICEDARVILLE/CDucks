@@ -17,6 +17,12 @@ public class EntryAnimation : MonoBehaviour
 // --- in rainbow mode the duck will rapidly ascend and 
 // --- descend stomping its feet rapidly
 
+// Eccentric animations such as:
+// --- A random pair of npc's (cedarcouple) are walking
+// --- when all of the sudden a duck descends and picks up
+// --- one individual by the shoulders and drags them
+// --- offscsreen
+
     public GameObject OriginFrame;
     public GameObject Blob;
     private GameObject[] Frames;
