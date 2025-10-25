@@ -126,6 +126,8 @@ public class EntryAnimation : MonoBehaviour
 
     void Start()
     {
+        Cursor.SetCursor(duckHammer, Vector2.zero, cMode);
+
         for (int i = 0; i < TRACK_MAX; i++) {
         track_iterators[i] = 0;
         track_usage[i] = false;

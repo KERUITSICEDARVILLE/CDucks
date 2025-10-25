@@ -10,6 +10,7 @@ private Vector3 nextCoord;
 private Vector3 currCoord;
 private int which;
 private float frameBlightVal = 0f;
+private float rainbowDucky = 0f;
 
 public EntryAnimation parentScript;
 public Sprite BlightF1, BlightF2;
@@ -24,25 +25,41 @@ private Sprite FrameSprite;
 
     void OnMouseEnter()
     {
-    Debug.Log("magic fix on down");
-    frameBlightVal = 0f;
-    GetComponent<SpriteRenderer>().sprite = FrameSprite;
-    transform.localScale = new Vector3(0.154f, 0.154f, 0.154f);
-        // take distance from cursor and go opposite direction that distance.
+        if (rainbowDucky > 0f) {
+        frameBlightVal = 0f;
+        GetComponent<SpriteRenderer>().sprite = FrameSprite;
+        transform.localScale = new Vector3(0.154f, 0.154f, 0.154f);
+        }
     }
 
     void OnMouseOver() {
+    // take distance from cursor and go opposite direction that distance.
     // move away from cursor
     }
 
     void OnMouseDown() {
-
+    frameBlightVal = 0f;
+    GetComponent<SpriteRenderer>().sprite = FrameSprite;
+    transform.localScale = new Vector3(0.154f, 0.154f, 0.154f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Random.Range(0f, 1f) < 0.001f && frameBlightVal < increment) {
+        if (Random.Range(0f, 1f) < 0.0001f) {
+        rainbowDucky = increment;
+        }
+
+        if (rainbowDucky > 0f && rainbowDucky < 500f) {
+        rainbowDucky += increment;
+        }
+
+        if (rainbowDucky > 500f) {
+        rainbowDucky = 0f;
+        }
+
+        // basing too many things on frame updates. Lock to timesteps instead
+        if (Random.Range(0f, 1f) < 0.0001f && frameBlightVal < increment) {
         frameBlightVal = increment;
         GetComponent<SpriteRenderer>().sprite = BlightF1;
         transform.localScale *= 1f - Random.Range(0f, 0.5f);
