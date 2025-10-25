@@ -12,10 +12,12 @@ private int which;
 private float spontaneousGeneration = 0f;
 
 public EntryAnimation parentScript;
+public Sprite BlightF1, BlightF2, FrameSprite;
 
     // Start is called before the first frame update
     void Start()
     {
+        FrameSprite = GetComponent<SpriteRenderer>().sprite;
         which = (int)transform.position.z;
     }
 
@@ -24,18 +26,28 @@ public EntryAnimation parentScript;
         // take distance from cursor and go opposite direction that distance.
     }
 
+    void OnMouseDown() {
+    spontaneousGeneration = 0f;
+    GetComponent<SpriteRenderer>().sprite = FrameSprite;
+    transform.localScale = new Vector3(0.154f, 0.154f, 0.154f);
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if (Random.Range(0f, 1f) < 0.01f) {
+        if (Random.Range(0f, 1f) < 0.001f && spontaneousGeneration < increment) {
         spontaneousGeneration = increment;
-        // generate child object
-        // put it on top of us and set as b2
+        GetComponent<SpriteRenderer>().sprite = BlightF1;
+        transform.localScale *= 10f - Random.Range(0f, 5f); // Vector3(1.54f, 1.54f, 1.54f);
         }
 
-        if (spontaneousGeneration > 0f && spontaneousGeneration < 1f) {
+        if (spontaneousGeneration > 0f /*&& spontaneousGeneration < 1f*/) {
         spontaneousGeneration += increment;
-        // switch rapidly between b1, b2
+           if ( (spontaneousGeneration * 100) % 5 < 2) {
+           GetComponent<SpriteRenderer>().sprite = BlightF1;
+           } else {
+           GetComponent<SpriteRenderer>().sprite = BlightF2;
+           }
         }
 
         if (spontaneousGeneration > 1f && spontaneousGeneration < 2f) {

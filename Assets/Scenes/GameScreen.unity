@@ -129,7 +129,6 @@ GameObject:
   m_Component:
   - component: {fileID: 31842949}
   - component: {fileID: 31842948}
-  - component: {fileID: 31842950}
   - component: {fileID: 31842951}
   - component: {fileID: 31842952}
   m_Layer: 0
@@ -214,18 +213,6 @@ Transform:
   - {fileID: 1465249591}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &31842950
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 31842947}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c5b667a0a3f8ca40a48dcd7ac8e3c23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &31842951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -375,7 +362,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 2, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -576,6 +563,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentScript: {fileID: 31842951}
+  BlightF1: {fileID: -8251610326034200038, guid: 03d044a62a3039347b08e310734d16df, type: 3}
+  BlightF2: {fileID: 4321518268088089880, guid: 9e207ed89a4a6e24494196442b090c9c, type: 3}
 --- !u!61 &1383186477
 BoxCollider2D:
   m_ObjectHideFlags: 0
