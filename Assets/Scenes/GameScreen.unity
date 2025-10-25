@@ -421,8 +421,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1383186475}
   - component: {fileID: 1383186474}
-  - component: {fileID: 1383186476}
   - component: {fileID: 1383186477}
+  - component: {fileID: 1383186478}
   m_Layer: 0
   m_Name: 200x200
   m_TagString: Untagged
@@ -503,21 +503,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 31842949}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1383186476
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1383186473}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae612d31d701e694492256e7390a7842, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parentScript: {fileID: 31842951}
-  BlightF1: {fileID: -8251610326034200038, guid: 03d044a62a3039347b08e310734d16df, type: 3}
-  BlightF2: {fileID: 4321518268088089880, guid: 9e207ed89a4a6e24494196442b090c9c, type: 3}
 --- !u!61 &1383186477
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -564,6 +549,21 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2, y: 2}
   m_EdgeRadius: 0
+--- !u!114 &1383186478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1383186473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 931163b558bb940e3b62504a119cb538, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BlightFrame
+  parentScript: {fileID: 31842951}
+  BlightF1: {fileID: -8251610326034200038, guid: 0c445e4192496cf41b5e36ac63385d16, type: 3}
+  BlightF2: {fileID: 4321518268088089880, guid: e17f28c36a57b3d44a820ed8140ce36d, type: 3}
 --- !u!1 &1465249589
 GameObject:
   m_ObjectHideFlags: 0
