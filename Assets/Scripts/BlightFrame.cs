@@ -24,6 +24,7 @@ public Sprite BlightF1, BlightF2, FrameSprite;
     void OnMouseEnter()
     {
         // take distance from cursor and go opposite direction that distance.
+        Debug.Log("Mouse entered blight frame " + which);
     }
 
     void OnMouseDown() {
