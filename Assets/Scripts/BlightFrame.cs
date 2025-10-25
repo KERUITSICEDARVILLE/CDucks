@@ -23,6 +23,8 @@ private Sprite FrameSprite;
         which = (int)transform.position.z;
     }
 
+//BLAOW DELETE THIS
+
     void OnMouseEnter()
     {
         if (rainbowDucky > 0f) {
