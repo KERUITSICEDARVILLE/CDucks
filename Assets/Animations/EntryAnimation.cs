@@ -124,24 +124,6 @@ public class EntryAnimation : MonoBehaviour
         }
     }
 
-    void OnMouseEnter()
-    {
-        Cursor.SetCursor(duckHammer, Vector2.zero, cMode);
-    }
-
-    void OnMouseDown() {
-        Cursor.SetCursor(duckHammerDown, Vector2.zero, cMode);
-    }
-
-    void OnMouseUp() {
-        Cursor.SetCursor(duckHammer, Vector2.zero, cMode);
-    }
-
-    void OnMouseExit()
-    {
-        Cursor.SetCursor(null, Vector2.zero, cMode);
-    }
-
     void Start()
     {
         for (int i = 0; i < TRACK_MAX; i++) {
@@ -164,6 +146,15 @@ public class EntryAnimation : MonoBehaviour
 
     void Update()
     {
+
+        if (Input.GetMouseButtonDown(0)) {
+        Cursor.SetCursor(duckHammerDown, Vector2.zero, cMode);
+        }
+
+        if (Input.GetMouseButtonUp(0)) {
+        Cursor.SetCursor(duckHammer, Vector2.zero, cMode);
+        }
+
         // wait for last batch to complete.
         if (doneQuery()) {
             wipeBatch();
