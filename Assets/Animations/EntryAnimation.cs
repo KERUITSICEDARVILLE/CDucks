@@ -10,6 +10,13 @@ public class EntryAnimation : MonoBehaviour
 // find insertion point for hexagon tilemap
 // 
 
+// plans for ducks as of October 24th 2025:
+// duck bill will have collider so the tip of the mouse
+// --- doesn't govern where we delete blight.
+// duck feet will have collider that turns on with click.
+// --- in rainbow mode the duck will rapidly ascend and 
+// --- descend stomping its feet rapidly
+
     public GameObject OriginFrame;
     public GameObject Blob;
     private GameObject[] Frames;
@@ -22,7 +29,13 @@ public class EntryAnimation : MonoBehaviour
 
     public Texture2D duckHammer;
     public Texture2D duckHammerDown;
+    public Texture2D rainbowDuckTex;
+    public Texture2D rainbowDuckTexDown;
+    private Texture2D[,] SpriteSets = new Texture2D[2,2];
+
     public CursorMode cMode = CursorMode.Auto;
+
+    public int whichDucky = 0;
 
     // set forward conversion between Frame index and gridspace
     // set backward conversion
@@ -126,7 +139,12 @@ public class EntryAnimation : MonoBehaviour
 
     void Start()
     {
-        Cursor.SetCursor(duckHammer, Vector2.zero, cMode);
+        SpriteSets[0,0] = duckHammer;
+        SpriteSets[0,1] = duckHammerDown;
+        SpriteSets[1,0] = rainbowDuckTex;
+        SpriteSets[1,1] = rainbowDuckTexDown;
+
+        Cursor.SetCursor(SpriteSets[whichDucky, 0], Vector2.zero, cMode);
 
         for (int i = 0; i < TRACK_MAX; i++) {
         track_iterators[i] = 0;
@@ -150,11 +168,17 @@ public class EntryAnimation : MonoBehaviour
     {
 
         if (Input.GetMouseButtonDown(0)) {
-        Cursor.SetCursor(duckHammerDown, Vector2.zero, cMode);
+        Cursor.SetCursor(SpriteSets[whichDucky, 1], Vector2.zero, cMode);
         }
 
         if (Input.GetMouseButtonUp(0)) {
-        Cursor.SetCursor(duckHammer, Vector2.zero, cMode);
+        Cursor.SetCursor(SpriteSets[whichDucky, 0], Vector2.zero, cMode);
+        }
+
+        if (!Input.GetMouseButtonUp(0) && !Input.GetMouseButtonDown(0)) {
+          if (Random.Range(0f, 60f) < 1f) {
+          Cursor.SetCursor(SpriteSets[whichDucky, 0], Vector2.zero, cMode);
+          }
         }
 
         // wait for last batch to complete.
