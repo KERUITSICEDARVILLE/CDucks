@@ -69,6 +69,7 @@ public class EntryAnimation : MonoBehaviour
     3, 5, 7, 9, 11, 12, 13, 9, 7, 6
     };
 
+    private float[] track_widths = new float[TRACK_MAX];
     private int[] track_iterators = new int[TRACK_MAX];
     private bool[] track_usage = new bool[TRACK_MAX];
 
@@ -157,9 +158,9 @@ public class EntryAnimation : MonoBehaviour
 
     public int pMAX = 100;
     private const int POINT_MAX = 100;
-    public Vector2[] cPoints = new Vector2[POINT_MAX];
-    private Vector2[] curve = new Vector2[3];
-    private float t_rotate = Mathf.PI;
+    public Vector2[,] cPoints = new Vector2[TRACK_MAX,POINT_MAX];
+    private Vector2[][] curve = new Vector2[TRACK_MAX][];
+    private float[] t_rotate = new float[TRACK_MAX];
 
     void Start()
     {
@@ -171,8 +172,12 @@ public class EntryAnimation : MonoBehaviour
         Cursor.SetCursor(SpriteSets[whichDucky, 0], Vector2.zero, cMode);
 
         for (int i = 0; i < TRACK_MAX; i++) {
-        track_iterators[i] = 0;
-        track_usage[i] = false;
+        t_rotate[i] = Mathf.PI; // always start above animation cap
+        track_iterators[i] = 0; // haven't added anything onto tracks yet
+        track_usage[i] = false; // ---
+
+        // allocations
+        curve[i] = new Vector2[3];
         backwardConversion[i] = new int[track_maxes[i]];
         }
  
@@ -191,6 +196,11 @@ public class EntryAnimation : MonoBehaviour
 
     void Update()
     {
+
+        for (int i = 0; i < TRACK_MAX; i++) {
+        track_widths[i] = Frames[backwardConversion[i][track_maxes[i] - 1]].transform.localPosition.x
+                           - Frames[backwardConversion[i][0]].transform.localPosition.x;
+        }
 
         if (Input.GetMouseButtonDown(0)) {
         Cursor.SetCursor(SpriteSets[whichDucky, 1], Vector2.zero, cMode);
@@ -222,22 +232,26 @@ public class EntryAnimation : MonoBehaviour
 
         float offset = 5f;
 
-        Vector2 circleVec = new Vector2((2 * offset + Frames[backwardConversion[6][12]].transform.localPosition.x - Frames[backwardConversion[6][0]].transform.localPosition.x) / 2f, -20f);
+        Vector2 circleVec;
 
-        if (t_rotate > Mathf.PI - Mathf.Atan(Mathf.Abs(circleVec.y / circleVec.x))) {
-        t_rotate = Mathf.Atan(Mathf.Abs(circleVec.y / circleVec.x));
-        }
+        for (int track = 0; track < TRACK_MAX; track++) {
+            circleVec = new Vector2(track_widths[track] / 2f + offset, -40f);
 
-        t_rotate += 0.001f;
+            if (t_rotate[track] > Mathf.PI - Mathf.Atan(Mathf.Abs(circleVec.y / circleVec.x))) {
+            t_rotate[track] = Mathf.Atan(Mathf.Abs(circleVec.y / circleVec.x));
+            }
 
-        for (int i = 0; i < POINT_MAX; i++) {
-        curve[0] = new Vector2(-0.01f, 0f);
+            t_rotate[track] += Random.Range(0f, 0.00002f) + 0.00005f * circleVec.magnitude * (Mathf.PI - 2f * Mathf.Atan(Mathf.Abs(circleVec.y / circleVec.x)));
 
-        curve[1] = new Vector2((circleVec.magnitude) * Mathf.Cos(t_rotate) + circleVec.x - offset,
-                               (circleVec.magnitude) * Mathf.Sin(t_rotate) + circleVec.y);
-        curve[2] = new Vector2(2f * (circleVec.x - offset) + 0.02f, 0f);
-        bezierBoil(3, curve, (float)i / (float)POINT_MAX);
-        cPoints[i] = curve[0] + new Vector2(track_bases[6, 0], track_bases[6, 1]);
+            for (int i = 0; i < POINT_MAX; i++) {
+            curve[track][0] = new Vector2(-0.02f, 0f);
+
+            curve[track][1] = new Vector2((circleVec.magnitude) * Mathf.Cos(t_rotate[track]) + circleVec.x - offset,
+                                          (circleVec.magnitude) * Mathf.Sin(t_rotate[track]) + circleVec.y);
+            curve[track][2] = new Vector2(2f * (circleVec.x - offset) + 0.02f, 0f);
+            bezierBoil(3, curve[track], (float)i / (float)POINT_MAX);
+            cPoints[track,i] = curve[track][0] + new Vector2(track_bases[track, 0], track_bases[track, 1]);
+            }
         }
 
     }

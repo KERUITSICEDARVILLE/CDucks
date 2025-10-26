@@ -103,12 +103,12 @@ private Sprite FrameSprite;
 
         float proximity = 100f;
         float absDist;
-        if (t > 1f + increment && parentScript.whichTrack(which) == 6) {
+        if (t > 1f + increment) {
             for (int i = 0; i < parentScript.pMAX; i++) {
-            absDist = Mathf.Abs(currCoord.x - parentScript.cPoints[i].x);
+            absDist = Mathf.Abs(currCoord.x - parentScript.cPoints[parentScript.whichTrack(which), i].x);
                 if (proximity > absDist) {
                 proximity = absDist;
-                nextCoord = new Vector3(transform.localPosition.x, parentScript.cPoints[i].y, transform.localPosition.z);
+                nextCoord = new Vector3(transform.localPosition.x, parentScript.cPoints[parentScript.whichTrack(which), i].y, transform.localPosition.z);
                 }
             }
             transform.localPosition = nextCoord;
