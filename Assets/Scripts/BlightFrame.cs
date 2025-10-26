@@ -23,8 +23,6 @@ private Sprite FrameSprite;
         which = (int)transform.position.z;
     }
 
-//BLAOW DELETE THIS
-
     void OnMouseEnter()
     {
         if (parentScript.whichDucky == 1) {
@@ -98,6 +96,23 @@ private Sprite FrameSprite;
         t += increment;
         parentScript.doneSignal(which);
         transform.eulerAngles = new Vector3(0f, 0f, 0f);
+
+        // bezier start
+        currCoord = transform.localPosition;
         }
+
+        float proximity = 100f;
+        float absDist;
+        if (t > 1f + increment && parentScript.whichTrack(which) == 6) {
+            for (int i = 0; i < parentScript.pMAX; i++) {
+            absDist = Mathf.Abs(currCoord.x - parentScript.cPoints[i].x);
+                if (proximity > absDist) {
+                proximity = absDist;
+                nextCoord = new Vector3(transform.localPosition.x, parentScript.cPoints[i].y, transform.localPosition.z);
+                }
+            }
+            transform.localPosition = nextCoord;
+        }
+
     }
 }

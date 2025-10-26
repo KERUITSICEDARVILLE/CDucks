@@ -15,7 +15,7 @@ public class EntryAnimation : MonoBehaviour
 // --- doesn't govern where we delete blight.
 // duck feet will have collider that turns on with click.
 // --- in rainbow mode the duck will rapidly ascend and 
-// --- descend stomping its feet rapidly
+// --- descend stomping its feet
 
 // Eccentric animations such as:
 // --- A random pair of npc's (cedarcouple) are walking
@@ -25,14 +25,6 @@ public class EntryAnimation : MonoBehaviour
 
     public GameObject OriginFrame;
     public GameObject Blob;
-    private GameObject[] Frames;
-    private Vector3 nextCoord;
-    private Vector3 currCoord;
-    private float increment = 0.01f;
-    private const int FRAME_MAX = 82;
-    private const int TRACK_MAX = 10;
-    private const int FRAME_BTC = 5;
-
     public Texture2D duckHammer;
     public Texture2D duckHammerDown;
     public Texture2D rainbowDuckTex;
@@ -43,18 +35,23 @@ public class EntryAnimation : MonoBehaviour
 
     public int whichDucky = 0;
 
+    private GameObject[] Frames;
+    private Vector3 nextCoord;
+    private Vector3 currCoord;
+    private float increment = 0.01f;
+    private const int FRAME_MAX = 82;
+    private const int TRACK_MAX = 10;
+    private const int FRAME_BTC = 5;
+
+    private int[,]  forwardConversion  = new int[FRAME_MAX,2];
+    private int[][] backwardConversion = new int[TRACK_MAX][];
+
     // set forward conversion between Frame index and gridspace
     // set backward conversion
 
-    private int[] prime_cache = new int[10] {
-    2, 3, 5, 7, 11, 13, 17, 19, 23, 29
-    }; // must be bigger than FRAME_BTC
-
     private bool[] doneFrames = new bool[FRAME_BTC];
-
-    private int batch_iterator = 0;
-
     private Vector3[] BatchCoords = new Vector3[FRAME_BTC];
+    private int batch_iterator = 0;
 
     private float[,] track_bases = new float[TRACK_MAX, 2] {
     {-2.09f, 2.54f},
@@ -73,7 +70,6 @@ public class EntryAnimation : MonoBehaviour
     };
 
     private int[] track_iterators = new int[TRACK_MAX];
-
     private bool[] track_usage = new bool[TRACK_MAX];
 
     public bool tracksFull() {
@@ -90,6 +86,10 @@ public class EntryAnimation : MonoBehaviour
 
     public void doneSignal(int index) {
     doneFrames[index % FRAME_BTC] = true;
+    }
+
+    public int whichTrack(int index) { // sanitize
+    return forwardConversion[index % FRAME_MAX, 0];
     }
 
     private bool doneQuery() {
@@ -132,6 +132,9 @@ public class EntryAnimation : MonoBehaviour
         which = (int)Random.Range(0f, (float)TRACK_MAX - increment);
             while (!tracksFull()) {
                 if (track_iterators[which] != track_maxes[which]) {
+                forwardConversion[startFrame + i, 0] = which;
+                forwardConversion[startFrame + i, 1] = track_iterators[which];
+                backwardConversion[which][track_iterators[which]] = startFrame + i;
                 break;
                 } else {
                 track_usage[which] = true;
@@ -142,6 +145,21 @@ public class EntryAnimation : MonoBehaviour
         track_iterators[which]++;
         }
     }
+
+    private void bezierBoil(int order, Vector2[] controls, float t) { // puts result in controls[0]
+        for (int i = order - 1; i == 0 ? false : true; i--) {
+            for (int j = 0; j < i; j++) {
+            controls[j].x = (1 - t) * controls[j].x + t * controls[j + 1].x;
+            controls[j].y = (1 - t) * controls[j].y + t * controls[j + 1].y;
+            }
+        }
+    }
+
+    public int pMAX = 100;
+    private const int POINT_MAX = 100;
+    public Vector2[] cPoints = new Vector2[POINT_MAX];
+    private Vector2[] curve = new Vector2[3];
+    private float t_rotate = Mathf.PI;
 
     void Start()
     {
@@ -155,8 +173,9 @@ public class EntryAnimation : MonoBehaviour
         for (int i = 0; i < TRACK_MAX; i++) {
         track_iterators[i] = 0;
         track_usage[i] = false;
+        backwardConversion[i] = new int[track_maxes[i]];
         }
-  
+ 
         Frames = new GameObject[FRAME_MAX];
         for (int i = 0; i < FRAME_MAX; i++) {
         Frames[i] = Instantiate(OriginFrame, transform);
@@ -200,5 +219,30 @@ public class EntryAnimation : MonoBehaviour
             }
             batch_iterator++;
         }
+
+        float offset = 5f;
+
+        Vector2 circleVec = new Vector2((2 * offset + Frames[backwardConversion[6][12]].transform.localPosition.x - Frames[backwardConversion[6][0]].transform.localPosition.x) / 2f, -20f);
+
+        if (t_rotate > Mathf.PI - Mathf.Atan(Mathf.Abs(circleVec.y / circleVec.x))) {
+        t_rotate = Mathf.Atan(Mathf.Abs(circleVec.y / circleVec.x));
+        }
+
+        t_rotate += 0.001f;
+
+        for (int i = 0; i < POINT_MAX; i++) {
+        curve[0] = new Vector2(-0.01f, 0f);
+
+        curve[1] = new Vector2((circleVec.magnitude) * Mathf.Cos(t_rotate) + circleVec.x - offset,
+                               (circleVec.magnitude) * Mathf.Sin(t_rotate) + circleVec.y);
+        curve[2] = new Vector2(2f * (circleVec.x - offset) + 0.02f, 0f);
+        bezierBoil(3, curve, (float)i / (float)POINT_MAX);
+        cPoints[i] = curve[0] + new Vector2(track_bases[6, 0], track_bases[6, 1]);
+        }
+
     }
+
+    private int[] prime_cache = new int[10] {
+    2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+    }; // must be bigger than FRAME_BTC
 }
