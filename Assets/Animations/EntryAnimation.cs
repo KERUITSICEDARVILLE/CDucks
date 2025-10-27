@@ -264,7 +264,7 @@ public class EntryAnimation : MonoBehaviour
             t_rotate[track] += Random.Range(0f, 0.00002f) + 0.00005f * circleVec.magnitude * (Mathf.PI - 2f * Mathf.Atan(Mathf.Abs(circleVec.y / circleVec.x)));
 
             for (int i = 0; i < POINT_MAX; i++) {
-            curve[track][0] = new Vector2(-0.02f, 0f);
+            curve[track][0] = new Vector2(-0.5f, 0f);
 
             curve[track][1] = new Vector2((circleVec.magnitude) * Mathf.Cos(t_rotate[track]) + circleVec.x - offset,
                                           (circleVec.magnitude) * Mathf.Sin(t_rotate[track]) + circleVec.y);
