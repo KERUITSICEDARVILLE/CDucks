@@ -23,35 +23,41 @@ public class EntryAnimation : MonoBehaviour
 // --- one individual by the shoulders and drags them
 // --- offscsreen
 
+    // copy-able game objects (make prefabs)
     public GameObject OriginFrame;
     public GameObject Blob;
+
+    // cursor sprites
     public Texture2D duckHammer;
     public Texture2D duckHammerDown;
     public Texture2D rainbowDuckTex;
     public Texture2D rainbowDuckTexDown;
+    public CursorMode cMode = CursorMode.Auto;
+    public int whichDucky = 0; // cursor controller
     private Texture2D[,] SpriteSets = new Texture2D[2,2];
 
-    public CursorMode cMode = CursorMode.Auto;
+    // cursed variables that take up way too much memory
+    private const int POINT_MAX = 100;
+    public int pMAX = POINT_MAX;
+    public Vector2[,] cPoints = new Vector2[TRACK_MAX,POINT_MAX];
+    private Vector2[][] curve = new Vector2[TRACK_MAX][];
+    private float[] t_rotate = new float[TRACK_MAX];
+    // for bezier curve waves
 
-    public int whichDucky = 0;
-
-    private GameObject[] Frames;
+    // Blight Boxes (Frame board tiles)
     private Vector3 nextCoord;
     private Vector3 currCoord;
     private float increment = 0.01f;
     private const int FRAME_MAX = 82;
     private const int TRACK_MAX = 10;
     private const int FRAME_BTC = 5;
-
+    private GameObject[] Frames = new GameObject[FRAME_MAX];
+    // and related Frame index to 2d coordinate array plus
+    // coordinate to Frame index array (backwards)
     private int[,]  forwardConversion  = new int[FRAME_MAX,2];
     private int[][] backwardConversion = new int[TRACK_MAX][];
 
-    // set forward conversion between Frame index and gridspace
-    // set backward conversion
 
-    private bool[] doneFrames = new bool[FRAME_BTC];
-    private Vector3[] BatchCoords = new Vector3[FRAME_BTC];
-    private int batch_iterator = 0;
 
     private float[,] track_bases = new float[TRACK_MAX, 2] {
     {-2.09f, 2.54f},
@@ -68,6 +74,11 @@ public class EntryAnimation : MonoBehaviour
     private int[] track_maxes = new int[TRACK_MAX] {
     3, 5, 7, 9, 11, 12, 13, 9, 7, 6
     };
+
+    // START FRAME TILE ADDITION UTILITIES
+    private bool[] doneFrames = new bool[FRAME_BTC];
+    private Vector3[] BatchCoords = new Vector3[FRAME_BTC];
+    private int batch_iterator = 0; // we add in batches of FRAME_BTC
 
     private float[] track_widths = new float[TRACK_MAX];
     private int[] track_iterators = new int[TRACK_MAX];
@@ -89,10 +100,6 @@ public class EntryAnimation : MonoBehaviour
     doneFrames[index % FRAME_BTC] = true;
     }
 
-    public int whichTrack(int index) { // sanitize
-    return forwardConversion[index % FRAME_MAX, 0];
-    }
-
     private bool doneQuery() {
     bool ret = true;
         for (int i = 0; i < FRAME_BTC; i++) {
@@ -108,25 +115,6 @@ public class EntryAnimation : MonoBehaviour
     }
 
     private void genBatchCoords() {
-    /*int[] which = new int[FRAME_BTC];
-    int prev;
-    int inter;
-        for (int i = 0; i < FRAME_BTC; i++) {
-        which[i] = i;
-        }
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < FRAME_BTC; j++) {
-                if (Random.Range(0f, 1f) < 0.5f) {
-                prev = j - 1 == -1 ? 0 : j - 1;
-                inter = which[prev]; 
-                which[prev] = which[j];
-                which[j]    = inter; // swap
-                }
-            }
-        }
-        for (int i = 0; i < FRAME_BTC; i++) {
-        BatchCoords[i] = new Vector3(track_bases[which[i], 0], track_bases[which[i], 1], 0f);
-        }*/
         int startFrame = batch_iterator * FRAME_BTC;
         int which;
         for (int i = 0; i < FRAME_BTC; i++) {
@@ -146,7 +134,9 @@ public class EntryAnimation : MonoBehaviour
         track_iterators[which]++;
         }
     }
+    // END FRAME TILE ADDITION UTILITIES
 
+    // Wave animations are due to this (see lines 220-242)
     private void bezierBoil(int order, Vector2[] controls, float t) { // puts result in controls[0]
         for (int i = order - 1; i == 0 ? false : true; i--) {
             for (int j = 0; j < i; j++) {
@@ -156,11 +146,42 @@ public class EntryAnimation : MonoBehaviour
         }
     }
 
-    public int pMAX = 100;
-    private const int POINT_MAX = 100;
-    public Vector2[,] cPoints = new Vector2[TRACK_MAX,POINT_MAX];
-    private Vector2[][] curve = new Vector2[TRACK_MAX][];
-    private float[] t_rotate = new float[TRACK_MAX];
+    private int intAbs(int x) {
+    return x < 0 ? -x : x;
+    }
+
+    // BEGIN PUBLIC MAP QUERIES (accessible by frame tiles)
+    public int whichTrack(int index) { // sanitize
+    return forwardConversion[intAbs(index % FRAME_MAX), 0];
+    }
+
+    public int[] myLatticeCoord(int index) {
+    index = intAbs(index % FRAME_MAX);
+    return new int[2] {forwardConversion[index, 0],
+                       forwardConversion[index, 1]};
+    }
+
+    public int latticeToFrame(int track, int whichx) {
+    track = intAbs(track % TRACK_MAX);
+    whichx = intAbs(whichx % track_maxes[track]);
+    return backwardConversion[track][whichx];
+    }
+
+    public int positionalNeighbors(int index, float radius, int want, GameObject[] neighbors) {
+    index = intAbs(index % FRAME_MAX);
+    int ret = 0;
+    Vector2 queryOrigin = Frames[index].transform.localPosition;
+    Vector2 distVec;
+        for (int i = 0; i < FRAME_MAX && ret < want; i++) {
+        distVec = (Vector2)Frames[i].transform.localPosition - queryOrigin;
+            if (distVec.magnitude < radius) {
+            neighbors[ret] = Frames[i];
+            ret++;
+            }
+        }
+    return ret;
+    }
+    // END PUBLIC MAP QUERIES
 
     void Start()
     {
@@ -181,7 +202,6 @@ public class EntryAnimation : MonoBehaviour
         backwardConversion[i] = new int[track_maxes[i]];
         }
  
-        Frames = new GameObject[FRAME_MAX];
         for (int i = 0; i < FRAME_MAX; i++) {
         Frames[i] = Instantiate(OriginFrame, transform);
         Frames[i].transform.localPosition += new Vector3(Random.Range(0.02f, 0.07f), Random.Range(0.02f, 0.07f), (float)i + 0.5f);
@@ -230,12 +250,12 @@ public class EntryAnimation : MonoBehaviour
             batch_iterator++;
         }
 
+        // Wave animation
         float offset = 5f;
-
         Vector2 circleVec;
-
         for (int track = 0; track < TRACK_MAX; track++) {
             circleVec = new Vector2(track_widths[track] / 2f + offset, -40f);
+            // this circle origin defines the height of wave
 
             if (t_rotate[track] > Mathf.PI - Mathf.Atan(Mathf.Abs(circleVec.y / circleVec.x))) {
             t_rotate[track] = Mathf.Atan(Mathf.Abs(circleVec.y / circleVec.x));
@@ -253,10 +273,5 @@ public class EntryAnimation : MonoBehaviour
             cPoints[track,i] = curve[track][0] + new Vector2(track_bases[track, 0], track_bases[track, 1]);
             }
         }
-
     }
-
-    private int[] prime_cache = new int[10] {
-    2, 3, 5, 7, 11, 13, 17, 19, 23, 29
-    }; // must be bigger than FRAME_BTC
 }
