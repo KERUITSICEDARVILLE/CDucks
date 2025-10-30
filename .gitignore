@@ -86,3 +86,6 @@ crashlytics-build.properties
 *_bak*.hipnc
 
 *.DS_Store
+
+[Aa]ssets/_Recovery/*
+[Aa]ssets/_Recovery.meta
