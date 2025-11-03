@@ -19,7 +19,9 @@ public class BasicBlight : MonoBehaviour
     public float MaxGrowth;
     public float GrowthRate;
 
-    public Vector2Int cell;
+    public Vector2Int cell {
+        get { return transform.parent.GetComponent<WorldTile>().tileCoord; }
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -47,7 +49,7 @@ public class BasicBlight : MonoBehaviour
 
     public void BlightSpread()
     {
-        UsefulGrid world = transform.parent.GetComponent<UsefulGrid>();
+        WorldGrid world = transform.parent.parent.GetComponent<WorldGrid>();
         if (world.CountEmptyAdjacent(cell) > 0)
         {
             Growth = MaxGrowth / 3;

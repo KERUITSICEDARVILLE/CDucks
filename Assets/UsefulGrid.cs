@@ -38,7 +38,6 @@ public class UsefulGrid : MonoBehaviour
     {
         entity.transform.SetParent(transform);
         entity.transform.localPosition = GetCellPosition(cell);
-        entity.GetComponent<BasicBlight>().cell = cell;
     }
 
     public GameObject GetObjectAtCell(Vector2Int cell)

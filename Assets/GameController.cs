@@ -10,7 +10,7 @@ public class GameController : MonoBehaviour
 
     public GameObject BasicBlight;
 
-    public UsefulGrid Enemies;
+    public WorldGrid World;
 
     public float RoundMessageDuration;
     private float RoundStartMessageTimer;
@@ -26,7 +26,7 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Enemies.EntityCount == 0)
+        if (World.EntityCount() == 0)
         {
             Round += 1;
             DisplayRound();
@@ -43,7 +43,7 @@ public class GameController : MonoBehaviour
 
             Message.color = new Color(1.0f, 1.0f, 1.0f, RoundStartMessageTimer / RoundMessageDuration);
         }
-        if (Enemies.IsFull())
+        if (World.IsFull())
         {
             LoseGame();
         }
@@ -61,7 +61,7 @@ public class GameController : MonoBehaviour
         int EnemyCount = 1 + 2 * Round + Round * Round / 5;
         for (int i = 0; i < EnemyCount; i++) {
             GameObject enemy = Instantiate(BasicBlight);
-            Enemies.AddToRandomEmptyCell(enemy);
+            World.AddToRandomEmptyCell(enemy);
         }
     }
 
@@ -69,5 +69,10 @@ public class GameController : MonoBehaviour
     {
         Message.text = "You Lose!";
         Message.color = new Color(5.0f, 0.0f, 0.0f, 1.0f);
+    }
+
+    public void ClickTile(Vector2Int tile)
+    {
+
     }
 }
