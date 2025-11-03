@@ -23,11 +23,9 @@ private Sprite FrameSprite;
         which = (int)transform.position.z;
     }
 
-//BLAOW DELETE THIS
-
     void OnMouseEnter()
     {
-        if (rainbowDucky > 0f) {
+        if (parentScript.whichDucky == 1) {
         frameBlightVal = 0f;
         GetComponent<SpriteRenderer>().sprite = FrameSprite;
         transform.localScale = new Vector3(0.154f, 0.154f, 0.154f);
@@ -48,20 +46,22 @@ private Sprite FrameSprite;
     // Update is called once per frame
     void Update()
     {
-        if (Random.Range(0f, 1f) < 0.0001f) {
+        if (Random.Range(0f, 1f) < 0.00001f && parentScript.whichDucky == 0) {
+        parentScript.whichDucky = 1;
         rainbowDucky = increment;
         }
 
-        if (rainbowDucky > 0f && rainbowDucky < 500f) {
+        if (rainbowDucky > 0f && rainbowDucky < 100f) {
         rainbowDucky += increment;
         }
 
-        if (rainbowDucky > 500f) {
+        if (rainbowDucky > 50f) {
+        parentScript.whichDucky = 0;
         rainbowDucky = 0f;
         }
 
         // basing too many things on frame updates. Lock to timesteps instead
-        if (Random.Range(0f, 1f) < 0.0001f && frameBlightVal < increment) {
+        if (Random.Range(0f, 1f) < 0.0003f && frameBlightVal < increment) {
         frameBlightVal = increment;
         GetComponent<SpriteRenderer>().sprite = BlightF1;
         transform.localScale *= 1f - Random.Range(0f, 0.5f);
@@ -96,6 +96,23 @@ private Sprite FrameSprite;
         t += increment;
         parentScript.doneSignal(which);
         transform.eulerAngles = new Vector3(0f, 0f, 0f);
+
+        // bezier start
+        currCoord = transform.localPosition;
         }
+
+        float proximity = 100f;
+        float absDist;
+        if (t > 1f + increment) {
+            for (int i = 0; i < parentScript.pMAX; i++) {
+            absDist = Mathf.Abs(currCoord.x - parentScript.cPoints[parentScript.whichTrack(which), i].x);
+                if (proximity > absDist) {
+                proximity = absDist;
+                nextCoord = new Vector3(transform.localPosition.x, parentScript.cPoints[parentScript.whichTrack(which), i].y, transform.localPosition.z);
+                }
+            }
+            transform.localPosition = nextCoord;
+        }
+
     }
 }
