@@ -6,8 +6,8 @@ using UnityEngine;
 public class WorldGrid : MonoBehaviour
 {
     public GameObject tile;
-    public float shiftLeft;
-    public float shiftUp;
+    public float shiftLeft; // 0.5 - 0.05
+    public float shiftUp;   // \sqrt{3}/(0.5 - 0.05)
 
     public int xmin;
     public int xmax;
@@ -30,7 +30,7 @@ public class WorldGrid : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    { // is this managing cell destruction between rounds or is it destroying each frame?
         if (build != buildOld && !Application.isPlaying)
         {
             buildOld = build;
@@ -77,13 +77,13 @@ public class WorldGrid : MonoBehaviour
     public Color GetColorForTile(Vector2Int pos)
     {
         Color color;
-        if ((pos.x + 200) % 2 == 0)
+        if (pos.x % 2 == 0)
         {
-            if ((pos.y + 300) % 3 == 0)
+            if (pos.y % 3 == 0)
             {
                 color = color1;
             }
-            else if ((pos.y + 300) % 3 == 1)
+            else if (pos.y % 3 == 1)
             {
                 color = color2;
             }
@@ -94,11 +94,11 @@ public class WorldGrid : MonoBehaviour
         }
         else
         {
-            if ((pos.y + 300) % 3 == 0)
+            if (pos.y % 3 == 0)
             {
                 color = color3;
             }
-            else if ((pos.y + 300) % 3 == 1)
+            else if (pos.y % 3 == 1)
             {
                 color = color1;
             }
@@ -179,7 +179,7 @@ public class WorldGrid : MonoBehaviour
             new Vector2Int(0, 1),
             new Vector2Int(0, -1),
             };
-        if ((cell.x + 200) % 2 == 0)
+        if (cell.x % 2 == 0)
         {
             adjacent.Add(new Vector2Int(1, -1));
             adjacent.Add(new Vector2Int(-1, -1));

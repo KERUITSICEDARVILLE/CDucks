@@ -34,7 +34,7 @@ public class BasicBlight : MonoBehaviour
     {
         if (Growth <= 0.0)
         {
-            Die();
+            Destroy(gameObject);
         }
         else if (Growth < MaxGrowth)
         {
@@ -68,8 +68,4 @@ public class BasicBlight : MonoBehaviour
         Growth -= 1;
     }
 
-    public void Die()
-    {
-        Destroy(gameObject);
-    }
 }
