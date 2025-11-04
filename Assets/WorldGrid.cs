@@ -1,13 +1,14 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 [ExecuteInEditMode]
 public class WorldGrid : MonoBehaviour
 {
     public GameObject tile;
-    public float shiftLeft; // 0.5 - 0.05
-    public float shiftUp;   // \sqrt{3}/(0.5 - 0.05)
+    public float shiftLeft;
+    public float shiftUp;
 
     public int xmin;
     public int xmax;
@@ -15,7 +16,6 @@ public class WorldGrid : MonoBehaviour
     public int ymax;
 
     public bool build;
-    private bool buildOld;
 
     public Color color1;
     public Color color2;
@@ -30,10 +30,10 @@ public class WorldGrid : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    { // is this managing cell destruction between rounds or is it destroying each frame?
-        if (build != buildOld && !Application.isPlaying)
+    {
+        if (build && !Application.isPlaying)
         {
-            buildOld = build;
+            build = false;
             int ToDestroy = transform.childCount;
             for (int i = 0; i < ToDestroy; i++)
             {
@@ -77,13 +77,13 @@ public class WorldGrid : MonoBehaviour
     public Color GetColorForTile(Vector2Int pos)
     {
         Color color;
-        if (pos.x % 2 == 0)
+        if ((pos.x + 200) % 2 == 0)
         {
-            if (pos.y % 3 == 0)
+            if ((pos.y + 300) % 3 == 0)
             {
                 color = color1;
             }
-            else if (pos.y % 3 == 1)
+            else if ((pos.y + 300) % 3 == 1)
             {
                 color = color2;
             }
@@ -94,11 +94,11 @@ public class WorldGrid : MonoBehaviour
         }
         else
         {
-            if (pos.y % 3 == 0)
+            if ((pos.y + 300) % 3 == 0)
             {
                 color = color3;
             }
-            else if (pos.y % 3 == 1)
+            else if ((pos.y + 300) % 3 == 1)
             {
                 color = color1;
             }
@@ -142,24 +142,26 @@ public class WorldGrid : MonoBehaviour
         return transform.GetChild(Random.Range(0, transform.childCount)).GetComponent<WorldTile>();
     }
 
-    public GameObject GetObjectAtCell(Vector2Int cell)
+    public GameObject GetObjectAtCell<T>(Vector2Int cell)
     {
-
         WorldTile tile = GetTile(cell);
-        if (tile.transform.childCount > 0)
+        for (int j = 0; j < tile.transform.childCount; j++)
         {
-            return tile.transform.GetChild(0).gameObject;
+            if (tile.transform.GetChild(j).GetComponent<T>() != null)
+            {
+                return tile.transform.GetChild(j).gameObject;
+            }
         }
         return null;
     }
 
-    public bool AddToRandomEmptyCell(GameObject entity)
+    public bool AddToRandomEmptyCell<T>(GameObject entity)
     {
-        if (!IsFull())
+        if (!IsFull<T>())
         {
             WorldTile tile = GetRandomTile();
 
-            while (tile.transform.childCount > 0)
+            while (tile.transform.GetComponentInChildren<T>() != null)
             {
                 tile = GetRandomTile();
             }
@@ -179,7 +181,7 @@ public class WorldGrid : MonoBehaviour
             new Vector2Int(0, 1),
             new Vector2Int(0, -1),
             };
-        if (cell.x % 2 == 0)
+        if ((cell.x + 200) % 2 == 0)
         {
             adjacent.Add(new Vector2Int(1, -1));
             adjacent.Add(new Vector2Int(-1, -1));
@@ -199,13 +201,13 @@ public class WorldGrid : MonoBehaviour
         return adjacent.ToArray();
     }
 
-    public int CountAdjacent(Vector2Int cell)
+    public int CountAdjacentCellsWithType<T>(Vector2Int cell)
     {
 
         int count = 0;
         foreach (Vector2Int side in sides(cell))
         {
-            if (GetObjectAtCell(cell + side) != null)
+            if (GetObjectAtCell<T>(cell + side) != null)
             {
                 count++;
             }
@@ -213,13 +215,13 @@ public class WorldGrid : MonoBehaviour
         return count;
     }
 
-    public int CountEmptyAdjacent(Vector2Int cell)
+    public int CountAdjacentCellsWithoutType<T>(Vector2Int cell)
     {
 
         int count = 0;
         foreach (Vector2Int side in sides(cell))
         {
-            if (GetObjectAtCell(cell + side) == null)
+            if (GetObjectAtCell<T>(cell + side) == null)
             {
                 count++;
             }
@@ -227,44 +229,53 @@ public class WorldGrid : MonoBehaviour
         return count;
     }
 
-    public bool AddToAdjacentEmptyCell(GameObject entity, Vector2Int cell)
+    public Vector2Int GetRandomAdjacentTileWithoutType<T>(Vector2Int cell)
     {
-        if (CountEmptyAdjacent(cell) > 0)
+        Vector2Int[] CellSides = sides(cell);
+        Vector2Int neighbor = cell + CellSides[Random.Range(0, CellSides.Length)];
+
+        while (GetObjectAtCell<T>(neighbor) != null)
         {
-            Vector2Int[] CellSides = sides(cell);
-            Vector2Int neighbor = cell + CellSides[Random.Range(0, CellSides.Length)];
-
-            while (GetObjectAtCell(neighbor) != null)
-            {
-                neighbor = cell + CellSides[Random.Range(0, CellSides.Length)];
-            }
-
-            AddAtCell(entity, neighbor);
-            return true;
+            neighbor = cell + CellSides[Random.Range(0, CellSides.Length)];
         }
-        return false;
+
+        return neighbor;
     }
 
-    public bool IsFull()
+    public WorldTile GetRandomAdjacentTileWithType<T>(Vector2Int cell)
     {
-        for (int i = 0; i < transform.childCount; i++)
+        if (CountAdjacentCellsWithType<T>(cell) == 0)
         {
-            if (transform.GetChild(i).childCount == 0)
-            {
-                return false;
-            }
+            return null;
         }
-        return true;
+        Vector2Int[] CellSides = sides(cell);
+        Vector2Int neighbor = cell + CellSides[Random.Range(0, CellSides.Length)];
+
+        while (GetObjectAtCell<T>(neighbor) == null)
+        {
+            neighbor = cell + CellSides[Random.Range(0, CellSides.Length)];
+        }
+
+        return GetTile(neighbor);
     }
 
-    public int EntityCount()
+    public bool IsFull<T>()
+    {
+        return EntityCount<T>() == transform.childCount;
+    }
+
+    public int EntityCount<T>()
     {
         int count = 0;
         for (int i = 0; i < transform.childCount; i++)
         {
-            if (transform.GetChild(i).childCount != 0)
+            Transform tile = transform.GetChild(i);
+            for (int j = 0; j < tile.childCount; j++)
             {
-                count++;
+                if (tile.GetChild(j).GetComponent<T>() != null)
+                {
+                    count++;
+                }
             }
         }
         return count;

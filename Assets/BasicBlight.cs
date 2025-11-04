@@ -50,22 +50,31 @@ public class BasicBlight : MonoBehaviour
     public void BlightSpread()
     {
         WorldGrid world = transform.parent.parent.GetComponent<WorldGrid>();
-        if (world.CountEmptyAdjacent(cell) > 0)
+        if (world.CountAdjacentCellsWithoutType<BasicBlight>(cell) > 0)
         {
             Growth = MaxGrowth / 3;
             BasicBlight baby = Instantiate(this);
 
-            if (!world.AddToAdjacentEmptyCell(baby.gameObject, cell))
+            // Get a random adjacent tile without a blight
+            Vector2Int neighbor = world.GetRandomAdjacentTileWithoutType<BasicBlight>(cell);
+
+            // If it has a duck KILL IT
+            GameObject duck = world.GetObjectAtCell<BasicDuck>(neighbor);
+            if (duck != null)
             {
-                Destroy(baby.gameObject);
+                Destroy(duck);
             }
+
+            // Add baby to the tile
+            world.AddAtCell(baby.gameObject, neighbor);
             
         }
     }
 
-    public void OnMouseDown()
+    public void Damage(float amount)
     {
-        Growth -= 1;
+        Growth -= amount;
+        FindAnyObjectByType<GameController>().money += 1;
     }
 
 }
