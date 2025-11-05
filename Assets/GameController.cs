@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
+    public Texture2D[] cursorGlyphs = new Texture2D[20];
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     [Header("Game State")]
@@ -182,6 +183,7 @@ public class GameController : MonoBehaviour
         // 12 = use power 2
         // 13 = use power 3
         // 14 = use power 4
+        Cursor.SetCursor(cursorGlyphs[mode % 20], Vector2.zero, CursorMode.Auto);
         cursorMode = mode;
     }
 
