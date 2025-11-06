@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.LightTransport;
 using UnityEngine.UI;
 
-using System.Collections;
+using System.Collections.Generic;
 
 public class GameController : MonoBehaviour
 {
@@ -251,22 +251,25 @@ public class GameController : MonoBehaviour
         }
     }
 
-    // public accessible method whereby we check for duck rings
-    // take caller as one in the collection of ducks in the ring.
-    // self report coordinate not gameobject
-    // what happens when multiple rings
-/*
-    public void RemoveDuckRing(Vector2Int cell) {
-        Queue q = new Queue<Vector2Int>();
-        Vector2Int []currSides;
-        Vector2Int curr;
-        q.Enqueue(World.sides(cell));
+    public Vector2Int[] CheckDuckRing(Vector2Int cell) {
+        // returns null if no ring found
+        Queue<Vector2Int> q = new Queue<Vector2Int>();
+        Vector2Int []currSidesV2;
+        Vector2Int currV2, parenV2;
+        Vector2Int [,]currSides = new Vector2Int[2,2]; // [child, parent] pair
+        List<Vector2Int>unwrap = new List<Vector2Int>();
+        q.Enqueue(cell);
 
-        while (!q.Empty()) {
-            curr = q.Dequeue();
-            currSides = World.sides(curr);
-                if (World.GetObjectAtCell<BasicDuck>() != null) {}
-            // admit tile based on having child with ducktype 1-6
+        while (q.Count > 0) {
+            currV2 = q.Dequeue();
+            currSidesV2 = World.sides(currV2);
+            // make currSides into nodes and add curr as being parent
+            foreach (Vector2Int side in currSidesV2) {
+                if (World.GetObjectAtCell<BasicDuck>(side) != null) {
+                    q.Enqueue(side);
+                }
+            }
         }
-    }*/
+        return unwrap.toArray();
+    }
 }
