@@ -185,13 +185,14 @@ public class EntryAnimation : MonoBehaviour
 
     void Start()
     {
+        /*
         SpriteSets[0,0] = duckHammer;
         SpriteSets[0,1] = duckHammerDown;
         SpriteSets[1,0] = rainbowDuckTex;
         SpriteSets[1,1] = rainbowDuckTexDown;
 
         Cursor.SetCursor(SpriteSets[whichDucky, 0], Vector2.zero, cMode);
-
+        */
         for (int i = 0; i < TRACK_MAX; i++) {
         t_rotate[i] = Mathf.PI; // always start above animation cap
         track_iterators[i] = 0; // haven't added anything onto tracks yet
@@ -210,8 +211,9 @@ public class EntryAnimation : MonoBehaviour
 
         for (int i = 0; i < FRAME_BTC; i++) {
         doneFrames[i] = true;
+        
         }
-
+        
     }
 
     void Update()
