@@ -7257,7 +7257,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 06e1b7809d937d043a6439db4449b74d, type: 3}
   - {fileID: 2800000, guid: 06e1b7809d937d043a6439db4449b74d, type: 3}
   - {fileID: 2800000, guid: 06e1b7809d937d043a6439db4449b74d, type: 3}
-  Round: 0
+  Round: 200
   Duck1Cost: 5
   Duck2Cost: 15
   Duck3Cost: 25

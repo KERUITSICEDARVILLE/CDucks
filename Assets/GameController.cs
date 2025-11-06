@@ -251,7 +251,12 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public Vector2Int[] CheckDuckRing(Vector2Int cell) {
+    public Vector2Int[] CheckDuckRing(Vector2Int cell)
+    {
+        /*
+        THIS WILL BE IMPLEMENTED IN THE FUTURE BUT IS TEMPORARILY IGNORED
+        DUE TO ERRORS RELATED TO "TOARRASY()
+
         // returns null if no ring found
         Queue<Vector2Int> q = new Queue<Vector2Int>();
         Vector2Int []currSidesV2;
@@ -260,16 +265,27 @@ public class GameController : MonoBehaviour
         List<Vector2Int>unwrap = new List<Vector2Int>();
         q.Enqueue(cell);
 
-        while (q.Count > 0) {
+        while (q.Count > 0)
+        {
             currV2 = q.Dequeue();
             currSidesV2 = World.sides(currV2);
             // make currSides into nodes and add curr as being parent
-            foreach (Vector2Int side in currSidesV2) {
-                if (World.GetObjectAtCell<BasicDuck>(side) != null) {
+            foreach (Vector2Int side in currSidesV2)
+            {
+                if (World.GetObjectAtCell<BasicDuck>(side) != null)
+                {
                     q.Enqueue(side);
                 }
             }
         }
+        
         return unwrap.toArray();
+
+        */
+
+        return null;
+        
     }
+
+    
 }
