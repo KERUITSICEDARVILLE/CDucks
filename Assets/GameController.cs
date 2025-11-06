@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.LightTransport;
 using UnityEngine.UI;
 
+using System.Collections;
+
 public class GameController : MonoBehaviour
 {
     public Texture2D[] cursorGlyphs = new Texture2D[20];
@@ -248,4 +250,23 @@ public class GameController : MonoBehaviour
                 return null;
         }
     }
+
+    // public accessible method whereby we check for duck rings
+    // take caller as one in the collection of ducks in the ring.
+    // self report coordinate not gameobject
+    // what happens when multiple rings
+/*
+    public void RemoveDuckRing(Vector2Int cell) {
+        Queue q = new Queue<Vector2Int>();
+        Vector2Int []currSides;
+        Vector2Int curr;
+        q.Enqueue(World.sides(cell));
+
+        while (!q.Empty()) {
+            curr = q.Dequeue();
+            currSides = World.sides(curr);
+                if (World.GetObjectAtCell<BasicDuck>() != null) {}
+            // admit tile based on having child with ducktype 1-6
+        }
+    }*/
 }
