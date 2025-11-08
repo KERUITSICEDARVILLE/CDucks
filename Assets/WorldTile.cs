@@ -4,9 +4,15 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class WorldTile : MonoBehaviour
 {
+    [Header("Identity Information")]
     public Vector2Int tileCoord;
     public Color color;
     public Color heighlight;
+
+    [Header("Discovery and Relevant Metadata")]
+    public Vector2Int discoveryParentCoord;
+    public int lengthToOrigin;
+    public bool isDiscovered;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -32,6 +38,6 @@ public class WorldTile : MonoBehaviour
 
     public void OnMouseDown()
     {
-        FindAnyObjectByType<GameController>().ClickTile(tileCoord);
+        FindAnyObjectByType<GameController>().ClickTile(this);
     }
 }

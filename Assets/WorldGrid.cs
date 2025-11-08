@@ -21,11 +21,12 @@ public class WorldGrid : MonoBehaviour
     public Color color2;
     public Color color3;
 
+    public HashSet<WorldTile> discoverySet;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
-        
+        discoverySet = new HashSet<WorldTile>();
     }
 
     // Update is called once per frame
@@ -72,6 +73,12 @@ public class WorldGrid : MonoBehaviour
         newWorldTile.tileCoord = pos;
         newWorldTile.color = GetColorForTile(pos);
         newWorldTile.heighlight = Color.white;
+
+        newWorldTile.isDiscovered = false;
+        newWorldTile.discoveryParentCoord = new Vector2Int(0, 0);
+        newWorldTile.lengthToOrigin = 0;
+        discoverySet.Add(newWorldTile);
+
     }
 
     public Color GetColorForTile(Vector2Int pos)
@@ -173,7 +180,7 @@ public class WorldGrid : MonoBehaviour
         return false;
     }
 
-    public Vector2Int[] sides(Vector2Int cell)
+    public Vector2Int[] sides(Vector2Int cell) // all boundary checks here
     {
         List<Vector2Int> adjacent = new List<Vector2Int>{
             new Vector2Int(1, 0),
@@ -229,34 +236,58 @@ public class WorldGrid : MonoBehaviour
         return count;
     }
 
-    public Vector2Int GetRandomAdjacentTileWithoutType<T>(Vector2Int cell)
+    public WorldTile[] GetAdjacentTilesWithoutType<T>(Vector2Int cell)
     {
-        Vector2Int[] CellSides = sides(cell);
-        Vector2Int neighbor = cell + CellSides[Random.Range(0, CellSides.Length)];
-
-        while (GetObjectAtCell<T>(neighbor) != null)
+        if (CountAdjacentCellsWithoutType<T>(cell) == 0)
         {
-            neighbor = cell + CellSides[Random.Range(0, CellSides.Length)];
+            return null;
         }
 
-        return neighbor;
+        Vector2Int[] neighborDeltas = sides(cell);
+
+        List<WorldTile>ret = new List<WorldTile>();
+
+        foreach (Vector2Int neighbor in neighborDeltas) {
+            if (GetObjectAtCell<T>(cell + neighbor) == null) {
+                ret.Add(GetTile(cell + neighbor));
+            }
+        }
+
+        return ret.ToArray();
     }
 
-    public WorldTile GetRandomAdjacentTileWithType<T>(Vector2Int cell)
+    public WorldTile[] GetAdjacentTilesWithType<T>(Vector2Int cell)
     {
         if (CountAdjacentCellsWithType<T>(cell) == 0)
         {
             return null;
         }
-        Vector2Int[] CellSides = sides(cell);
-        Vector2Int neighbor = cell + CellSides[Random.Range(0, CellSides.Length)];
 
-        while (GetObjectAtCell<T>(neighbor) == null)
-        {
-            neighbor = cell + CellSides[Random.Range(0, CellSides.Length)];
+        Vector2Int[] neighborDeltas = sides(cell);
+
+        List<WorldTile>ret = new List<WorldTile>();
+
+        foreach (Vector2Int neighbor in neighborDeltas) {
+            if (GetObjectAtCell<T>(cell + neighbor) != null) {
+                ret.Add(GetTile(cell + neighbor));
+            }
         }
 
-        return GetTile(neighbor);
+        return ret.ToArray();
+    }
+
+    public Vector2Int GetRandomAdjacentTileWithoutType<T>(Vector2Int cell)
+    {
+        WorldTile[] ret = GetAdjacentTilesWithoutType<T>(cell);
+        return ret[Random.Range(0, ret.Length)].tileCoord;
+    }
+
+    // these having different signatures unnerves me slightly
+
+    public WorldTile GetRandomAdjacentTileWithType<T>(Vector2Int cell)
+    {
+        WorldTile[] ret = GetAdjacentTilesWithType<T>(cell);
+        return ret[Random.Range(0, ret.Length)];
     }
 
     public bool IsFull<T>()
@@ -284,5 +315,38 @@ public class WorldGrid : MonoBehaviour
     private bool OnGrid(Vector2Int cell)
     {
         return GetTile(cell) != null;
+    }
+
+    public Vector2Int[] CheckDuckRing(Vector2Int cell) {
+        // returns null if no ring found
+        // the significance of returning a set of V2's in a ring
+        // is not such that there is only one ring. It is to return
+        // the shortest ring and leave enough information on the
+        // WGrid to generate other paths later.
+        Queue<Vector2Int> q = new Queue<Vector2Int>();
+        Vector2Int []currSidesV2;
+        Vector2Int currV2, parenV2;
+        Vector2Int [,]currSides = new Vector2Int[2,2]; // [child, parent] pair
+        List<Vector2Int>unwrap = new List<Vector2Int>();
+        q.Enqueue(cell);
+
+        while (q.Count > 0) {
+            currV2 = q.Dequeue();
+            currSidesV2 = sides(currV2);
+            // make currSides into nodes and add curr as being parent
+            foreach (Vector2Int side in currSidesV2) {
+                if (GetObjectAtCell<BasicDuck>(side) != null) {
+                    q.Enqueue(side);
+                }
+            }
+        }
+        return unwrap.ToArray();
+    }
+
+    public void ResetDiscoveryChannels() {
+        foreach (WorldTile iWorldTile in discoverySet) {
+            iWorldTile.isDiscovered = false;
+            iWorldTile.lengthToOrigin = 0;
+        }
     }
 }

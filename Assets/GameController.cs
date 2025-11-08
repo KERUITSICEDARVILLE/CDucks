@@ -7,7 +7,6 @@ using System.Collections.Generic;
 
 public class GameController : MonoBehaviour
 {
-    public Texture2D[] cursorGlyphs = new Texture2D[20];
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     [Header("Game State")]
@@ -62,11 +61,13 @@ public class GameController : MonoBehaviour
     private float RoundStartMessageTimer;
     public TMP_Text Message;
     public TMP_Text MoneyDisplay;
+    public Texture2D[] cursorGlyphs = new Texture2D[20];
 
     void Start()
     {
         Round = 0;
         RoundStartMessageTimer = 0;
+        Cursor.SetCursor(cursorGlyphs[0], Vector2.zero, CursorMode.Auto);
     }
 
     // Update is called once per frame
@@ -137,8 +138,9 @@ public class GameController : MonoBehaviour
         Message.color = new Color(5.0f, 0.0f, 0.0f, 1.0f);
     }
 
-    public void ClickTile(Vector2Int tile)
+    public void ClickTile(WorldTile caller)
     {   
+        Vector2Int tile = caller.tileCoord;
         // Cursor mode is placing a duck
         if (cursorMode > 0 && cursorMode < 10)
         {
@@ -148,6 +150,8 @@ public class GameController : MonoBehaviour
                 {
                     money -= GetCost(cursorMode);
                     World.AddAtCell(Instantiate(GetDuckForMode(cursorMode)), tile);
+                    World.CheckDuckRing(tile);
+                    World.ResetDiscoveryChannels();
                 }
             }
         }
@@ -158,6 +162,8 @@ public class GameController : MonoBehaviour
             {
                 money -= GetCost(cursorMode);
                 World.AddAtCell(Instantiate(GetDuckForMode(cursorMode)), tile);
+                World.CheckDuckRing(tile);
+                World.ResetDiscoveryChannels();
             }
         }
         // Cursor mode is cleaning
@@ -251,25 +257,5 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public Vector2Int[] CheckDuckRing(Vector2Int cell) {
-        // returns null if no ring found
-        Queue<Vector2Int> q = new Queue<Vector2Int>();
-        Vector2Int []currSidesV2;
-        Vector2Int currV2, parenV2;
-        Vector2Int [,]currSides = new Vector2Int[2,2]; // [child, parent] pair
-        List<Vector2Int>unwrap = new List<Vector2Int>();
-        q.Enqueue(cell);
 
-        while (q.Count > 0) {
-            currV2 = q.Dequeue();
-            currSidesV2 = World.sides(currV2);
-            // make currSides into nodes and add curr as being parent
-            foreach (Vector2Int side in currSidesV2) {
-                if (World.GetObjectAtCell<BasicDuck>(side) != null) {
-                    q.Enqueue(side);
-                }
-            }
-        }
-        return unwrap.toArray();
-    }
 }
