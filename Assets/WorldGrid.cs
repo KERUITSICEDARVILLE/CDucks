@@ -27,6 +27,9 @@ public class WorldGrid : MonoBehaviour
     void Start()
     {
         discoverySet = new HashSet<WorldTile>();
+        for (int i = 0; i < transform.childCount; i++) {
+        discoverySet.Add(transform.GetChild(i).GetComponent<WorldTile>());
+        }
     }
 
     // Update is called once per frame
@@ -78,7 +81,7 @@ public class WorldGrid : MonoBehaviour
         newWorldTile.discoveryParentCoord = new Vector2Int(0, 0);
         newWorldTile.lengthToOrigin = 0;
         discoverySet.Add(newWorldTile);
-
+        Debug.Log(discoverySet.Count);
     }
 
     public Color GetColorForTile(Vector2Int pos)
@@ -317,30 +320,72 @@ public class WorldGrid : MonoBehaviour
         return GetTile(cell) != null;
     }
 
-    public Vector2Int[] CheckDuckRing(Vector2Int cell) {
+    public WorldTile BFSstopstart<T>(WorldTile stop, WorldTile start) {
+        if (start.isDiscovered) { // enforce start not being discovered
+            return null;
+        }
+        Queue<WorldTile> q = new Queue<WorldTile>();
+        HashSet<WorldTile> unChildren;
+        HashSet<WorldTile> disChildren;
+        WorldTile[] children;
+        WorldTile[] children2;
+        WorldTile parent;
+        start.lengthToOrigin = 1;
+        start.isDiscovered = true;
+        q.Enqueue(start);
+
+        while (q.Count > 0) {
+            parent = q.Dequeue();
+            children = GetAdjacentTilesWithType<T>(parent.tileCoord);
+            children2 = new WorldTile[children.Length];
+            for (int i = 0; i < children.Length; i++) {
+                if (children[i].isDiscovered) {
+                    children2[i] = children[i];
+                    children[i] = null;
+                } else {
+                    children2[i] = null;
+                }
+            }
+            unChildren = new HashSet<WorldTile>(children);   // undiscovered/discovered
+            disChildren = new HashSet<WorldTile>(children2); // children
+            unChildren.Remove(null);
+            disChildren.Remove(null);
+            foreach (WorldTile iChild in unChildren) {
+                iChild.discoveryParentCoord = parent.tileCoord;
+                iChild.lengthToOrigin = parent.lengthToOrigin + 1;
+                iChild.isDiscovered = true;
+                q.Enqueue(iChild);
+            }
+            foreach (WorldTile iChild in disChildren) {
+                if (iChild == stop && parent.lengthToOrigin > 6) {
+                    return parent;
+                }
+            }
+        }
+        return null;
+    }
+
+    public Vector2Int[] CheckDuckRing(WorldTile origin) {
         // returns null if no ring found
         // the significance of returning a set of V2's in a ring
         // is not such that there is only one ring. It is to return
         // the shortest ring and leave enough information on the
         // WGrid to generate other paths later.
-        Queue<Vector2Int> q = new Queue<Vector2Int>();
-        Vector2Int []currSidesV2;
-        Vector2Int currV2, parenV2;
-        Vector2Int [,]currSides = new Vector2Int[2,2]; // [child, parent] pair
-        List<Vector2Int>unwrap = new List<Vector2Int>();
-        q.Enqueue(cell);
-
-        while (q.Count > 0) {
-            currV2 = q.Dequeue();
-            currSidesV2 = sides(currV2);
-            // make currSides into nodes and add curr as being parent
-            foreach (Vector2Int side in currSidesV2) {
-                if (GetObjectAtCell<BasicDuck>(side) != null) {
-                    q.Enqueue(side);
-                }
+        origin.lengthToOrigin = 0;
+        origin.isDiscovered = true;
+        WorldTile BFSEnd;
+        WorldTile[] arms = GetAdjacentTilesWithType<BasicDuck>(origin.tileCoord);
+        if (arms == null) {
+            return null;
+        }
+        for (int i = 0; i < arms.Length; i++) {
+            BFSEnd = BFSstopstart<BasicDuck>(origin, arms[i]);
+            if (BFSEnd != null) {
+            Debug.Log(arms[i]);
+            return new Vector2Int[1] { BFSEnd.tileCoord };
             }
         }
-        return unwrap.ToArray();
+        return null;
     }
 
     public void ResetDiscoveryChannels() {

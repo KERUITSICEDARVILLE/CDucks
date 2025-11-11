@@ -150,7 +150,7 @@ public class GameController : MonoBehaviour
                 {
                     money -= GetCost(cursorMode);
                     World.AddAtCell(Instantiate(GetDuckForMode(cursorMode)), tile);
-                    World.CheckDuckRing(tile);
+                    World.CheckDuckRing(caller);
                     World.ResetDiscoveryChannels();
                 }
             }
@@ -162,7 +162,7 @@ public class GameController : MonoBehaviour
             {
                 money -= GetCost(cursorMode);
                 World.AddAtCell(Instantiate(GetDuckForMode(cursorMode)), tile);
-                World.CheckDuckRing(tile);
+                World.CheckDuckRing(caller);
                 World.ResetDiscoveryChannels();
             }
         }
