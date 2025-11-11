@@ -18,6 +18,7 @@ public class BasicBlight : MonoBehaviour
     }
     public float MaxGrowth;
     public float GrowthRate;
+    public float tolerance;
 
     public Vector2Int cell {
         get { return transform.parent.GetComponent<WorldTile>().tileCoord; }
@@ -36,13 +37,15 @@ public class BasicBlight : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        else if (Growth < MaxGrowth)
+        else if (Growth < MaxGrowth - tolerance)
         {
             Growth += Time.deltaTime * GrowthRate;
         }
         else
         {
+            if (Random.Range(MaxGrowth - tolerance, MaxGrowth) > MaxGrowth - tolerance * Growth / MaxGrowth) {
             BlightSpread();
+            }
         }
         
     }
@@ -67,7 +70,8 @@ public class BasicBlight : MonoBehaviour
 
             // Add baby to the tile
             world.AddAtCell(baby.gameObject, neighbor);
-            
+            baby.transform.localScale = new Vector3(1f, 1f, 1f);
+
         }
     }
 

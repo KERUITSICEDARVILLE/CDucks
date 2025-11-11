@@ -53,6 +53,7 @@ MonoBehaviour:
   growth: 0
   MaxGrowth: 10
   GrowthRate: 1
+  tolerance: 2
 --- !u!212 &2967337111675365541
 SpriteRenderer:
   m_ObjectHideFlags: 0

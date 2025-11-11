@@ -106,6 +106,8 @@ public class WorldGrid : MonoBehaviour
             toppleControlTime += Time.deltaTime;
         } else {
             toppleControlTime = 0f;
+            // slide everything left
+            ReparentRows();
         }
 
     }
@@ -393,6 +395,9 @@ public class WorldGrid : MonoBehaviour
         while (q.Count > 0) {
             parent = q.Dequeue();
             children = GetAdjacentTilesWithType<T>(parent.tileCoord);
+            if (children == null) {
+                children = new WorldTile[0];
+            }
             children2 = new WorldTile[children.Length];
             for (int i = 0; i < children.Length; i++) {
                 if (children[i].isDiscovered) {
@@ -484,7 +489,7 @@ public class WorldGrid : MonoBehaviour
 
         closestDeltasArr = new Vector2[singleRow.Length];
 
-            for (float t = 0; t < 1f; t += 0.001f) { // test out points on row
+            for (float t = 0; t < 1f; t += 0.01f) { // test out points on row
 
             ctl1Points[0] = new Vector2(0f, 0f);
             ctl1Points[1] = new Vector2(r * Mathf.Cos(theta1) + rowAnimPs[i].x,
@@ -504,7 +509,7 @@ public class WorldGrid : MonoBehaviour
             delta = ctl2Points[0];// - ctl1Points[0];
 
                 for (int c = 0; c < singleRow.Length; c++) {
-                    tilexValue = 2f * realX * ((float)c + 0.5f) / (float)singleRow.Length - rowAnimPs[i].z;
+                    tilexValue = 2f * realX * ((float)c + 5.5f) / (float)(singleRow.Length + 10) - rowAnimPs[i].z;
                     if (closestDeltasArr[c] == null) {
                         closestDeltasArr[c] = delta;
                     } else {
@@ -517,14 +522,40 @@ public class WorldGrid : MonoBehaviour
             }
 
             for (int c = 0; c < singleRow.Length; c++) {
-                //if (singleRow[c].tileCoord == new Vector2Int(4, 3)) {
-                //singleRow[c].transform.localPosition += closestDeltasArr[c].y * waveNormal;
-                //singleRow[c].transform.position += new Vector3(0f, closestDeltasArr[c].y, 0f);
-                singleRow[c].transform.localPosition = singleRow[c].initialTransform + closestDeltasArr[c].y * waveNormal;
-                //}
+                singleRow[c].transform.localPosition = singleRow[c].initialTransform + closestDeltasArr[c].y * waveNormal * 0.5f;
             }
 
-
         }
+    }
+
+    public void ReparentRows() {
+        GameObject victimObj;
+        BasicBlight victim;
+        WorldTile[] row;
+        int localMoney;
+
+        foreach (List<WorldTile> rowList in rows) {
+            row = rowList.ToArray();
+            victimObj = GetObjectAtCell<BasicBlight>(row[0].tileCoord);
+            localMoney = FindAnyObjectByType<GameController>().money;
+            if (victimObj != null && localMoney != 0) {
+                localMoney = 3 * localMoney / 5 == 0 ? 1 : 3 * localMoney / 5;
+                FindAnyObjectByType<GameController>().money -= localMoney;
+                victim = victimObj.GetComponent<BasicBlight>();
+                victim.Growth = -1f;
+            }
+
+            for (int i = 1; i < row.Length; i++) {
+                if (row[i].transform.childCount != 0
+                    && row[i - 1].transform.childCount == 0) {
+                    if (CheckDuckRing(row[i]) == null) {
+                    row[i].transform.GetChild(0).SetParent(row[i - 1].transform);
+                    row[i - 1].transform.GetChild(0).localPosition = new Vector3(0f, 0f, -1f);
+                    row[i].transform.DetachChildren();
+                    }
+                }
+            }
+        }
+        ResetDiscoveryChannels();
     }
 }
