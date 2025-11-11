@@ -94,6 +94,7 @@ public class GameController : MonoBehaviour
         {
             LoseGame();
         }
+
     }
 
     private void DisplayRound()

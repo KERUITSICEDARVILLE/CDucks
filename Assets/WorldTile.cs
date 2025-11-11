@@ -14,9 +14,13 @@ public class WorldTile : MonoBehaviour
     public int lengthToOrigin;
     public bool isDiscovered;
 
+    [Header("Waves")]
+    public Vector3 initialTransform;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        initialTransform = transform.localPosition;
         GetComponent<SpriteRenderer>().color = color;
     }
 

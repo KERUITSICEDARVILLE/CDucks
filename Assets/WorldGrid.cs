@@ -6,6 +6,7 @@ using static UnityEngine.EventSystems.EventTrigger;
 [ExecuteInEditMode]
 public class WorldGrid : MonoBehaviour
 {
+
     public GameObject tile;
     public float shiftLeft;
     public float shiftUp;
@@ -22,14 +23,58 @@ public class WorldGrid : MonoBehaviour
     public Color color3;
 
     public HashSet<WorldTile> discoverySet;
+    public List<List<WorldTile>> rows;
+    public Vector3[] rowAnimPs;
+
+    const float toppleTime = 2f;
+    private float toppleControlTime;
+    public Vector3 waveNormal;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        toppleControlTime = 0f;
+
         discoverySet = new HashSet<WorldTile>();
+        rows = new List<List<WorldTile>>();
+        List<WorldTile> row;
+        WorldTile iChild;
+        Vector2Int upperRight;
+        WorldTile upperRightTile;
+
         for (int i = 0; i < transform.childCount; i++) {
-        discoverySet.Add(transform.GetChild(i).GetComponent<WorldTile>());
+        iChild = transform.GetChild(i).GetComponent<WorldTile>();
+
+        // set creation
+        discoverySet.Add(iChild);
+
+        // row creation
+            if (!iChild.isDiscovered) {
+                row = new List<WorldTile>();
+                upperRight = iChild.tileCoord;
+                upperRightTile = GetTile(upperRight);
+                // above necessary for following check
+                while (upperRightTile != null) {
+                    upperRightTile.isDiscovered = true;
+                    row.Add(upperRightTile);
+                    upperRight += new Vector2Int(1, upperRight.x % 2);
+                    upperRightTile = GetTile(upperRight);
+                }
+
+                rows.Add(row);
+            }
         }
+
+        rowAnimPs = new Vector3[rows.Count];
+
+        for (int i = 0; i < rows.Count; i++) {
+            rowAnimPs[i] = new Vector3(
+                                    Random.Range(5f, 6f),
+                                    Random.Range(-41f, -40f),
+                                    Random.Range(4f, 5f));
+        }
+
+        ResetDiscoveryChannels();
     }
 
     // Update is called once per frame
@@ -52,6 +97,17 @@ public class WorldGrid : MonoBehaviour
                 }
             }
         }
+
+        if (Application.isPlaying) {
+        AnimateRows(toppleControlTime, toppleControlTime + Time.deltaTime);
+        }
+
+        if (toppleControlTime < toppleTime) {
+            toppleControlTime += Time.deltaTime;
+        } else {
+            toppleControlTime = 0f;
+        }
+
     }
 
     private Vector3 TileToPos(Vector2Int pos)
@@ -392,6 +448,83 @@ public class WorldGrid : MonoBehaviour
         foreach (WorldTile iWorldTile in discoverySet) {
             iWorldTile.isDiscovered = false;
             iWorldTile.lengthToOrigin = 0;
+        }
+    }
+
+    private void BezierBoil(int order, Vector2[] controls, float t) { // puts result in controls[0]
+        for (int i = order - 1; i == 0 ? false : true; i--) {
+            for (int j = 0; j < i; j++) {
+            controls[j].x = (1 - t) * controls[j].x + t * controls[j + 1].x;
+            controls[j].y = (1 - t) * controls[j].y + t * controls[j + 1].y;
+            }
+        }
+    }
+
+    private void AnimateRows(float time1, float time2) {
+        List<WorldTile>[] rowArray = rows.ToArray();
+        WorldTile[] singleRow;
+        float thetaRange, halfPlane, theta1, theta2;
+        float r, realX, tilexValue;
+        Vector2[] closestDeltasArr;
+        Vector2 delta;    
+
+        Vector2[] ctl1Points = new Vector2[3];
+        Vector2[] ctl2Points = new Vector2[3];
+
+        for (int i = 0; i < rowArray.Length; i++) {
+        realX = rowAnimPs[i].x + rowAnimPs[i].z;
+        halfPlane = Mathf.Atan(Mathf.Abs(rowAnimPs[i].y / realX));
+        thetaRange = (Mathf.PI - 2f * halfPlane);
+        theta1 = time1 / toppleTime * thetaRange + halfPlane;
+        theta2 = time2 / toppleTime * thetaRange + halfPlane;
+
+        r = new Vector2(realX, rowAnimPs[i].y).magnitude;
+
+        singleRow = rowArray[i].ToArray();
+
+        closestDeltasArr = new Vector2[singleRow.Length];
+
+            for (float t = 0; t < 1f; t += 0.001f) { // test out points on row
+
+            ctl1Points[0] = new Vector2(0f, 0f);
+            ctl1Points[1] = new Vector2(r * Mathf.Cos(theta1) + rowAnimPs[i].x,
+                                        r * Mathf.Sin(theta1) + rowAnimPs[i].y);
+            ctl1Points[2] = new Vector2(2f * rowAnimPs[i].x, 0f);
+
+            ctl2Points[0] = new Vector2(0f, 0f);
+            ctl2Points[1] = new Vector2(r * Mathf.Cos(theta2) + rowAnimPs[i].x,
+                                        r * Mathf.Sin(theta2) + rowAnimPs[i].y);
+            ctl2Points[2] = new Vector2(2f * rowAnimPs[i].x, 0f);
+
+            BezierBoil(3, ctl1Points, t);
+            BezierBoil(3, ctl2Points, t);
+
+            ctl1Points[0].x = 0f;
+
+            delta = ctl2Points[0];// - ctl1Points[0];
+
+                for (int c = 0; c < singleRow.Length; c++) {
+                    tilexValue = 2f * realX * ((float)c + 0.5f) / (float)singleRow.Length - rowAnimPs[i].z;
+                    if (closestDeltasArr[c] == null) {
+                        closestDeltasArr[c] = delta;
+                    } else {
+                        if (Mathf.Abs(delta.x - tilexValue) < Mathf.Abs(closestDeltasArr[c].x - tilexValue)) {
+                            closestDeltasArr[c] = delta;
+                        }
+                    }
+                }
+
+            }
+
+            for (int c = 0; c < singleRow.Length; c++) {
+                //if (singleRow[c].tileCoord == new Vector2Int(4, 3)) {
+                //singleRow[c].transform.localPosition += closestDeltasArr[c].y * waveNormal;
+                //singleRow[c].transform.position += new Vector3(0f, closestDeltasArr[c].y, 0f);
+                singleRow[c].transform.localPosition = singleRow[c].initialTransform + closestDeltasArr[c].y * waveNormal;
+                //}
+            }
+
+
         }
     }
 }
