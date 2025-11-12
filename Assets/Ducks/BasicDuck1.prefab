@@ -108,3 +108,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   power: 1.1
+  timer: 0.5

@@ -32,6 +32,9 @@ public class WorldTile : MonoBehaviour
 
     public void OnMouseEnter()
     {
+        if (Input.GetMouseButton(0)) {
+            FindAnyObjectByType<GameController>().ClickTile(this);
+        }
         GetComponent<SpriteRenderer>().color = heighlight;
     }
 

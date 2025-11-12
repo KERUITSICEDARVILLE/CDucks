@@ -4,6 +4,9 @@ public class BasicDuck : MonoBehaviour
 {
 
     public float power;
+    private float exhaustionRecovery;
+    private float exhaustionTimer;
+    public float timer;
 
     public Vector2Int cell
     {
@@ -13,17 +16,27 @@ public class BasicDuck : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        exhaustionTimer = timer;
+        exhaustionRecovery = -0.1f;
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        if (exhaustionTimer < 0f) {
+            exhaustionTimer = timer;
+            exhaustionRecovery = timer;
+        }
+
+        exhaustionRecovery -= Time.deltaTime;
+
         WorldGrid world = transform.parent.parent.GetComponent<WorldGrid>();
-        if (world.CountAdjacentCellsWithType<BasicBlight>(cell) > 0)
+        if (exhaustionRecovery < 0f && world.CountAdjacentCellsWithType<BasicBlight>(cell) > 0)
         {
             WorldTile target = world.GetRandomAdjacentTileWithType<BasicBlight>(cell);
             world.GetObjectAtCell<BasicBlight>(target.tileCoord).GetComponent<BasicBlight>().Damage(Time.deltaTime * power);
+            exhaustionTimer -= Time.deltaTime;
         }
     }
 }
