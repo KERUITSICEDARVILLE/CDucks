@@ -24,6 +24,7 @@ public class GameController : MonoBehaviour
             return moneyAmount;
         }
     }
+    public bool haveSwipePower;
     private int cursorMode;
 
     [Header("Item Costs")]
@@ -66,6 +67,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         Round = 0;
+        haveSwipePower = false;
         RoundStartMessageTimer = 0;
         Cursor.SetCursor(cursorGlyphs[0], Vector2.zero, CursorMode.Auto);
     }
