@@ -65,6 +65,7 @@ public class GameController : MonoBehaviour
     public WorldGrid World;
     public int selection;
     public int unlocks;
+    public float uniTime;
     public float RoundMessageDuration;
     private float RoundStartMessageTimer;
     public TMP_Text Message;
@@ -73,6 +74,7 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        uniTime = 0f;
         Menu = null;
         unlocks = 2;
         selection = -1;
@@ -89,6 +91,7 @@ public class GameController : MonoBehaviour
     void Update()
     {
         if (ringMenuBasis != null) {
+            HeighlightRing();
             HandleRingMenu();
             if (Random.Range(0f, 50f) < 29f) {
                 return;
@@ -257,30 +260,23 @@ public class GameController : MonoBehaviour
         
     }
 
+    public void HeighlightRing() {
+        uniTime += Time.deltaTime;
+        foreach (WorldTile toHighlight in ringMenuBasis) {
+            World.GetObjectAtCell<BasicDuck>(toHighlight.tileCoord)
+            .transform.GetComponent<SpriteRenderer>().color =
+                new Vector4(1f, 1f, 1f, 0.5f + 0.25f * Mathf.Sin(6f * uniTime));
+        }
+    }
+
     public void HandleRingMenu() {
         if (Menu != null) {
-            PositionMenu();
             return;
         }
 
         Menu = Instantiate(RingMenu);
-        Menu.transform.GetComponent<MenuToggle>().Resize(ringMenuBasis.Count);
-        PositionMenu();
-    }
-
-    public void PositionMenu() {
-        Vector3 midpoint = Vector3.zero;
-        foreach (WorldTile iChild in ringMenuBasis) {
-            midpoint += iChild.transform.localPosition;
-        }
-        midpoint /= ringMenuBasis.Count;
         Menu.transform.SetParent(transform);
-
-        Vector3 cursorDeltaPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition) - new Vector3(-8.59f, 1.31f, 0f);
-        cursorDeltaPosition.z = 0f;
-        midpoint.z = 0f;
-
-        Menu.transform.localPosition = midpoint + 0.75f * (midpoint - cursorDeltaPosition) + new Vector3(-8.59f, 1.31f, -9f);
+        Menu.transform.GetComponent<MenuToggle>().Own(ringMenuBasis);
     }
 
     public void SetCursorMode(int mode)
@@ -297,7 +293,15 @@ public class GameController : MonoBehaviour
         // 13 = use power 3
         // 14 = use power 4
         Cursor.SetCursor(cursorGlyphs[mode % 20], Vector2.zero, CursorMode.Auto);
-        cursorMode = mode;
+        cursorMode = mode % 20;
+    }
+
+    public void ForceCursor() {
+        Cursor.SetCursor(cursorGlyphs[cursorMode], Vector2.zero, CursorMode.Auto);
+    }
+
+    public void UnsetCursor() {
+        return;
     }
 
     private int GetCost(int mode)

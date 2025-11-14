@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-guid: 293f056fb7592e944a9d425fe5c16238
+guid: f626f175b3750614ca6db3f1770a8890
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5322947432652739211
-    second: Coinage_0
-  - first:
-      213: -939689284998994942
-    second: Coinage_1
-  - first:
-      213: 2564945185631227928
-    second: Coinage_2
-  - first:
-      213: -6398374053733960376
-    second: Coinage_3
+      213: -69414320148875146
+    second: HesComing_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -55,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -109,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Coinage_0
+      name: HesComing_0
       rect:
         serializedVersion: 2
-        x: 3
-        y: 84
-        width: 39
-        height: 43
+        x: 39
+        y: 5
+        width: 190
+        height: 242
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,74 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b821851ec78eed940800000000000000
-      internalID: 5322947432652739211
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Coinage_1
-      rect:
-        serializedVersion: 2
-        x: 3
-        y: 3
-        width: 93
-        height: 104
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 204e460f29d85f2f0800000000000000
-      internalID: -939689284998994942
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Coinage_2
-      rect:
-        serializedVersion: 2
-        x: 86
-        y: 83
-        width: 39
-        height: 43
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 810d5e18e04889320800000000000000
-      internalID: 2564945185631227928
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Coinage_3
-      rect:
-        serializedVersion: 2
-        x: 80
-        y: 4
-        width: 39
-        height: 43
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 8457c1bb2b86437a0800000000000000
-      internalID: -6398374053733960376
+      spriteID: 67873392b04690ff0800000000000000
+      internalID: -69414320148875146
       vertices: []
       indices: 
       edges: []
@@ -200,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -210,10 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Coinage_0: 5322947432652739211
-      Coinage_1: -939689284998994942
-      Coinage_2: 2564945185631227928
-      Coinage_3: -6398374053733960376
+      HesComing_0: -69414320148875146
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

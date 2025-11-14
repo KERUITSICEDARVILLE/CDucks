@@ -28,7 +28,7 @@ public class WorldGrid : MonoBehaviour
     public List<List<WorldTile>> rows;
     public Vector3[] rowAnimPs;
 
-    const float toppleTime = 2f;
+    const float toppleTime = 3f;
     private float toppleControlTime;
     public Vector3 waveNormal;
 
