@@ -74,7 +74,6 @@ public class BasicBlight : MonoBehaviour
     public void Damage(float amount)
     {
         Growth -= amount;
-        FindAnyObjectByType<GameController>().money += 1;
     }
 
 }

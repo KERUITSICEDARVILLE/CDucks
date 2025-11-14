@@ -24,6 +24,10 @@ public class BasicDuck : MonoBehaviour
         {
             WorldTile target = world.GetRandomAdjacentTileWithType<BasicBlight>(cell);
             world.GetObjectAtCell<BasicBlight>(target.tileCoord).GetComponent<BasicBlight>().Damage(Time.deltaTime * power);
+            if (Random.value < 0.01)
+            {
+                FindAnyObjectByType<GameController>().money += 1;
+            }
         }
     }
 }

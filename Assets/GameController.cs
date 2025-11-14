@@ -167,6 +167,7 @@ public class GameController : MonoBehaviour
             if (target != null)
             {
                 target.GetComponent<BasicBlight>().Damage(1.0f);
+                money += 1;
             }
         }
         
