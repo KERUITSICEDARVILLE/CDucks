@@ -12,20 +12,21 @@ public class GameController : MonoBehaviour
     [Header("Game State")]
     public int Round;
     private int moneyAmount;
-    public int money
-    {
-        set
-        {
+    public int money {
+        set {
             moneyAmount = value;
             MoneyDisplay.text = "$" + moneyAmount;
         }
-        get
-        {
+        get {
             return moneyAmount;
         }
     }
+
+    public List<WorldTile> ringMenuBasis;
+
+    public bool borderCleanse;
     public bool haveSwipePower;
-    private int cursorMode;
+    public int cursorMode;
 
     [Header("Item Costs")]
     public int Duck1Cost;
@@ -57,7 +58,13 @@ public class GameController : MonoBehaviour
     public GameObject BasicBlight;
 
     [Header("Scene Setup")]
+    public GameObject Shop;
+    public GameObject ShavedTangle;
+    public GameObject RingMenu;
+    private GameObject Menu;
     public WorldGrid World;
+    public int selection;
+    public int unlocks;
     public float RoundMessageDuration;
     private float RoundStartMessageTimer;
     public TMP_Text Message;
@@ -66,7 +73,13 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        Menu = null;
+        unlocks = 2;
+        selection = -1;
         Round = 0;
+        moneyAmount = 0;
+        ringMenuBasis = null;
+        borderCleanse = false;
         haveSwipePower = false;
         RoundStartMessageTimer = 0;
         Cursor.SetCursor(cursorGlyphs[0], Vector2.zero, CursorMode.Auto);
@@ -75,6 +88,19 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (ringMenuBasis != null) {
+            HandleRingMenu();
+            if (Random.Range(0f, 50f) < 29f) {
+                return;
+            }
+        }
+        if (ringMenuBasis == null && Menu != null) {
+            MenuToggle eventScript = Menu.transform.GetComponent<MenuToggle>();
+            if (eventScript.readyDestroy) {
+                Destroy(Menu);
+                Menu = null;
+            }
+        }
         if (World.EntityCount<BasicBlight>() == 0)
         {
             Round += 1;
@@ -95,6 +121,33 @@ public class GameController : MonoBehaviour
         if (World.IsFull<BasicBlight>())
         {
             LoseGame();
+        }
+
+        // live colorfully
+        //GameObject.Find("PowerButton1").transform.GetChild(0).GetComponent<Image>().color = new Vector4(0f, 0f, 255f, 255f);
+        // enforce selection is proper with visual
+
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        if (scroll != 0f) {
+            if (scroll > 0f) {
+                selection = (selection + 1) % unlocks;
+            } else {
+                selection = selection < 1 ? unlocks - 1 : selection - 1;
+            }
+            SetCursorMode(selection);
+        }
+
+        
+        for (int i = 0; i < Shop.transform.childCount; i++) {
+            if (Shop.transform.GetChild(i).transform.childCount == 3 && i != selection) {
+                Destroy(Shop.transform.GetChild(i).transform.GetChild(2).gameObject);
+            }
+            if (Shop.transform.GetChild(i).transform.childCount == 2 && i == selection) {
+                GameObject tangle = Instantiate(ShavedTangle);
+                tangle.transform.SetParent(Shop.transform.GetChild(i).transform);
+                tangle.transform.localPosition = new Vector3(0f, 7.2f, 0f);
+                tangle.transform.localScale = new Vector3(112f, 99.4f, 1f);
+            }
         }
 
     }
@@ -128,6 +181,7 @@ public class GameController : MonoBehaviour
         GameObject duck = World.GetObjectAtCell<BasicDuck>(location.tileCoord);
         if (duck != null)
         {
+            World.RemoveDuckRing(location);
             Destroy(duck);
         }
 
@@ -141,19 +195,42 @@ public class GameController : MonoBehaviour
         Message.color = new Color(5.0f, 0.0f, 0.0f, 1.0f);
     }
 
+    public void HoverTile(WorldTile caller) {
+        selection = -1;
+
+        ringMenuBasis = World.WithinDuckRing(caller);
+
+        Power suds = null;
+
+        for (int i = 0; i < caller.transform.childCount; i++) {
+            suds = suds == null ? caller.transform.GetChild(i).GetComponent<Power>() : suds;
+        }
+
+        if ((suds != null && cursorMode == 0) || (Input.GetMouseButton(0) && cursorMode > 0)) {
+            ClickTile(caller);
+        }
+    }
+
+    public void ExitTile(WorldTile caller) {
+        ringMenuBasis = null;
+    }
+
     public void ClickTile(WorldTile caller)
     {   
+        selection = -1;
+
         Vector2Int tile = caller.tileCoord;
         // Cursor mode is placing a duck
         if (cursorMode > 0 && cursorMode < 10)
         {
-            if (World.GetObjectAtCell<GameObject>(tile) == null)
+            if (World.GetObjectAtCell<BasicBlight>(tile) == null
+                && World.GetObjectAtCell<BasicDuck>(tile) == null)
             {
                 if (money >= GetCost(cursorMode))
                 {
                     money -= GetCost(cursorMode);
                     World.AddAtCell(Instantiate(GetDuckForMode(cursorMode)), tile);
-                    World.CheckDuckRing(caller);
+                    ringMenuBasis = World.CheckDuckRing(caller);
                     World.ResetDiscoveryChannels();
                 }
             }
@@ -165,8 +242,6 @@ public class GameController : MonoBehaviour
             {
                 money -= GetCost(cursorMode);
                 World.AddAtCell(Instantiate(GetDuckForMode(cursorMode)), tile);
-                World.CheckDuckRing(caller);
-                World.ResetDiscoveryChannels();
             }
         }
         // Cursor mode is cleaning
@@ -176,9 +251,36 @@ public class GameController : MonoBehaviour
             if (target != null)
             {
                 target.GetComponent<BasicBlight>().Damage(1.0f);
+                money += 1;
             }
         }
         
+    }
+
+    public void HandleRingMenu() {
+        if (Menu != null) {
+            PositionMenu();
+            return;
+        }
+
+        Menu = Instantiate(RingMenu);
+        Menu.transform.GetComponent<MenuToggle>().Resize(ringMenuBasis.Count);
+        PositionMenu();
+    }
+
+    public void PositionMenu() {
+        Vector3 midpoint = Vector3.zero;
+        foreach (WorldTile iChild in ringMenuBasis) {
+            midpoint += iChild.transform.localPosition;
+        }
+        midpoint /= ringMenuBasis.Count;
+        Menu.transform.SetParent(transform);
+
+        Vector3 cursorDeltaPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition) - new Vector3(-8.59f, 1.31f, 0f);
+        cursorDeltaPosition.z = 0f;
+        midpoint.z = 0f;
+
+        Menu.transform.localPosition = midpoint + 0.75f * (midpoint - cursorDeltaPosition) + new Vector3(-8.59f, 1.31f, -9f);
     }
 
     public void SetCursorMode(int mode)
@@ -260,5 +362,12 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void ToggleTax() {
+        // cost for both turning on/off
+        if (money >= 200) {
+            money -= 200;
+            borderCleanse = !borderCleanse;
+        }
+    }
 
 }

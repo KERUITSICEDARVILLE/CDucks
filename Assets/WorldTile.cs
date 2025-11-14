@@ -32,15 +32,14 @@ public class WorldTile : MonoBehaviour
 
     public void OnMouseEnter()
     {
-        if (FindAnyObjectByType<GameController>().haveSwipePower) {
-            FindAnyObjectByType<GameController>().ClickTile(this);
-        }
         GetComponent<SpriteRenderer>().color = heighlight;
+        FindAnyObjectByType<GameController>().HoverTile(this);
     }
 
     public void OnMouseExit()
     {
         GetComponent<SpriteRenderer>().color = color;
+        FindAnyObjectByType<GameController>().ExitTile(this);
     }
 
     public void OnMouseDown()

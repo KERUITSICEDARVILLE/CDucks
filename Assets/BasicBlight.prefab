@@ -52,8 +52,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   growth: 0
   MaxGrowth: 10
-  GrowthRate: 1
-  tolerance: 2
+  GrowthRate: 0.5
+  tolerance: 1
+  Taut: 20
 --- !u!212 &2967337111675365541
 SpriteRenderer:
   m_ObjectHideFlags: 0

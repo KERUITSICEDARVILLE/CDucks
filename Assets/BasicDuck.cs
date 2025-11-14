@@ -23,7 +23,9 @@ public class BasicDuck : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (FindAnyObjectByType<GameController>().ringMenuBasis != null && Random.Range(0f, 50f) < 29f) {
+            return;
+        }
         if (exhaustionTimer < 0f) {
             exhaustionTimer = timer;
             exhaustionRecovery = timer;
@@ -36,6 +38,9 @@ public class BasicDuck : MonoBehaviour
         {
             WorldTile target = world.GetRandomAdjacentTileWithType<BasicBlight>(cell);
             world.GetObjectAtCell<BasicBlight>(target.tileCoord).GetComponent<BasicBlight>().Damage(Time.deltaTime * power);
+            if (Random.Range(0f, 20f) < 1f) {
+                FindAnyObjectByType<GameController>().money++;
+            }
             exhaustionTimer -= Time.deltaTime;
         }
     }

@@ -6,7 +6,7 @@ using static UnityEngine.EventSystems.EventTrigger;
 [ExecuteInEditMode]
 public class WorldGrid : MonoBehaviour
 {
-
+    public Power empty;
     public GameObject tile;
     public float shiftLeft;
     public float shiftUp;
@@ -22,7 +22,9 @@ public class WorldGrid : MonoBehaviour
     public Color color2;
     public Color color3;
 
+    [Header("BFS and animation")]
     public HashSet<WorldTile> discoverySet;
+    public List<List<WorldTile>> duckRings;
     public List<List<WorldTile>> rows;
     public Vector3[] rowAnimPs;
 
@@ -36,6 +38,7 @@ public class WorldGrid : MonoBehaviour
         toppleControlTime = 0f;
 
         discoverySet = new HashSet<WorldTile>();
+        duckRings = new List<List<WorldTile>>();
         rows = new List<List<WorldTile>>();
         List<WorldTile> row;
         WorldTile iChild;
@@ -98,6 +101,11 @@ public class WorldGrid : MonoBehaviour
             }
         }
 
+        if (FindAnyObjectByType<GameController>().ringMenuBasis != null && Random.Range(0f, 50f) < 29f) {
+            return;
+        }
+
+        // potentially move to Controller
         if (Application.isPlaying) {
         AnimateRows(toppleControlTime, toppleControlTime + Time.deltaTime);
         }
@@ -212,6 +220,9 @@ public class WorldGrid : MonoBehaviour
 
     public GameObject GetObjectAtCell<T>(Vector2Int cell)
     {
+        //if (empty.GetComponent<T>() != null) {
+        //    return empty.gameObject;
+        //}
         WorldTile tile = GetTile(cell);
         for (int j = 0; j < tile.transform.childCount; j++)
         {
@@ -378,7 +389,7 @@ public class WorldGrid : MonoBehaviour
         return GetTile(cell) != null;
     }
 
-    public WorldTile BFSstopstart<T>(WorldTile stop, WorldTile start) {
+    public WorldTile BFSstopstart<T>(WorldTile stop, WorldTile start, bool evade) {
         if (start.isDiscovered) { // enforce start not being discovered
             return null;
         }
@@ -394,7 +405,8 @@ public class WorldGrid : MonoBehaviour
 
         while (q.Count > 0) {
             parent = q.Dequeue();
-            children = GetAdjacentTilesWithType<T>(parent.tileCoord);
+            children = evade ? GetAdjacentTilesWithoutType<T>(parent.tileCoord)
+                             : GetAdjacentTilesWithType<T>(parent.tileCoord);
             if (children == null) {
                 children = new WorldTile[0];
             }
@@ -426,7 +438,46 @@ public class WorldGrid : MonoBehaviour
         return null;
     }
 
-    public Vector2Int[] CheckDuckRing(WorldTile origin) {
+    public List<WorldTile> WithinDuckRing(WorldTile check) {
+        foreach (List<WorldTile> ring in duckRings) {
+            foreach (WorldTile tile in ring) {
+                if (tile == check) {
+                    return ring;
+                }
+            }
+        }
+        return null;
+    }
+
+    public bool RemoveDuckRing(WorldTile check) {
+        int removeIndex = duckRings.Count;
+        for (int i = 0; i < duckRings.Count; i++) {
+            foreach (WorldTile tile in duckRings[i]) {
+                if (tile == check) {
+                    removeIndex = i;
+                }
+            }
+        }
+        if (removeIndex != duckRings.Count) {
+            duckRings.Remove(duckRings[removeIndex]);
+        }
+        return (removeIndex != duckRings.Count);
+    }
+
+    public List<WorldTile> AddNewDuckRing(WorldTile endpt) {
+        List<WorldTile> ring = new List<WorldTile>();
+
+        WorldTile curr = endpt;
+
+        while (curr != null) {
+            ring.Add(curr);
+            curr = GetTile(curr.discoveryParentCoord);
+        }
+        duckRings.Add(ring);
+        return ring;
+    }
+
+    public List<WorldTile> CheckDuckRing(WorldTile origin) {
         // returns null if no ring found
         // the significance of returning a set of V2's in a ring
         // is not such that there is only one ring. It is to return
@@ -440,10 +491,10 @@ public class WorldGrid : MonoBehaviour
             return null;
         }
         for (int i = 0; i < arms.Length; i++) {
-            BFSEnd = BFSstopstart<BasicDuck>(origin, arms[i]);
+            BFSEnd = BFSstopstart<BasicDuck>(origin, arms[i], false);
             if (BFSEnd != null) {
-            Debug.Log(arms[i]);
-            return new Vector2Int[1] { BFSEnd.tileCoord };
+            arms[i].discoveryParentCoord = origin.tileCoord;
+            return AddNewDuckRing(BFSEnd);
             }
         }
         return null;
@@ -451,6 +502,7 @@ public class WorldGrid : MonoBehaviour
 
     public void ResetDiscoveryChannels() {
         foreach (WorldTile iWorldTile in discoverySet) {
+            iWorldTile.discoveryParentCoord = Vector2Int.zero;
             iWorldTile.isDiscovered = false;
             iWorldTile.lengthToOrigin = 0;
         }
@@ -538,8 +590,11 @@ public class WorldGrid : MonoBehaviour
             row = rowList.ToArray();
             victimObj = GetObjectAtCell<BasicBlight>(row[0].tileCoord);
             localMoney = FindAnyObjectByType<GameController>().money;
-            if (victimObj != null && localMoney != 0) {
+            if (FindAnyObjectByType<GameController>().borderCleanse
+                && victimObj != null
+                && localMoney != 0) {
                 localMoney = 3 * localMoney / 5 == 0 ? 1 : 3 * localMoney / 5;
+                Debug.Log("Reducing to: " + localMoney);
                 FindAnyObjectByType<GameController>().money -= localMoney;
                 victim = victimObj.GetComponent<BasicBlight>();
                 victim.Growth = -1f;
@@ -547,15 +602,16 @@ public class WorldGrid : MonoBehaviour
 
             for (int i = 1; i < row.Length; i++) {
                 if (row[i].transform.childCount != 0
-                    && row[i - 1].transform.childCount == 0) {
-                    if (CheckDuckRing(row[i]) == null) {
-                    row[i].transform.GetChild(0).SetParent(row[i - 1].transform);
-                    row[i - 1].transform.GetChild(0).localPosition = new Vector3(0f, 0f, -1f);
-                    row[i].transform.DetachChildren();
+                    && row[i - 1].transform.childCount == 0
+                    && WithinDuckRing(row[i]) == null) {
+                    while (row[i].transform.childCount > 0) {
+                        row[i].transform.GetChild(0).SetParent(row[i - 1].transform);
+                    }
+                    for (int c = 0; c < row[i - 1].transform.childCount; c++) {
+                        row[i - 1].transform.GetChild(c).localPosition = new Vector3(0f, 0f, -1f);
                     }
                 }
             }
         }
-        ResetDiscoveryChannels();
     }
 }

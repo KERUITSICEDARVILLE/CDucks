@@ -19,6 +19,7 @@ public class BasicBlight : MonoBehaviour
     public float MaxGrowth;
     public float GrowthRate;
     public float tolerance;
+    public float Taut;
 
     public Vector2Int cell {
         get { return transform.parent.GetComponent<WorldTile>().tileCoord; }
@@ -33,19 +34,20 @@ public class BasicBlight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (FindAnyObjectByType<GameController>().ringMenuBasis != null && Random.Range(0f, 50f) < 29f) {
+            return;
+        }
         if (Growth <= 0.0)
         {
             Destroy(gameObject);
         }
-        else if (Growth < MaxGrowth - tolerance)
+        else if (Growth < MaxGrowth)
         {
             Growth += Time.deltaTime * GrowthRate;
         }
-        else
-        {
-            if (Random.Range(MaxGrowth - tolerance, MaxGrowth) > MaxGrowth - tolerance * Growth / MaxGrowth) {
+
+        if (Random.Range(MaxGrowth - tolerance, MaxGrowth) > MaxGrowth - tolerance * Mathf.Pow(Growth / MaxGrowth, Taut)) {
             BlightSpread();
-            }
         }
         
     }
@@ -65,6 +67,7 @@ public class BasicBlight : MonoBehaviour
             GameObject duck = world.GetObjectAtCell<BasicDuck>(neighbor);
             if (duck != null)
             {
+                world.RemoveDuckRing(world.GetTile(neighbor));
                 Destroy(duck);
             }
 
@@ -78,7 +81,6 @@ public class BasicBlight : MonoBehaviour
     public void Damage(float amount)
     {
         Growth -= amount;
-        FindAnyObjectByType<GameController>().money += 1;
     }
 
 }
