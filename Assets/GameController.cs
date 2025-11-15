@@ -93,7 +93,7 @@ public class GameController : MonoBehaviour
         unlocks = 2;
         selection = -1;
         Round = 0;
-        moneyAmount = 0;
+        money = 0;
         ringMenuBasis = null;
         borderCleanse = false;
         haveSwipePower = false;
@@ -297,6 +297,32 @@ public class GameController : MonoBehaviour
         Menu.transform.GetComponent<MenuToggle>().Own(ringMenuBasis);
     }
 
+    public void Upgrade(List<WorldTile> menuRing) {
+        bool powerLevel = true;
+
+        foreach (WorldTile iChild in menuRing) { // see if all are at unlocks power level
+            BasicDuck child = World.GetObjectAtCell<BasicDuck>(iChild.tileCoord).GetComponent<BasicDuck>();
+            powerLevel &= child.power == GetDuckForMode(unlocks - 1).GetComponent<BasicDuck>().power;
+        }
+
+        if (powerLevel) {
+            foreach(WorldTile iChild in menuRing) { // delete
+                Destroy(World.GetObjectAtCell<BasicDuck>(iChild.tileCoord));
+            }
+            World.AddAtTile(Instantiate(GetDuckForMode(unlocks)), menuRing[0]);
+            World.RemoveDuckRing(menuRing[0]);
+            ringMenuBasis = null;
+            for (int i = 0; i < Shop.transform.childCount; i++) {
+                if (!Shop.transform.GetChild(i).GetComponent<Button>().interactable) {
+                    Shop.transform.GetChild(i).GetComponent<Button>().interactable = true;
+                    break;
+                }
+            }
+            unlocks++;
+        }
+        Debug.Log("did stuff");
+    }
+
     public void SetCursorMode(int mode)
     {
         // 0 = cleaner
@@ -386,7 +412,7 @@ public class GameController : MonoBehaviour
 
     private GameObject GetDuckForMode(int mode)
     {
-        switch (cursorMode)
+        switch (mode)
         {
             case 0:
                 return null;
