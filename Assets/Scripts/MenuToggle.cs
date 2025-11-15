@@ -44,6 +44,7 @@ public class MenuToggle : MonoBehaviour
     }
 
     public void Consolidate() {
+        FindAnyObjectByType<GameController>().Upgrade(ownRing);
         readyDestroy = true;
         return;
     }
