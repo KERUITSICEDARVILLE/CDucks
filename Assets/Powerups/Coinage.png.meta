@@ -1,10 +1,19 @@
 fileFormatVersion: 2
-guid: fb594903f3deff741b39e4606f94e726
+guid: 293f056fb7592e944a9d425fe5c16238
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3364737504007263309
-    second: BlightBox_0
+      213: 5322947432652739211
+    second: Coinage_0
+  - first:
+      213: -939689284998994942
+    second: Coinage_1
+  - first:
+      213: 2564945185631227928
+    second: Coinage_2
+  - first:
+      213: -6398374053733960376
+    second: Coinage_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -24,7 +33,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 1
+  isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -46,18 +55,18 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 48
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
-  textureType: 7
+  textureType: 8
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -100,13 +109,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BlightBox_0
+      name: Coinage_0
       rect:
         serializedVersion: 2
-        x: 21
-        y: 19
-        width: 85
-        height: 92
+        x: 3
+        y: 84
+        width: 39
+        height: 43
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +124,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d4499c8cee2f1be20800000000000000
-      internalID: 3364737504007263309
+      spriteID: b821851ec78eed940800000000000000
+      internalID: 5322947432652739211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Coinage_1
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 3
+        width: 93
+        height: 104
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 204e460f29d85f2f0800000000000000
+      internalID: -939689284998994942
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Coinage_2
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 83
+        width: 39
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 810d5e18e04889320800000000000000
+      internalID: 2564945185631227928
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Coinage_3
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 4
+        width: 39
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8457c1bb2b86437a0800000000000000
+      internalID: -6398374053733960376
       vertices: []
       indices: 
       edges: []
@@ -125,7 +200,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +210,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      BlightBox_0: 3364737504007263309
+      Coinage_0: 5322947432652739211
+      Coinage_1: -939689284998994942
+      Coinage_2: 2564945185631227928
+      Coinage_3: -6398374053733960376
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

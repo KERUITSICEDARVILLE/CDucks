@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: fb594903f3deff741b39e4606f94e726
+guid: e0789f80109d9144f85924cebaff24c2
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3364737504007263309
-    second: BlightBox_0
+      213: 3477752027730380022
+    second: SudsPower_0
+  - first:
+      213: 2131023426216651132
+    second: SudsPower_1
+  - first:
+      213: -7911878236260687928
+    second: SudsPower_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -24,7 +30,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 1
+  isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -51,13 +57,13 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 48
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
-  textureType: 7
+  textureType: 8
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -100,13 +106,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BlightBox_0
+      name: SudsPower_0
       rect:
         serializedVersion: 2
-        x: 21
-        y: 19
-        width: 85
-        height: 92
+        x: 6
+        y: 72
+        width: 37
+        height: 39
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +121,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d4499c8cee2f1be20800000000000000
-      internalID: 3364737504007263309
+      spriteID: 6f483c51b05734030800000000000000
+      internalID: 3477752027730380022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SudsPower_1
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 63
+        width: 77
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c79eda7f38ae29d10800000000000000
+      internalID: 2131023426216651132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SudsPower_2
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 11
+        width: 60
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8cf998db9ac533290800000000000000
+      internalID: -7911878236260687928
       vertices: []
       indices: 
       edges: []
@@ -135,7 +185,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      BlightBox_0: 3364737504007263309
+      SudsPower_0: 3477752027730380022
+      SudsPower_1: 2131023426216651132
+      SudsPower_2: -7911878236260687928
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
