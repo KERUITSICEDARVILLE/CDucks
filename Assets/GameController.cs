@@ -1,7 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.LightTransport;
-using UnityEngine.UI;
 
 using System.Collections.Generic;
 
