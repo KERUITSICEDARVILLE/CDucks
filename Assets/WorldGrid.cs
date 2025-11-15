@@ -22,7 +22,10 @@ public class WorldGrid : MonoBehaviour
     public Color color2;
     public Color color3;
 
+    public bool DoDrift;
+
     [Header("BFS and animation")]
+    public bool DoWaving;
     public HashSet<WorldTile> discoverySet;
     public List<List<WorldTile>> duckRings;
     public List<List<WorldTile>> rows;
@@ -106,16 +109,28 @@ public class WorldGrid : MonoBehaviour
         }
 
         // potentially move to Controller
-        if (Application.isPlaying) {
-        AnimateRows(toppleControlTime, toppleControlTime + Time.deltaTime);
+        if (DoWaving)
+        {
+            if (Application.isPlaying)
+            {
+                AnimateRows(toppleControlTime, toppleControlTime + Time.deltaTime);
+            }
         }
+        
 
-        if (toppleControlTime < toppleTime) {
+        
+        if (toppleControlTime < toppleTime)
+        {
             toppleControlTime += Time.deltaTime;
-        } else {
+        }
+        else
+        {
             toppleControlTime = 0f;
             // slide everything left
-            ReparentRows();
+            if (DoDrift)
+            {
+                ReparentRows();
+            }
         }
 
     }
@@ -364,7 +379,7 @@ public class WorldGrid : MonoBehaviour
 
     public bool IsFull<T>()
     {
-        return EntityCount<T>() == transform.childCount;
+        return EntityCount<T>() >= transform.childCount;
     }
 
     public int EntityCount<T>()
@@ -378,6 +393,7 @@ public class WorldGrid : MonoBehaviour
                 if (tile.GetChild(j).GetComponent<T>() != null)
                 {
                     count++;
+                    break;
                 }
             }
         }

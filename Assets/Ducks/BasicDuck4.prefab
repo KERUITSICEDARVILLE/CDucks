@@ -9,20 +9,28 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1349202489543391392, guid: 95dc436fe6f6c464ca591dbc4c7ac884, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 7635932898504559157, guid: cea1c3d8a53f1204b8bd6de6f4c6acbb, type: 3}
+    - target: {fileID: 1349202489543391392, guid: 95dc436fe6f6c464ca591dbc4c7ac884, type: 3}
       propertyPath: m_Color.b
-      value: 0.1792453
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1349202489543391392, guid: 95dc436fe6f6c464ca591dbc4c7ac884, type: 3}
       propertyPath: m_Color.g
-      value: 0.1792453
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1349202489543391392, guid: 95dc436fe6f6c464ca591dbc4c7ac884, type: 3}
       propertyPath: m_Color.r
-      value: 0.1792453
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1852841451044497856, guid: 95dc436fe6f6c464ca591dbc4c7ac884, type: 3}
       propertyPath: power
-      value: 2.6
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1852841451044497856, guid: 95dc436fe6f6c464ca591dbc4c7ac884, type: 3}
+      propertyPath: speed
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4102887691643673938, guid: 95dc436fe6f6c464ca591dbc4c7ac884, type: 3}
       propertyPath: m_Name

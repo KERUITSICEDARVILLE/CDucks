@@ -1488,7 +1488,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Great Duck
+  m_text: 'Ninja Duck
+
+    $25'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1497,8 +1499,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4278190335
+  m_fontColor: {r: 1, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2929,14 +2931,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.21960786, b: 0.21960786, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 5141433670406121957, guid: bedc04621c2553d4eb7380311d740ec8, type: 3}
+  m_Sprite: {fileID: -7934211110694577538, guid: e73bc041f8443424a981a1ce7ec1b8e5, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5942,7 +5944,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -426.99997, y: 226.33702}
+  m_AnchoredPosition: {x: -337.22998, y: 226.33702}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &310669577
@@ -6253,14 +6255,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.2901961, g: 0.98039216, b: 0.16078432, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 5141433670406121957, guid: bedc04621c2553d4eb7380311d740ec8, type: 3}
+  m_Sprite: {fileID: -2631879392500461948, guid: 8bdf5b8d1afd0ad4eaf8f79c549f2db1, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7975,7 +7977,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Super Duck
+  m_text: 'Super Duck
+
+    $50'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7984,8 +7988,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278848238
-  m_fontColor: {r: 0.9339623, g: 0.039649326, b: 0.039649326, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -10974,7 +10978,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -8030576672439078271, guid: 31d769ba1d8d1da428a67a7a30193da6, type: 3}
+  m_Sprite: {fileID: -3787186718068959810, guid: 97834656363b1ef40a7bd89c377bc52b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -15010,28 +15014,17 @@ MonoBehaviour:
   RoundMessageDuration: 1
   Message: {fileID: 1369898235}
   MoneyDisplay: {fileID: 1621535177}
-  cursorGlyphs:
-  - {fileID: 2800000, guid: 0a8bc8e1625195149a55f9f2ed2e1dbc, type: 3}
-  - {fileID: 2800000, guid: 247acb7900250e84c93f6afe29bdbafb, type: 3}
-  - {fileID: 2800000, guid: 06e1b7809d937d043a6439db4449b74d, type: 3}
-  - {fileID: 2800000, guid: 247acb7900250e84c93f6afe29bdbafb, type: 3}
-  - {fileID: 2800000, guid: bedc04621c2553d4eb7380311d740ec8, type: 3}
-  - {fileID: 2800000, guid: 247acb7900250e84c93f6afe29bdbafb, type: 3}
-  - {fileID: 2800000, guid: bedc04621c2553d4eb7380311d740ec8, type: 3}
-  - {fileID: 2800000, guid: 247acb7900250e84c93f6afe29bdbafb, type: 3}
-  - {fileID: 2800000, guid: bedc04621c2553d4eb7380311d740ec8, type: 3}
-  - {fileID: 2800000, guid: 247acb7900250e84c93f6afe29bdbafb, type: 3}
-  - {fileID: 2800000, guid: 06e1b7809d937d043a6439db4449b74d, type: 3}
-  - {fileID: 2800000, guid: 81ff24d0a0211eb498bd062772b577a1, type: 3}
-  - {fileID: 2800000, guid: 81ff24d0a0211eb498bd062772b577a1, type: 3}
-  - {fileID: 2800000, guid: 78eb16af4156cf8469292361d19feff7, type: 3}
-  - {fileID: 2800000, guid: 06e1b7809d937d043a6439db4449b74d, type: 3}
-  - {fileID: 2800000, guid: 06e1b7809d937d043a6439db4449b74d, type: 3}
-  - {fileID: 2800000, guid: 06e1b7809d937d043a6439db4449b74d, type: 3}
-  - {fileID: 2800000, guid: 06e1b7809d937d043a6439db4449b74d, type: 3}
-  - {fileID: 2800000, guid: 06e1b7809d937d043a6439db4449b74d, type: 3}
-  - {fileID: 2800000, guid: 06e1b7809d937d043a6439db4449b74d, type: 3}
-  - {fileID: 2800000, guid: 06e1b7809d937d043a6439db4449b74d, type: 3}
+  cleanerCursor: {fileID: 2800000, guid: c682b4c890f626b43a424ba117a4dd24, type: 3}
+  basicDuckCursor: {fileID: 2800000, guid: 81fb2bc03731cd14fa64feddbf476292, type: 3}
+  armyDuckCursor: {fileID: 2800000, guid: 91b23812af86fc641b70bd87269934d0, type: 3}
+  ninjaDuckCursor: {fileID: 2800000, guid: f81d7875b87044344b2ebd82776d0f96, type: 3}
+  superDuckCursor: {fileID: 2800000, guid: 0dd3fd012b62a9f4b9a98813cedc8098, type: 3}
+  robotDuckCursor: {fileID: 2800000, guid: 0ec9895a531374b468f5143773fe60d7, type: 3}
+  mythicDuckCursor: {fileID: 2800000, guid: d993bd399ee245f43b6df0c83bb5b4c4, type: 3}
+  bleachPowerCursor: {fileID: 2800000, guid: b28176b141c96e643b0c67b99ec25537, type: 3}
+  damagePowerCursor: {fileID: 2800000, guid: 81ff24d0a0211eb498bd062772b577a1, type: 3}
+  speedPowerCursor: {fileID: 2800000, guid: 78eb16af4156cf8469292361d19feff7, type: 3}
+  specialPowerCursor: {fileID: 0}
 --- !u!4 &707780712
 Transform:
   m_ObjectHideFlags: 0
@@ -15048,6 +15041,7 @@ Transform:
   - {fileID: 663254983}
   - {fileID: 1280465332}
   - {fileID: 573824783}
+  - {fileID: 1033225140}
   - {fileID: 2035499231}
   - {fileID: 785844966}
   m_Father: {fileID: 0}
@@ -15998,7 +15992,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -426.99997, y: -87.60298}
+  m_AnchoredPosition: {x: -337.22998, y: -87.60298}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &809751243
@@ -17300,7 +17294,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Good Duck
+  m_text: 'Army Duck
+
+    $15'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -18400,7 +18396,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -424.77, y: -194.15297}
+  m_AnchoredPosition: {x: -335, y: -194.15297}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &929146339
@@ -18472,7 +18468,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.40365788, g: 0.42952675, b: 0.4433962, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -18862,7 +18858,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 171.77002, y: -234.96297}
+  m_AnchoredPosition: {x: 123, y: -234.96297}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &954150297
@@ -18904,7 +18900,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 954150298}
   m_OnClick:
     m_PersistentCalls:
@@ -20183,12 +20179,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1033225137}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.0909091, y: -0.86666644, z: -11.81818}
+  m_LocalScale: {x: 0.90909094, y: 0.98484826, z: 1.181818}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 707780712}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1051463136
 GameObject:
@@ -23733,7 +23729,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 5141433670406121957, guid: bedc04621c2553d4eb7380311d740ec8, type: 3}
+  m_Sprite: {fileID: -7673061687772389483, guid: e345e668cb7a7d8429009e105fa76d51, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -24741,28 +24737,30 @@ MonoBehaviour:
   color1: {r: 0, g: 0.78431374, b: 1, a: 1}
   color2: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   color3: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
+  DoDrift: 0
+  DoWaving: 1
   rowAnimPs:
-  - {x: 5.6642585, y: -40.890675, z: 4.5456724}
-  - {x: 5.703614, y: -40.338627, z: 4.088515}
-  - {x: 5.4673843, y: -40.87787, z: 4.18411}
-  - {x: 5.155976, y: -40.68064, z: 4.9715853}
-  - {x: 5.083117, y: -40.430756, z: 4.616582}
-  - {x: 5.093754, y: -40.858242, z: 4.621063}
-  - {x: 5.0901833, y: -40.721783, z: 4.536764}
-  - {x: 5.4326615, y: -40.153683, z: 4.5593925}
-  - {x: 5.3654237, y: -40.495506, z: 4.116712}
-  - {x: 5.3180585, y: -40.453735, z: 4.6143556}
-  - {x: 5.762893, y: -40.312103, z: 4.9593587}
-  - {x: 5.2282624, y: -40.71038, z: 4.1448765}
-  - {x: 5.2808747, y: -40.704166, z: 4.242355}
-  - {x: 5.759362, y: -40.410957, z: 4.022789}
-  - {x: 5.8606887, y: -40.9505, z: 4.458434}
-  - {x: 5.9686184, y: -40.205322, z: 4.4391956}
-  - {x: 5.3087673, y: -40.31899, z: 4.009762}
-  - {x: 5.1397862, y: -40.55563, z: 4.532241}
-  - {x: 5.9248643, y: -40.769485, z: 4.1924562}
-  - {x: 5.9729395, y: -40.062454, z: 4.143122}
-  - {x: 5.950216, y: -40.647102, z: 4.7731543}
+  - {x: 5.8773, y: -40.42344, z: 4.0730476}
+  - {x: 5.493129, y: -40.120075, z: 4.285984}
+  - {x: 5.2349577, y: -40.272514, z: 4.416938}
+  - {x: 5.018325, y: -40.20735, z: 4.4605527}
+  - {x: 5.7279, y: -40.40197, z: 4.107813}
+  - {x: 5.3409157, y: -40.605255, z: 4.690959}
+  - {x: 5.9272485, y: -40.587685, z: 4.155921}
+  - {x: 5.898991, y: -40.96513, z: 4.7961535}
+  - {x: 5.3123093, y: -40.935783, z: 4.622504}
+  - {x: 5.876953, y: -40.169865, z: 4.7771115}
+  - {x: 5.6651583, y: -40.575165, z: 4.2232275}
+  - {x: 5.951784, y: -40.40149, z: 4.9652452}
+  - {x: 5.7755747, y: -40.463825, z: 4.972558}
+  - {x: 5.912689, y: -40.164387, z: 4.319362}
+  - {x: 5.654939, y: -40.985176, z: 4.5183587}
+  - {x: 5.894038, y: -40.632507, z: 4.0781097}
+  - {x: 5.1334925, y: -40.84127, z: 4.372113}
+  - {x: 5.2558236, y: -40.685265, z: 4.484215}
+  - {x: 5.079646, y: -40.394608, z: 4.64649}
+  - {x: 5.7671995, y: -40.85044, z: 4.8470488}
+  - {x: 5.7622375, y: -40.762657, z: 4.68276}
   waveNormal: {x: -0.5, y: 0.866, z: 0}
 --- !u!1 &1286964039
 GameObject:
@@ -24801,7 +24799,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 276.80002, y: -226.053}
+  m_AnchoredPosition: {x: 228.02998, y: -226.053}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1286964041
@@ -24843,7 +24841,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 1286964042}
   m_OnClick:
     m_PersistentCalls:
@@ -24955,7 +24953,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Scrub
+  m_text: 'Cleaner
+
+    Free'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -24964,8 +24964,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4278517504
+  m_fontColor: {r: 0, g: 1, b: 0.015245676, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -30897,7 +30897,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -427, y: 17}
+  m_AnchoredPosition: {x: -337.22998, y: 17}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1644873638
@@ -31195,7 +31195,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -97.736984, y: -234.96297}
+  m_AnchoredPosition: {x: -7.96698, y: -234.96297}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1668215335
@@ -31237,7 +31237,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 1668215336}
   m_OnClick:
     m_PersistentCalls:
@@ -32162,14 +32162,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.5411765, b: 0.5411765, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 5141433670406121957, guid: bedc04621c2553d4eb7380311d740ec8, type: 3}
+  m_Sprite: {fileID: 1403664607746926552, guid: d66031cf6646be24485379ff202c6206, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -32552,7 +32552,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 381.96002, y: -211.13298}
+  m_AnchoredPosition: {x: 333.19, y: -211.13298}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1723395072
@@ -32594,7 +32594,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 1723395073}
   m_OnClick:
     m_PersistentCalls:
@@ -33013,7 +33013,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -426.99997, y: 121.74102}
+  m_AnchoredPosition: {x: -337.22998, y: 121.74102}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1735278241
@@ -35115,7 +35115,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -313.62997, y: -211.13298}
+  m_AnchoredPosition: {x: -223.85997, y: -211.13298}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1832067466
@@ -36417,7 +36417,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Mythic Duck
+  m_text: 'Mythic Duck
+
+    $250'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -36710,14 +36712,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.18039216, g: 0.18039216, b: 0.18039216, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 5141433670406121957, guid: bedc04621c2553d4eb7380311d740ec8, type: 3}
+  m_Sprite: {fileID: 7635932898504559157, guid: cea1c3d8a53f1204b8bd6de6f4c6acbb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -37113,14 +37115,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.50980395, g: 0.22745098, b: 0.11372549, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 5141433670406121957, guid: bedc04621c2553d4eb7380311d740ec8, type: 3}
+  m_Sprite: {fileID: 4626071695811303432, guid: ba5ea8e6ceec8464eb715d00eeebdb6c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -37995,7 +37997,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -206.09998, y: -226.053}
+  m_AnchoredPosition: {x: -116.32997, y: -226.053}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1967136713
@@ -38037,7 +38039,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 1967136714}
   m_OnClick:
     m_PersistentCalls:
@@ -39833,8 +39835,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0, y: 0.1}
-  m_SizeDelta: {x: 1472.9167, y: 600}
+  m_AnchoredPosition: {x: -1.28, y: -0.85}
+  m_SizeDelta: {x: 800, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2044201804
 GameObject:
@@ -39893,7 +39895,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Basic Duck
+  m_text: "Basic Duck \n$5"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -40924,7 +40926,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Master Duck
+  m_text: 'Robot Duck
+
+    $100'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -41991,6 +41995,5 @@ SpriteRenderer:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1033225140}
   - {fileID: 707780712}
   - {fileID: 1343249603}

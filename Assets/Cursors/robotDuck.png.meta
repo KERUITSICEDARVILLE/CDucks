@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 247acb7900250e84c93f6afe29bdbafb
+guid: 0ec9895a531374b468f5143773fe60d7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6345328042635049631
-    second: duckHammer_0
+      213: 4626071695811303432
+    second: robotDuck_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: duckHammer_0
+      name: robotDuck_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 8
+        y: 3
         width: 30
-        height: 24
+        height: 25
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f9a369c5c322f0850800000000000000
-      internalID: 6345328042635049631
+      spriteID: 808525682bb133040800000000000000
+      internalID: 4626071695811303432
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      duckHammer_0: 6345328042635049631
+      robotDuck_0: 4626071695811303432
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

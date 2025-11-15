@@ -70,7 +70,21 @@ public class GameController : MonoBehaviour
     private float RoundStartMessageTimer;
     public TMP_Text Message;
     public TMP_Text MoneyDisplay;
-    public Texture2D[] cursorGlyphs = new Texture2D[20];
+
+    [Header("Cursors")]
+    public Texture2D cleanerCursor;
+
+    public Texture2D basicDuckCursor;
+    public Texture2D armyDuckCursor;
+    public Texture2D ninjaDuckCursor;
+    public Texture2D superDuckCursor;
+    public Texture2D robotDuckCursor;
+    public Texture2D mythicDuckCursor;
+
+    public Texture2D bleachPowerCursor;
+    public Texture2D damagePowerCursor;
+    public Texture2D speedPowerCursor;
+    public Texture2D specialPowerCursor;
 
     void Start()
     {
@@ -84,7 +98,7 @@ public class GameController : MonoBehaviour
         borderCleanse = false;
         haveSwipePower = false;
         RoundStartMessageTimer = 0;
-        Cursor.SetCursor(cursorGlyphs[0], Vector2.zero, CursorMode.Auto);
+        Cursor.SetCursor(GetCursorForMode(0), Vector2.zero, CursorMode.Auto);
     }
 
     // Update is called once per frame
@@ -178,6 +192,10 @@ public class GameController : MonoBehaviour
         while (!World.IsFull<BasicBlight>() && World.GetObjectAtCell<BasicBlight>(location.tileCoord) != null)
         {
             location = World.GetRandomTile();
+        }
+        if (World.IsFull<BasicBlight>())
+        {
+            Destroy(enemy);
         }
 
         // If it has a duck KILL IT
@@ -292,12 +310,43 @@ public class GameController : MonoBehaviour
         // 12 = use power 2
         // 13 = use power 3
         // 14 = use power 4
-        Cursor.SetCursor(cursorGlyphs[mode % 20], Vector2.zero, CursorMode.Auto);
+        Cursor.SetCursor(GetCursorForMode(mode), Vector2.zero, CursorMode.Auto);
         cursorMode = mode % 20;
     }
 
+    private Texture2D GetCursorForMode(int mode)
+    {
+        switch (mode)
+        {
+            case 0:
+                return cleanerCursor;
+            case 1:
+                return basicDuckCursor;
+            case 2:
+                return armyDuckCursor;
+            case 3:
+                return ninjaDuckCursor;
+            case 4:
+                return superDuckCursor;
+            case 5:
+                return robotDuckCursor;
+            case 6:
+                return mythicDuckCursor;
+            case 11:
+                return bleachPowerCursor;
+            case 12:
+                return damagePowerCursor;
+            case 13:
+                return speedPowerCursor;
+            case 14:
+                return specialPowerCursor;
+            default:
+                return cleanerCursor;
+        }
+    }
+
     public void ForceCursor() {
-        Cursor.SetCursor(cursorGlyphs[cursorMode], Vector2.zero, CursorMode.Auto);
+        Cursor.SetCursor(GetCursorForMode(cursorMode), Vector2.zero, CursorMode.Auto);
     }
 
     public void UnsetCursor() {
