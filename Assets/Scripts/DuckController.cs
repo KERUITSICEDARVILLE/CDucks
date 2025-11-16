@@ -12,7 +12,7 @@ public class DuckController : MonoBehaviour
     void Start()
     {
         timer = timerMax;
-        allowance = 40;
+        allowance = 30;
         Subset = new HashSet<GameObject>();
     }
 

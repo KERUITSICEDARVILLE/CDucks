@@ -31,10 +31,15 @@ public class GameController : MonoBehaviour
     public bool haveSwipePower;
     public int cursorMode;
 
-    [Header("Map Region Buttons")]
+    [Header("Map Region State")]
     public GameObject[] Regions;
     public Vector3[] cameraMove;
     public Vector3[] controllerScale;
+    public int regionIndex;
+    private Vector3 prevCamera;
+    private Vector3 prevScale;
+    private Vector3 eventualCamera;
+    private Vector3 eventualScale;
 
     [Header("Item Costs")]
     public int Duck1Cost;
@@ -66,16 +71,18 @@ public class GameController : MonoBehaviour
     public GameObject BasicBlight;
 
     [Header("Scene Setup")]
-    public GameObject Shop;
+    private GameObject Menu;
     public GameObject UI;
+    public GameObject Shop;
     public GameObject ShavedTangle;
     public GameObject RingMenu;
-    private GameObject Menu;
     public WorldGrid World;
     public int selection;
     public int unlocks;
     public float uniTime;
+    public float RegionZoomDuration;
     public float RoundMessageDuration;
+    private float RegionZoomTimer;
     private float RoundStartMessageTimer;
     public TMP_Text Message;
     public TMP_Text MoneyDisplay;
@@ -100,19 +107,25 @@ public class GameController : MonoBehaviour
         uniTime = 0f;
         Menu = null;
         unlocks = 2;
-        selection = -1;
         Round = 0;
         money = 0;
+        selection = -1;
+        regionIndex = -1;
         ringMenuBasis = null;
         borderCleanse = false;
         haveSwipePower = false;
+        RegionZoomTimer = 0;
         RoundStartMessageTimer = 0;
         Cursor.SetCursor(GetCursorForMode(0), Vector2.zero, CursorMode.Auto);
+        eventualScale = scaleOrigin;
+        eventualCamera = cameraOrigin;
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        // Duck Ring Menu System
         if (ringMenuBasis != null) {
             HeighlightRing();
             HandleRingMenu();
@@ -127,6 +140,20 @@ public class GameController : MonoBehaviour
                 Menu = null;
             }
         }
+
+        // Animate zoom
+        float t;
+        if (RegionZoomTimer > 0) {
+            RegionZoomTimer -= Time.deltaTime;
+            t = RegionZoomTimer / RegionZoomDuration;
+            Camera.transform.localPosition = (1 - t) * eventualCamera + t * prevCamera;
+            transform.localScale = (1 - t) * eventualScale + t * prevScale;
+        } else {
+            transform.localScale = eventualScale;
+            Camera.transform.localPosition = eventualCamera;
+        }
+
+        // Have we lost yet?
         if (World.EntityCount<BasicBlight>() == 0)
         {
             Round += 1;
@@ -149,10 +176,7 @@ public class GameController : MonoBehaviour
             LoseGame();
         }
 
-        // live colorfully
-        //GameObject.Find("PowerButton1").transform.GetChild(0).GetComponent<Image>().color = new Vector4(0f, 0f, 255f, 255f);
-        // enforce selection is proper with visual
-
+        // 
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll != 0f) {
             if (scroll > 0f) {
@@ -164,8 +188,12 @@ public class GameController : MonoBehaviour
         }
 
         if (Input.GetMouseButton(1)) {
-            Camera.transform.localPosition = new Vector3(0f, 0f, -2f);
-            transform.localScale = new Vector3(1.1f, 1.015385f, 1f);
+            regionIndex = -1;
+            eventualCamera = cameraOrigin;
+            eventualScale = scaleOrigin;
+            prevCamera = Camera.transform.localPosition;
+            prevScale = transform.localScale;
+            RegionZoomTimer = RegionZoomDuration;
         }
         
         if (Input.GetKeyDown("escape")) {
@@ -317,7 +345,7 @@ public class GameController : MonoBehaviour
         }
 
         Menu = Instantiate(RingMenu);
-        Menu.transform.SetParent(transform);
+        Menu.transform.SetParent(Camera.transform);
         Menu.transform.GetComponent<MenuToggle>().Own(ringMenuBasis);
     }
 
@@ -401,7 +429,7 @@ public class GameController : MonoBehaviour
     }
 
     public void UnsetCursor() {
-        return;
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
     }
 
     private int GetCost(int mode)
@@ -475,18 +503,21 @@ public class GameController : MonoBehaviour
     }
 
     public void MapFocus(GameObject caller) {
-        int regionIndex;
+
         for (regionIndex = 0; regionIndex < Regions.Length; regionIndex++) {
             if (Regions[regionIndex] == caller) {
                 break;
             }
         }
         if (regionIndex == Regions.Length) {
+            regionIndex = -1;
             return;
         }
 
-        Camera.transform.localPosition = cameraMove[regionIndex];
-        transform.localScale = controllerScale[regionIndex];
-        Debug.Log(regionIndex);
+        RegionZoomTimer = RegionZoomDuration;
+        prevCamera = Camera.transform.localPosition;
+        prevScale = transform.localScale;
+        eventualCamera = cameraMove[regionIndex];
+        eventualScale = controllerScale[regionIndex];
     }
 }
