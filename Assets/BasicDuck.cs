@@ -2,7 +2,10 @@ using UnityEngine;
 
 public class BasicDuck : MonoBehaviour
 {
+    public DuckController Controller;
+    public WorldGrid World;
 
+    private bool eventKill;
     public float power;
     public float speed;
     private float cooldown;
@@ -15,12 +18,24 @@ public class BasicDuck : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if (transform.parent != null) {
+            if (transform.parent.parent != null) {
+                World = transform.parent.parent.GetComponent<WorldGrid>();
+            }
+        }
+        Controller = GameObject.FindAnyObjectByType<DuckController>().GetComponent<DuckController>();
+        Controller.Register(gameObject);
+        eventKill = false;
         cooldown = 1.0f;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (eventKill) {
+            Controller.Unregister(gameObject);
+            Destroy(gameObject);
+        }
         if (FindAnyObjectByType<GameController>().ringMenuBasis != null && Random.Range(0f, 50f) < 29f) {
             return;
         }
@@ -28,14 +43,18 @@ public class BasicDuck : MonoBehaviour
             cooldown -= speed * Time.deltaTime;
         }
 
-        WorldGrid world = transform.parent.parent.GetComponent<WorldGrid>();
-        if (cooldown < 0f && world.CountAdjacentCellsWithType<BasicBlight>(cell) > 0)
+        if (cooldown < 0f && World.CountAdjacentCellsWithType<BasicBlight>(cell) > 0)
         {
-            WorldTile target = world.GetRandomAdjacentTileWithType<BasicBlight>(cell);
-            world.GetObjectAtCell<BasicBlight>(target.tileCoord).GetComponent<BasicBlight>().Damage(power);
+            WorldTile target = World.GetRandomAdjacentTileWithType<BasicBlight>(cell);
+            World.GetObjectAtCell<BasicBlight>(target.tileCoord).GetComponent<BasicBlight>().enabled = true;
+            World.GetObjectAtCell<BasicBlight>(target.tileCoord).GetComponent<BasicBlight>().Damage(power);
             
             FindAnyObjectByType<GameController>().money += (int) power;
             cooldown = 1.0f;
         }
+    }
+
+    public void Kill() {
+        eventKill = true;
     }
 }

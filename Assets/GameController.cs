@@ -10,6 +10,9 @@ public class GameController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     [Header("Game State")]
+    public GameObject Camera;
+    public Vector3 cameraOrigin;
+    public Vector3 scaleOrigin;
     public int Round;
     private int moneyAmount;
     public int money {
@@ -27,6 +30,11 @@ public class GameController : MonoBehaviour
     public bool borderCleanse;
     public bool haveSwipePower;
     public int cursorMode;
+
+    [Header("Map Region Buttons")]
+    public GameObject[] Regions;
+    public Vector3[] cameraMove;
+    public Vector3[] controllerScale;
 
     [Header("Item Costs")]
     public int Duck1Cost;
@@ -59,6 +67,7 @@ public class GameController : MonoBehaviour
 
     [Header("Scene Setup")]
     public GameObject Shop;
+    public GameObject UI;
     public GameObject ShavedTangle;
     public GameObject RingMenu;
     private GameObject Menu;
@@ -154,7 +163,15 @@ public class GameController : MonoBehaviour
             SetCursorMode(selection);
         }
 
+        if (Input.GetMouseButton(1)) {
+            Camera.transform.localPosition = new Vector3(0f, 0f, -2f);
+            transform.localScale = new Vector3(1.1f, 1.015385f, 1f);
+        }
         
+        if (Input.GetKeyDown("escape")) {
+            UI.GetComponent<Canvas>().enabled = !UI.GetComponent<Canvas>().enabled;
+        }
+
         for (int i = 0; i < Shop.transform.childCount; i++) {
             if (Shop.transform.GetChild(i).transform.childCount == 3 && i != selection) {
                 Destroy(Shop.transform.GetChild(i).transform.GetChild(2).gameObject);
@@ -203,7 +220,8 @@ public class GameController : MonoBehaviour
         if (duck != null)
         {
             World.RemoveDuckRing(location);
-            Destroy(duck);
+            duck.GetComponent<BasicDuck>().enabled = true;
+            duck.GetComponent<BasicDuck>().Kill();
         }
 
         // Add baby to the tile
@@ -222,9 +240,15 @@ public class GameController : MonoBehaviour
         ringMenuBasis = World.WithinDuckRing(caller);
 
         Power suds = null;
+        BasicBlight blight = null;
 
         for (int i = 0; i < caller.transform.childCount; i++) {
             suds = suds == null ? caller.transform.GetChild(i).GetComponent<Power>() : suds;
+            blight = blight == null ? caller.transform.GetChild(i).GetComponent<BasicBlight>() : blight;
+        }
+
+        if (blight != null) {
+            blight.enabled = true;
         }
 
         if ((suds != null && cursorMode == 0) || (Input.GetMouseButton(0) && cursorMode > 0)) {
@@ -307,7 +331,8 @@ public class GameController : MonoBehaviour
 
         if (powerLevel) {
             foreach(WorldTile iChild in menuRing) { // delete
-                Destroy(World.GetObjectAtCell<BasicDuck>(iChild.tileCoord));
+                World.GetObjectAtCell<BasicDuck>(iChild.tileCoord).GetComponent<BasicDuck>().enabled = true;
+                World.GetObjectAtCell<BasicDuck>(iChild.tileCoord).GetComponent<BasicDuck>().Kill();
             }
             World.AddAtTile(Instantiate(GetDuckForMode(unlocks)), menuRing[0]);
             World.RemoveDuckRing(menuRing[0]);
@@ -449,4 +474,19 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void MapFocus(GameObject caller) {
+        int regionIndex;
+        for (regionIndex = 0; regionIndex < Regions.Length; regionIndex++) {
+            if (Regions[regionIndex] == caller) {
+                break;
+            }
+        }
+        if (regionIndex == Regions.Length) {
+            return;
+        }
+
+        Camera.transform.localPosition = cameraMove[regionIndex];
+        transform.localScale = controllerScale[regionIndex];
+        Debug.Log(regionIndex);
+    }
 }

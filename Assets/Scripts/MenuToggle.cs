@@ -82,10 +82,10 @@ public class MenuToggle : MonoBehaviour
         }
         midpoint /= ownRing.Count;
 
-        Vector3 cursorDeltaPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition) - new Vector3(-8.59f, 1.31f, 0f);
+        Vector3 cursorDeltaPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition) - new Vector3(-9.85f, -6.15f, 0f);
         cursorDeltaPosition.z = 0f;
         midpoint.z = 0f;
 
-        transform.localPosition = midpoint + 0.75f * (midpoint - cursorDeltaPosition) + new Vector3(-8.59f, 1.31f, -9f);
+        transform.localPosition = midpoint + 0.75f * (midpoint - cursorDeltaPosition) + new Vector3(-9.85f, -6.15f, -9f);
     }
 }

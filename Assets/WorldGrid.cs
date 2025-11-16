@@ -35,11 +35,15 @@ public class WorldGrid : MonoBehaviour
     private float toppleControlTime;
     public Vector3 waveNormal;
 
+    [Header("Performance Concerns")]
+    private Dictionary<Vector2Int, WorldTile> tileMap;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         toppleControlTime = 0f;
 
+        tileMap = new Dictionary<Vector2Int, WorldTile>();
         discoverySet = new HashSet<WorldTile>();
         duckRings = new List<List<WorldTile>>();
         rows = new List<List<WorldTile>>();
@@ -47,6 +51,11 @@ public class WorldGrid : MonoBehaviour
         WorldTile iChild;
         Vector2Int upperRight;
         WorldTile upperRightTile;
+
+        for (int i = 0; i < transform.childCount; i++) {
+        iChild = transform.GetChild(i).GetComponent<WorldTile>();
+        tileMap.Add(iChild.tileCoord, iChild);
+        }
 
         for (int i = 0; i < transform.childCount; i++) {
         iChild = transform.GetChild(i).GetComponent<WorldTile>();
@@ -216,15 +225,17 @@ public class WorldGrid : MonoBehaviour
     public WorldTile GetTile(Vector2Int cell)
     {
 
-        for (int i = 0; i < transform.childCount; i++)
+        /*for (int i = 0; i < transform.childCount; i++)
         {
             WorldTile tile = transform.GetChild(i).gameObject.GetComponent<WorldTile>();
             if (tile.tileCoord == cell)
             {
                 return tile;
             }
+        }*/
+        if (tileMap.ContainsKey(cell)) {
+            return tileMap[cell];
         }
-
         return null;
     }
 
@@ -366,6 +377,9 @@ public class WorldGrid : MonoBehaviour
     public Vector2Int GetRandomAdjacentTileWithoutType<T>(Vector2Int cell)
     {
         WorldTile[] ret = GetAdjacentTilesWithoutType<T>(cell);
+        if (ret == null) {
+            return Vector2Int.zero;
+        }
         return ret[Random.Range(0, ret.Length)].tileCoord;
     }
 
