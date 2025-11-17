@@ -6,6 +6,21 @@ public class BasicDuck : MonoBehaviour
     public WorldGrid World;
 
     private bool eventKill;
+    private float healthPool;
+    public GameObject HPbar;
+    public float MaxHealth;
+    public float HP {
+        set {
+            healthPool = value;
+            HPbar.transform.localScale = new Vector3(
+                HPbar.transform.localScale.x,
+                healthPool / MaxHealth * 0.5f,
+                HPbar.transform.localScale.z);
+        }
+        get {
+            return healthPool;
+        }
+    }
     public float power;
     public float speed;
     private float cooldown;
@@ -18,6 +33,7 @@ public class BasicDuck : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        HP = MaxHealth;
         if (transform.parent != null) {
             if (transform.parent.parent != null) {
                 World = transform.parent.parent.GetComponent<WorldGrid>();
@@ -54,7 +70,17 @@ public class BasicDuck : MonoBehaviour
         }
     }
 
+    public bool Damage(float amount) {
+        this.enabled = true; // force response
+        HP -= amount;
+        if (HP < 0f) {
+            Kill();
+        }
+        return HP < 0f;
+    }
+ 
     public void Kill() {
+        this.enabled = true;
         eventKill = true;
     }
 }

@@ -6,7 +6,7 @@ public class BasicBlight : MonoBehaviour
     public BlightController Controller;
     public WorldGrid World;
 
-    public float growth;
+    private float growth;
     public float Growth {
         set
         {
@@ -80,8 +80,10 @@ public class BasicBlight : MonoBehaviour
             if (duck != null)
             {
                 World.RemoveDuckRing(World.GetTile(neighbor));
-                duck.GetComponent<BasicDuck>().enabled = true;
-                duck.GetComponent<BasicDuck>().Kill();
+                if (!duck.GetComponent<BasicDuck>().Damage(0.2f)) {
+                    Destroy(baby.gameObject);
+                    return;
+                }
             }
 
             // Add baby to the tile

@@ -1,6 +1,6 @@
+using UnityEngine;
 using NUnit.Framework;
 using System.Collections.Generic;
-using UnityEngine;
 using static UnityEngine.EventSystems.EventTrigger;
 
 [ExecuteInEditMode]
@@ -460,7 +460,7 @@ public class WorldGrid : MonoBehaviour
                 q.Enqueue(iChild);
             }
             foreach (WorldTile iChild in disChildren) {
-                if (iChild == stop && parent.lengthToOrigin > 6) {
+                if (iChild == stop && parent.lengthToOrigin > 5) { // tied to ring mechanic
                     return parent;
                 }
             }

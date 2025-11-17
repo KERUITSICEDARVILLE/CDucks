@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -5,6 +6,7 @@ public class BlightController : MonoBehaviour
 {
     public int allowance;
     public WorldGrid World;
+    public TMP_Text AlgaeCount;
     private HashSet<GameObject> Subset;
     private float timer;
     const float timerMax = 5f;
@@ -92,10 +94,12 @@ public class BlightController : MonoBehaviour
 
     public void Register(GameObject caller) {
         Subset.Add(caller);
+        AlgaeCount.text = "" + Subset.Count;
     }
 
     public void Unregister(GameObject caller) {
         Subset.Remove(caller);
+        AlgaeCount.text = "" + Subset.Count;
     }
 
 }

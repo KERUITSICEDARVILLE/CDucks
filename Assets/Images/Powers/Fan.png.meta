@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: e73bc041f8443424a981a1ce7ec1b8e5
+guid: 344f74a6b4592e24ca752f111ac74b27
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7934211110694577538
-    second: mythicDuck_0
+      213: 6147777685625707044
+    second: Fan_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: mythicDuck_0
+      name: Fan_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 3
-        width: 30
-        height: 27
+        x: 55
+        y: 0
+        width: 163
+        height: 227
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e7a9716380504e190800000000000000
-      internalID: -7934211110694577538
+      spriteID: 42a1bc59b3b415550800000000000000
+      internalID: 6147777685625707044
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      mythicDuck_0: -7934211110694577538
+      Fan_0: 6147777685625707044
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

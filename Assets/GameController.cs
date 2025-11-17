@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.LightTransport;
 using UnityEngine.UI;
+using UnityEngine.LightTransport;
 
 using System.Collections.Generic;
 
@@ -18,7 +18,7 @@ public class GameController : MonoBehaviour
     public int money {
         set {
             moneyAmount = value;
-            MoneyDisplay.text = "$" + moneyAmount;
+            MoneyDisplay.text = "" + moneyAmount;
         }
         get {
             return moneyAmount;
@@ -35,7 +35,7 @@ public class GameController : MonoBehaviour
     public GameObject[] Regions;
     public Vector3[] cameraMove;
     public Vector3[] controllerScale;
-    public int regionIndex;
+    private int regionIndex;
     private Vector3 prevCamera;
     private Vector3 prevScale;
     private Vector3 eventualCamera;
@@ -77,15 +77,16 @@ public class GameController : MonoBehaviour
     public GameObject ShavedTangle;
     public GameObject RingMenu;
     public WorldGrid World;
-    public int selection;
+    private int selection;
     public int unlocks;
-    public float uniTime;
+    private float uniTime;
     public float RegionZoomDuration;
     public float RoundMessageDuration;
     private float RegionZoomTimer;
     private float RoundStartMessageTimer;
     public TMP_Text Message;
     public TMP_Text MoneyDisplay;
+    public TMP_Text AlgaeCount;
 
     [Header("Cursors")]
     public Texture2D cleanerCursor;
@@ -142,12 +143,13 @@ public class GameController : MonoBehaviour
         }
 
         // Animate zoom
+        // potentially pause the wave animation
         float t;
         if (RegionZoomTimer > 0) {
-            RegionZoomTimer -= Time.deltaTime;
             t = RegionZoomTimer / RegionZoomDuration;
             Camera.transform.localPosition = (1 - t) * eventualCamera + t * prevCamera;
             transform.localScale = (1 - t) * eventualScale + t * prevScale;
+            RegionZoomTimer -= Time.deltaTime;
         } else {
             transform.localScale = eventualScale;
             Camera.transform.localPosition = eventualCamera;
@@ -248,7 +250,6 @@ public class GameController : MonoBehaviour
         if (duck != null)
         {
             World.RemoveDuckRing(location);
-            duck.GetComponent<BasicDuck>().enabled = true;
             duck.GetComponent<BasicDuck>().Kill();
         }
 
@@ -359,7 +360,6 @@ public class GameController : MonoBehaviour
 
         if (powerLevel) {
             foreach(WorldTile iChild in menuRing) { // delete
-                World.GetObjectAtCell<BasicDuck>(iChild.tileCoord).GetComponent<BasicDuck>().enabled = true;
                 World.GetObjectAtCell<BasicDuck>(iChild.tileCoord).GetComponent<BasicDuck>().Kill();
             }
             World.AddAtTile(Instantiate(GetDuckForMode(unlocks)), menuRing[0]);

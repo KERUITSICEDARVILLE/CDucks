@@ -73,6 +73,10 @@ public class DuckController : MonoBehaviour
             }
         } // select all enabled or at border cells
 
+        if (shouldLive.Count == 0) {
+            return;
+        }
+
         for (int i = 0; i < allowance; i++) {
             // take one random
             select = Random.Range(0, shouldLive.Count);
