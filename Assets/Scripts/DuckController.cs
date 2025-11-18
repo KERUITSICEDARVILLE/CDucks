@@ -66,9 +66,10 @@ public class DuckController : MonoBehaviour
 
         List<GameObject> shouldLive = new List<GameObject>();
 
+        // potentially prioritize ducks with low health even higher
         foreach (GameObject iChild in Subset) {
             if (iChild.GetComponent<BasicDuck>().enabled
-                || World.CountAdjacentCellsWithoutType<BasicDuck>(iChild.transform.parent.GetComponent<WorldTile>().tileCoord) > 0) {
+                || World.CountAdjacentCellsWithType<BasicBlight>(iChild.transform.parent.GetComponent<WorldTile>().tileCoord) > 0) {
                 shouldLive.Add(iChild);
             }
         } // select all enabled or at border cells
@@ -95,6 +96,7 @@ public class DuckController : MonoBehaviour
     }
 
     public void Register(GameObject caller) {
+        // do duck ring check and whatnot
         Subset.Add(caller);
     }
 

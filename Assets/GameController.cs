@@ -10,7 +10,7 @@ public class GameController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     [Header("Game State")]
-    public GameObject Camera;
+    public GameObject CameraObject;
     public Vector3 cameraOrigin;
     public Vector3 scaleOrigin;
     public int Round;
@@ -143,19 +143,15 @@ public class GameController : MonoBehaviour
         }
 
         // Animate zoom
-        // potentially pause the wave animation
         float t;
         if (RegionZoomTimer > 0) {
             t = RegionZoomTimer / RegionZoomDuration;
-            Camera.transform.localPosition = (1 - t) * eventualCamera + t * prevCamera;
+            CameraObject.transform.localPosition = (1 - t) * eventualCamera + t * prevCamera;
             transform.localScale = (1 - t) * eventualScale + t * prevScale;
             RegionZoomTimer -= Time.deltaTime;
-        } else {
-            transform.localScale = eventualScale;
-            Camera.transform.localPosition = eventualCamera;
         }
 
-        // Have we lost yet?
+        // Have we lost yet? Progress to next round if no blight
         if (World.EntityCount<BasicBlight>() == 0)
         {
             Round += 1;
@@ -178,7 +174,7 @@ public class GameController : MonoBehaviour
             LoseGame();
         }
 
-        // 
+        // scuffed old system inputs
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll != 0f) {
             if (scroll > 0f) {
@@ -193,7 +189,7 @@ public class GameController : MonoBehaviour
             regionIndex = -1;
             eventualCamera = cameraOrigin;
             eventualScale = scaleOrigin;
-            prevCamera = Camera.transform.localPosition;
+            prevCamera = CameraObject.transform.localPosition;
             prevScale = transform.localScale;
             RegionZoomTimer = RegionZoomDuration;
         }
@@ -201,6 +197,13 @@ public class GameController : MonoBehaviour
         if (Input.GetKeyDown("escape")) {
             UI.GetComponent<Canvas>().enabled = !UI.GetComponent<Canvas>().enabled;
         }
+
+        if (Input.GetMouseButton(2) && regionIndex != -1) {
+            Vector3 perPixel =  ( Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0)) -
+                                Camera.main.ScreenToWorldPoint(new Vector3(64, 0, 0)) );
+            CameraObject.transform.localPosition += Input.mousePositionDelta * perPixel.x / 32f;
+        }
+        // end scuffed old system inputs
 
         for (int i = 0; i < Shop.transform.childCount; i++) {
             if (Shop.transform.GetChild(i).transform.childCount == 3 && i != selection) {
@@ -264,7 +267,6 @@ public class GameController : MonoBehaviour
     }
 
     public void HoverTile(WorldTile caller) {
-        selection = -1;
 
         ringMenuBasis = World.WithinDuckRing(caller);
 
@@ -291,7 +293,6 @@ public class GameController : MonoBehaviour
 
     public void ClickTile(WorldTile caller)
     {   
-        selection = -1;
 
         Vector2Int tile = caller.tileCoord;
         // Cursor mode is placing a duck
@@ -346,7 +347,7 @@ public class GameController : MonoBehaviour
         }
 
         Menu = Instantiate(RingMenu);
-        Menu.transform.SetParent(Camera.transform);
+        Menu.transform.SetParent(CameraObject.transform);
         Menu.transform.GetComponent<MenuToggle>().Own(ringMenuBasis);
     }
 
@@ -391,6 +392,7 @@ public class GameController : MonoBehaviour
         // 14 = use power 4
         Cursor.SetCursor(GetCursorForMode(mode), Vector2.zero, CursorMode.Auto);
         cursorMode = mode % 20;
+        selection = cursorMode;
     }
 
     private Texture2D GetCursorForMode(int mode)
@@ -495,11 +497,7 @@ public class GameController : MonoBehaviour
     }
 
     public void ToggleTax() {
-        // cost for both turning on/off
-        if (money >= 200) {
-            money -= 200;
-            borderCleanse = !borderCleanse;
-        }
+        borderCleanse = !borderCleanse;
     }
 
     public void MapFocus(GameObject caller) {
@@ -515,7 +513,7 @@ public class GameController : MonoBehaviour
         }
 
         RegionZoomTimer = RegionZoomDuration;
-        prevCamera = Camera.transform.localPosition;
+        prevCamera = CameraObject.transform.localPosition;
         prevScale = transform.localScale;
         eventualCamera = cameraMove[regionIndex];
         eventualScale = controllerScale[regionIndex];
