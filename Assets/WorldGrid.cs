@@ -113,10 +113,6 @@ public class WorldGrid : MonoBehaviour
             }
         }
 
-        if (FindAnyObjectByType<GameController>().ringMenuBasis != null && Random.Range(0f, 50f) < 29f) {
-            return;
-        }
-
         // potentially move to Controller
         if (DoWaving)
         {

@@ -47,9 +47,6 @@ public class BasicBlight : MonoBehaviour
     void FixedUpdate()
     {
 
-        if (FindAnyObjectByType<GameController>().ringMenuBasis != null && Random.Range(0f, 50f) < 29f) {
-            return;
-        }
         if (Growth <= 0.0)
         {
             Controller.Unregister(gameObject);

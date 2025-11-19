@@ -54,9 +54,6 @@ public class BasicDuck : MonoBehaviour
             Controller.Unregister(gameObject);
             Destroy(gameObject);
         }
-        if (FindAnyObjectByType<GameController>().ringMenuBasis != null && Random.Range(0f, 50f) < 29f) {
-            return;
-        }
         if (cooldown > 0f) {
             cooldown -= speed * Time.deltaTime;
         }

@@ -74,7 +74,6 @@ public class GameController : MonoBehaviour
     private GameObject Menu;
     public GameObject UI;
     public GameObject Shop;
-    public GameObject ShavedTangle;
     public GameObject RingMenu;
     public WorldGrid World;
     private int selection;
@@ -83,7 +82,11 @@ public class GameController : MonoBehaviour
     public float RegionZoomDuration;
     public float RoundMessageDuration;
     private float RegionZoomTimer;
+    public float RoundDuration;
+    private float RoundTimer;
     private float RoundStartMessageTimer;
+    public TMP_Text RoundTMP;
+    public TMP_Text RoundTime;
     public TMP_Text Message;
     public TMP_Text MoneyDisplay;
     public TMP_Text AlgaeCount;
@@ -118,6 +121,7 @@ public class GameController : MonoBehaviour
         haveSwipePower = false;
         RegionZoomTimer = 0;
         RoundStartMessageTimer = 0;
+        RoundTimer = RoundDuration;
         Cursor.SetCursor(GetCursorForMode(0), Vector2.zero, CursorMode.Auto);
         eventualScale = scaleOrigin;
         eventualCamera = cameraOrigin;
@@ -128,12 +132,9 @@ public class GameController : MonoBehaviour
     {
 
         // Duck Ring Menu System
-        if (ringMenuBasis != null) {
+        /*if (ringMenuBasis != null) {
             HeighlightRing();
             HandleRingMenu();
-            if (Random.Range(0f, 50f) < 29f) {
-                return;
-            }
         }
         if (ringMenuBasis == null && Menu != null) {
             MenuToggle eventScript = Menu.transform.GetComponent<MenuToggle>();
@@ -141,7 +142,7 @@ public class GameController : MonoBehaviour
                 Destroy(Menu);
                 Menu = null;
             }
-        }
+        }*/
 
         // Animate zoom
         float t;
@@ -152,12 +153,23 @@ public class GameController : MonoBehaviour
             RegionZoomTimer -= Time.deltaTime;
         }
 
-        // Have we lost yet? Progress to next round if no blight
-        if (World.EntityCount<BasicBlight>() == 0)
+        // Have we lost yet? Progress to next round if no blight or timer < 0f
+        int divvy = (int)RoundTimer;
+        if (RoundTimer > 0f) {
+            RoundTime.text = ( (divvy < 60) ? ("") : (divvy / 60 + ":") ) + (divvy % 60);
+            RoundTimer -= Time.deltaTime;
+            if (RoundTimer < 10f) {
+                RoundTime.transform.localPosition = new Vector3(281.2f, 123f, 0f) + new Vector3(0f, (10f - RoundTimer) / 2f * (RoundTimer - divvy) * Mathf.Sin(RoundTimer * 10f * Mathf.PI), 0f);
+            }
+        }
+        if (World.EntityCount<BasicBlight>() == 0 || RoundTimer < 0f)
         {
             Round += 1;
             DisplayRound();
             SpawnRound();
+            RoundTMP.text = "" + Round;
+            RoundTimer = RoundDuration;
+            RoundTime.transform.localPosition = new Vector3(281.2f, 123f, 0f);
         }
         if (RoundStartMessageTimer > 0)
         {

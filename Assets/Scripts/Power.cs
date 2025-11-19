@@ -13,9 +13,7 @@ public class Power : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (FindAnyObjectByType<GameController>().ringMenuBasis != null && Random.Range(0f, 50f) < 29f) {
-            return;
-        }
+
         if (survivalTimer > 0f) {
             survivalTimer -= Time.deltaTime;
             transform.localScale =
