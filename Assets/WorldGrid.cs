@@ -422,7 +422,7 @@ public class WorldGrid : MonoBehaviour
         return GetTile(cell) != null;
     }
 
-    public WorldTile BFSstopstart<T>(WorldTile stop, WorldTile start, bool evade) {
+    public WorldTile BFSstopstart<T>(WorldTile stop, WorldTile start, bool evade, int pathMinLength) {
         if (start.isDiscovered) { // enforce start not being discovered
             return null;
         }
@@ -463,7 +463,7 @@ public class WorldGrid : MonoBehaviour
                 q.Enqueue(iChild);
             }
             foreach (WorldTile iChild in disChildren) {
-                if (iChild == stop && parent.lengthToOrigin > 4) { // tied to ring mechanic
+                if (iChild == stop && parent.lengthToOrigin >= pathMinLength) {
                     return parent;
                 }
             }
@@ -524,7 +524,7 @@ public class WorldGrid : MonoBehaviour
             return null;
         }
         for (int i = 0; i < arms.Length; i++) {
-            BFSEnd = BFSstopstart<BasicDuck>(origin, arms[i], false);
+            BFSEnd = BFSstopstart<BasicDuck>(origin, arms[i], false, 5);
             if (BFSEnd != null) {
             arms[i].discoveryParentCoord = origin.tileCoord;
             return AddNewDuckRing(BFSEnd);
@@ -623,11 +623,8 @@ public class WorldGrid : MonoBehaviour
             row = rowList.ToArray();
             victimObj = GetObjectAtCell<BasicBlight>(row[0].tileCoord);
             localMoney = FindAnyObjectByType<GameController>().money;
-            if (victimObj != null
-                && localMoney != 0) {
-                localMoney = 3 * localMoney / 5 == 0 ? 1 : 3 * localMoney / 5;
-                Debug.Log("Reducing to: " + localMoney);
-                FindAnyObjectByType<GameController>().money -= localMoney;
+            if (victimObj != null) {
+                FindAnyObjectByType<GameController>().money++;
                 victim = victimObj.GetComponent<BasicBlight>();
                 victim.Growth = -1f;
             }

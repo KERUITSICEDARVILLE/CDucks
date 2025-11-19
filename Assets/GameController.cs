@@ -101,6 +101,7 @@ public class GameController : MonoBehaviour
     public Texture2D bleachPowerCursor;
     public Texture2D damagePowerCursor;
     public Texture2D speedPowerCursor;
+    public Texture2D duckScooper;
     public Texture2D specialPowerCursor;
 
     void Start()
@@ -205,17 +206,11 @@ public class GameController : MonoBehaviour
         }
         // end scuffed old system inputs
 
-        for (int i = 0; i < Shop.transform.childCount; i++) {
-            if (Shop.transform.GetChild(i).transform.childCount == 3 && i != selection) {
-                Destroy(Shop.transform.GetChild(i).transform.GetChild(2).gameObject);
-            }
-            if (Shop.transform.GetChild(i).transform.childCount == 2 && i == selection) {
-                GameObject tangle = Instantiate(ShavedTangle);
-                tangle.transform.SetParent(Shop.transform.GetChild(i).transform);
-                tangle.transform.localPosition = new Vector3(0f, 7.2f, 0f);
-                tangle.transform.localScale = new Vector3(112f, 99.4f, 1f);
-            }
-        }
+        // this nonsense should only change upon setcursor requests really.
+        Vector3 tangleDelta = selection == -1 ? new Vector3(500f, 0f, 0f) : new Vector3(0f, 14f, 0f);
+        Vector3 tanglePos = Shop.transform.GetChild(selection + 1).transform.localPosition;
+        GameObject tangle = Shop.transform.GetChild(0).gameObject;
+        tangle.transform.localPosition = tangleDelta + tanglePos;
 
     }
 
@@ -282,7 +277,7 @@ public class GameController : MonoBehaviour
             blight.enabled = true;
         }
 
-        if ((suds != null && cursorMode == 0) || (Input.GetMouseButton(0) && cursorMode > 0)) {
+        if ((suds != null && cursorMode == 0) || (Input.GetMouseButton(0) && cursorMode > 0) || cursorMode == 14) {
             ClickTile(caller);
         }
     }
@@ -311,7 +306,7 @@ public class GameController : MonoBehaviour
             }
         }
         // Cursor mode is using a power
-        else if (cursorMode > 10 && cursorMode < 20)
+        else if (cursorMode > 10 && cursorMode < 15)
         {
             if (money >= GetCost(cursorMode))
             {
@@ -329,10 +324,21 @@ public class GameController : MonoBehaviour
                 money += 1;
             }
         }
+        // duck remover
+        else if (cursorMode == 15)
+        {
+            for (int i = 0; i < caller.transform.childCount; i++) {
+                BasicDuck child = caller.transform.GetChild(i).GetComponent<BasicDuck>();
+                if (child != null) {
+                    money += (int)(child.HP * child.power * 5f);
+                    child.Kill();
+                }
+            }
+        }
         
     }
 
-    public void HeighlightRing() {
+    public void HeighlightRing() { // extremely dumb and complains constantly
         uniTime += Time.deltaTime;
         foreach (WorldTile toHighlight in ringMenuBasis) {
             World.GetObjectAtCell<BasicDuck>(toHighlight.tileCoord)
@@ -389,10 +395,13 @@ public class GameController : MonoBehaviour
         // 11 = use power 1
         // 12 = use power 2
         // 13 = use power 3
-        // 14 = use power 4
+        // 14 super secret power or something
+        // 15 = use duck collector
         Cursor.SetCursor(GetCursorForMode(mode), Vector2.zero, CursorMode.Auto);
         cursorMode = mode % 20;
-        selection = cursorMode;
+        if (cursorMode > 5) {
+        selection = -1;
+        }
     }
 
     private Texture2D GetCursorForMode(int mode)
@@ -421,6 +430,8 @@ public class GameController : MonoBehaviour
                 return speedPowerCursor;
             case 14:
                 return specialPowerCursor;
+            case 15:
+                return duckScooper;
             default:
                 return cleanerCursor;
         }

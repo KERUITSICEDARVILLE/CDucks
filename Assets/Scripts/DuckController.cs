@@ -39,7 +39,7 @@ public class DuckController : MonoBehaviour
             if (World.CountAdjacentCellsWithoutType<BasicDuck>(
                 iChild.transform.parent.GetComponent<WorldTile>().tileCoord
                 ) == 0) {
-                iChild.GetComponent<BasicDuck>().enabled = false;
+                iChild.GetComponent<BasicDuck>().Sleep();
             }
         } // kill within borders
 
@@ -51,7 +51,7 @@ public class DuckController : MonoBehaviour
             while (needKill != 0) {
                 select = Random.Range(0, live.Count);
                 if (live[select].GetComponent<BasicDuck>().enabled) {
-                    live[select].GetComponent<BasicDuck>().enabled = false;
+                    live[select].GetComponent<BasicDuck>().Sleep();
                     needKill--;
                 }
             }
@@ -59,7 +59,7 @@ public class DuckController : MonoBehaviour
             needLive = allowance - live.Count;
             while (needLive != 0 && dead.Count > 0) {
                 select = Random.Range(0, dead.Count);
-                dead[select].GetComponent<BasicDuck>().enabled = true;
+                dead[select].GetComponent<BasicDuck>().Wake();
                 needLive--;
             }
         } // bring total alive to allowance
@@ -84,13 +84,13 @@ public class DuckController : MonoBehaviour
             while (!shouldLive[select].GetComponent<BasicDuck>().enabled) {
                 select = Random.Range(0, shouldLive.Count);
             }
-            shouldLive[select].GetComponent<BasicDuck>().enabled = false;
+            shouldLive[select].GetComponent<BasicDuck>().Sleep();
             // give one random
             select = Random.Range(0, shouldLive.Count);
             while (shouldLive[select].GetComponent<BasicDuck>().enabled) {
                 select = Random.Range(0, shouldLive.Count);
             }
-            shouldLive[select].GetComponent<BasicDuck>().enabled = true;
+            shouldLive[select].GetComponent<BasicDuck>().Wake();
         } // jumble all of the previously selected
 
     }

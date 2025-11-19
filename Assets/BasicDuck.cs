@@ -7,6 +7,7 @@ public class BasicDuck : MonoBehaviour
 
     private bool eventKill;
     private float healthPool;
+    public GameObject zzz;
     public GameObject HPbar;
     public float MaxHealth;
     public float HP {
@@ -83,5 +84,15 @@ public class BasicDuck : MonoBehaviour
     public void Kill() {
         this.enabled = true;
         eventKill = true;
+    }
+
+    public void Sleep() {
+        this.enabled = false;
+        zzz.GetComponent<SpriteRenderer>().enabled = true;
+    }
+
+    public void Wake() {
+        this.enabled = true;
+        zzz.GetComponent<SpriteRenderer>().enabled = false;
     }
 }
