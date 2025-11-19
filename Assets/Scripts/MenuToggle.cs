@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class MenuToggle : MonoBehaviour
 {
@@ -7,19 +8,36 @@ public class MenuToggle : MonoBehaviour
 
     const float openTime = 0.3f;
     private float openTimer;
+    private float deathTimer;
     private Vector3 eventual;
+    public List<WorldTile> ownRing;
+    public bool lockPosition;
+
+    private GameObject World;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        World = FindAnyObjectByType<WorldGrid>().gameObject;
         transform.localScale = new Vector3(0f, 0f, 1f);
         openTimer = 0f;
+        deathTimer = openTime;
         readyDestroy = false;
+        lockPosition = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        PositionMenu();
+        if (ownRing != FindAnyObjectByType<GameController>().ringMenuBasis && !lockPosition) {
+            deathTimer -= Time.deltaTime;
+            if (deathTimer < 0f) {
+                readyDestroy = true;
+            }
+        } else {
+            deathTimer = openTimer;
+        }
         if (openTimer > openTime) {
             return;
         } else {
@@ -29,6 +47,7 @@ public class MenuToggle : MonoBehaviour
     }
 
     public void Consolidate() {
+        FindAnyObjectByType<GameController>().Upgrade(ownRing);
         readyDestroy = true;
         return;
     }
@@ -38,13 +57,42 @@ public class MenuToggle : MonoBehaviour
         return;
     }
 
+    public void OnMouseEnter() {
+        lockPosition = true;
+        FindAnyObjectByType<GameController>().UnsetCursor();
+    }
+
     public void OnMouseExit() {
+        lockPosition = false;
+        FindAnyObjectByType<GameController>().ForceCursor();
         if (openTimer > openTime) {
         readyDestroy = true;
         }
     }
 
-    public void Resize(int ringSize) {
-        eventual = new Vector3(ringSize * 0.04f, ringSize * 0.04f, 1f);
+    public void Own(List<WorldTile> ring) {
+        ownRing = ring;
+        eventual = new Vector3(ring.Count * 0.08f, ring.Count * 0.08f, 1f);
+    }
+
+    public void PositionMenu() {
+        if (lockPosition) {
+            return;
+        }
+        Vector3 midpoint = Vector3.zero;
+        foreach (WorldTile iChild in ownRing) {
+            midpoint += iChild.transform.position;
+        }
+        midpoint /= ownRing.Count;
+
+        Vector3 cursorDeltaPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 radius = (cursorDeltaPosition - midpoint);
+        radius.Normalize();
+        cursorDeltaPosition.z = 0f;
+        midpoint.z = 0f;
+
+        transform.position = cursorDeltaPosition + radius * (float)ownRing.Count / 2f;
+        transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, 2f);
+
     }
 }

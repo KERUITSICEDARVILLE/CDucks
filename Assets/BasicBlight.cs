@@ -3,8 +3,10 @@ using UnityEngine;
 
 public class BasicBlight : MonoBehaviour
 {
+    public BlightController Controller;
+    public WorldGrid World;
 
-    public float growth;
+    private float growth;
     public float Growth {
         set
         {
@@ -28,17 +30,29 @@ public class BasicBlight : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if (transform.parent != null) {
+            if (transform.parent.parent != null) {
+                World = transform.parent.parent.GetComponent<WorldGrid>();
+            }
+        }
+
+        Controller = GameObject.FindAnyObjectByType<BlightController>().GetComponent<BlightController>();
+        Controller.Register(gameObject);
+        transform.localScale = new Vector3(1f, 1f, 1f);
+        Time.fixedDeltaTime = 0.02f * 5f;
         Growth = MaxGrowth / 3;
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
+
         if (FindAnyObjectByType<GameController>().ringMenuBasis != null && Random.Range(0f, 50f) < 29f) {
             return;
         }
         if (Growth <= 0.0)
         {
+            Controller.Unregister(gameObject);
             Destroy(gameObject);
         }
         else if (Growth < MaxGrowth)
@@ -54,25 +68,26 @@ public class BasicBlight : MonoBehaviour
 
     public void BlightSpread()
     {
-        WorldGrid world = transform.parent.parent.GetComponent<WorldGrid>();
-        if (world.CountAdjacentCellsWithoutType<BasicBlight>(cell) > 0)
-        {
+        if (World.CountAdjacentCellsWithoutType<BasicBlight>(cell) > 0) {
             Growth = MaxGrowth / 3;
             BasicBlight baby = Instantiate(this);
 
             // Get a random adjacent tile without a blight
-            Vector2Int neighbor = world.GetRandomAdjacentTileWithoutType<BasicBlight>(cell);
+            Vector2Int neighbor = World.GetRandomAdjacentTileWithoutType<BasicBlight>(cell);
 
             // If it has a duck KILL IT
-            GameObject duck = world.GetObjectAtCell<BasicDuck>(neighbor);
+            GameObject duck = World.GetObjectAtCell<BasicDuck>(neighbor);
             if (duck != null)
             {
-                world.RemoveDuckRing(world.GetTile(neighbor));
-                Destroy(duck);
+                World.RemoveDuckRing(World.GetTile(neighbor));
+                if (!duck.GetComponent<BasicDuck>().Damage(0.2f)) {
+                    Destroy(baby.gameObject);
+                    return;
+                }
             }
 
             // Add baby to the tile
-            world.AddAtCell(baby.gameObject, neighbor);
+            World.AddAtCell(baby.gameObject, neighbor);
             baby.transform.localScale = new Vector3(1f, 1f, 1f);
 
         }
