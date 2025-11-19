@@ -31,7 +31,7 @@ public class WorldGrid : MonoBehaviour
     public List<List<WorldTile>> rows;
     public Vector3[] rowAnimPs;
 
-    const float toppleTime = 3f;
+    public float toppleTime;
     private float toppleControlTime;
     public Vector3 waveNormal;
 
@@ -63,7 +63,7 @@ public class WorldGrid : MonoBehaviour
         // set creation
         discoverySet.Add(iChild);
 
-        // row creation
+            // row creation
             if (!iChild.isDiscovered) {
                 row = new List<WorldTile>();
                 upperRight = iChild.tileCoord;
@@ -77,7 +77,7 @@ public class WorldGrid : MonoBehaviour
                 }
 
                 rows.Add(row);
-            }
+            } // end row creation
         }
 
         rowAnimPs = new Vector3[rows.Count];
@@ -126,8 +126,6 @@ public class WorldGrid : MonoBehaviour
             }
         }
         
-
-        
         if (toppleControlTime < toppleTime)
         {
             toppleControlTime += Time.deltaTime;
@@ -136,11 +134,16 @@ public class WorldGrid : MonoBehaviour
         {
             toppleControlTime = 0f;
             // slide everything left
-            if (DoDrift)
+            if (FindAnyObjectByType<GameController>().money > 0
+                && FindAnyObjectByType<GameController>().borderCleanse)
             {
                 ReparentRows();
+                FindAnyObjectByType<GameController>().money--;
+            } else {
+                FindAnyObjectByType<GameController>().borderCleanse = false;
             }
         }
+        // no seriously, please move this to the Controller
 
     }
 
@@ -419,7 +422,7 @@ public class WorldGrid : MonoBehaviour
         return GetTile(cell) != null;
     }
 
-    public WorldTile BFSstopstart<T>(WorldTile stop, WorldTile start, bool evade) {
+    public WorldTile BFSstopstart<T>(WorldTile stop, WorldTile start, bool evade, int pathMinLength) {
         if (start.isDiscovered) { // enforce start not being discovered
             return null;
         }
@@ -460,7 +463,7 @@ public class WorldGrid : MonoBehaviour
                 q.Enqueue(iChild);
             }
             foreach (WorldTile iChild in disChildren) {
-                if (iChild == stop && parent.lengthToOrigin > 5) { // tied to ring mechanic
+                if (iChild == stop && parent.lengthToOrigin >= pathMinLength) {
                     return parent;
                 }
             }
@@ -521,7 +524,7 @@ public class WorldGrid : MonoBehaviour
             return null;
         }
         for (int i = 0; i < arms.Length; i++) {
-            BFSEnd = BFSstopstart<BasicDuck>(origin, arms[i], false);
+            BFSEnd = BFSstopstart<BasicDuck>(origin, arms[i], false, 5);
             if (BFSEnd != null) {
             arms[i].discoveryParentCoord = origin.tileCoord;
             return AddNewDuckRing(BFSEnd);
@@ -620,12 +623,8 @@ public class WorldGrid : MonoBehaviour
             row = rowList.ToArray();
             victimObj = GetObjectAtCell<BasicBlight>(row[0].tileCoord);
             localMoney = FindAnyObjectByType<GameController>().money;
-            if (FindAnyObjectByType<GameController>().borderCleanse
-                && victimObj != null
-                && localMoney != 0) {
-                localMoney = 3 * localMoney / 5 == 0 ? 1 : 3 * localMoney / 5;
-                Debug.Log("Reducing to: " + localMoney);
-                FindAnyObjectByType<GameController>().money -= localMoney;
+            if (victimObj != null) {
+                FindAnyObjectByType<GameController>().money++;
                 victim = victimObj.GetComponent<BasicBlight>();
                 victim.Growth = -1f;
             }

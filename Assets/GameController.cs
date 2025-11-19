@@ -10,7 +10,7 @@ public class GameController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     [Header("Game State")]
-    public GameObject Camera;
+    public GameObject CameraObject;
     public Vector3 cameraOrigin;
     public Vector3 scaleOrigin;
     public int Round;
@@ -101,6 +101,7 @@ public class GameController : MonoBehaviour
     public Texture2D bleachPowerCursor;
     public Texture2D damagePowerCursor;
     public Texture2D speedPowerCursor;
+    public Texture2D duckScooper;
     public Texture2D specialPowerCursor;
 
     void Start()
@@ -143,19 +144,15 @@ public class GameController : MonoBehaviour
         }
 
         // Animate zoom
-        // potentially pause the wave animation
         float t;
         if (RegionZoomTimer > 0) {
             t = RegionZoomTimer / RegionZoomDuration;
-            Camera.transform.localPosition = (1 - t) * eventualCamera + t * prevCamera;
+            CameraObject.transform.localPosition = (1 - t) * eventualCamera + t * prevCamera;
             transform.localScale = (1 - t) * eventualScale + t * prevScale;
             RegionZoomTimer -= Time.deltaTime;
-        } else {
-            transform.localScale = eventualScale;
-            Camera.transform.localPosition = eventualCamera;
         }
 
-        // Have we lost yet?
+        // Have we lost yet? Progress to next round if no blight
         if (World.EntityCount<BasicBlight>() == 0)
         {
             Round += 1;
@@ -178,7 +175,7 @@ public class GameController : MonoBehaviour
             LoseGame();
         }
 
-        // 
+        // scuffed old system inputs
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll != 0f) {
             if (scroll > 0f) {
@@ -193,7 +190,7 @@ public class GameController : MonoBehaviour
             regionIndex = -1;
             eventualCamera = cameraOrigin;
             eventualScale = scaleOrigin;
-            prevCamera = Camera.transform.localPosition;
+            prevCamera = CameraObject.transform.localPosition;
             prevScale = transform.localScale;
             RegionZoomTimer = RegionZoomDuration;
         }
@@ -202,17 +199,18 @@ public class GameController : MonoBehaviour
             UI.GetComponent<Canvas>().enabled = !UI.GetComponent<Canvas>().enabled;
         }
 
-        for (int i = 0; i < Shop.transform.childCount; i++) {
-            if (Shop.transform.GetChild(i).transform.childCount == 3 && i != selection) {
-                Destroy(Shop.transform.GetChild(i).transform.GetChild(2).gameObject);
-            }
-            if (Shop.transform.GetChild(i).transform.childCount == 2 && i == selection) {
-                GameObject tangle = Instantiate(ShavedTangle);
-                tangle.transform.SetParent(Shop.transform.GetChild(i).transform);
-                tangle.transform.localPosition = new Vector3(0f, 7.2f, 0f);
-                tangle.transform.localScale = new Vector3(112f, 99.4f, 1f);
-            }
+        if (Input.GetMouseButton(2) && regionIndex != -1) {
+            Vector3 perPixel =  ( Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0)) -
+                                Camera.main.ScreenToWorldPoint(new Vector3(64, 0, 0)) );
+            CameraObject.transform.localPosition += Input.mousePositionDelta * perPixel.x / 32f;
         }
+        // end scuffed old system inputs
+
+        // this nonsense should only change upon setcursor requests really.
+        Vector3 tangleDelta = selection == -1 ? new Vector3(500f, 0f, 0f) : new Vector3(0f, 14f, 0f);
+        Vector3 tanglePos = Shop.transform.GetChild(selection + 1).transform.localPosition;
+        GameObject tangle = Shop.transform.GetChild(0).gameObject;
+        tangle.transform.localPosition = tangleDelta + tanglePos;
 
     }
 
@@ -264,7 +262,6 @@ public class GameController : MonoBehaviour
     }
 
     public void HoverTile(WorldTile caller) {
-        selection = -1;
 
         ringMenuBasis = World.WithinDuckRing(caller);
 
@@ -280,7 +277,7 @@ public class GameController : MonoBehaviour
             blight.enabled = true;
         }
 
-        if ((suds != null && cursorMode == 0) || (Input.GetMouseButton(0) && cursorMode > 0)) {
+        if ((suds != null && cursorMode == 0) || (Input.GetMouseButton(0) && cursorMode > 0) || cursorMode == 14) {
             ClickTile(caller);
         }
     }
@@ -291,7 +288,6 @@ public class GameController : MonoBehaviour
 
     public void ClickTile(WorldTile caller)
     {   
-        selection = -1;
 
         Vector2Int tile = caller.tileCoord;
         // Cursor mode is placing a duck
@@ -310,7 +306,7 @@ public class GameController : MonoBehaviour
             }
         }
         // Cursor mode is using a power
-        else if (cursorMode > 10 && cursorMode < 20)
+        else if (cursorMode > 10 && cursorMode < 15)
         {
             if (money >= GetCost(cursorMode))
             {
@@ -328,10 +324,21 @@ public class GameController : MonoBehaviour
                 money += 1;
             }
         }
+        // duck remover
+        else if (cursorMode == 15)
+        {
+            for (int i = 0; i < caller.transform.childCount; i++) {
+                BasicDuck child = caller.transform.GetChild(i).GetComponent<BasicDuck>();
+                if (child != null) {
+                    money += (int)(child.HP * child.power * 5f);
+                    child.Kill();
+                }
+            }
+        }
         
     }
 
-    public void HeighlightRing() {
+    public void HeighlightRing() { // extremely dumb and complains constantly
         uniTime += Time.deltaTime;
         foreach (WorldTile toHighlight in ringMenuBasis) {
             World.GetObjectAtCell<BasicDuck>(toHighlight.tileCoord)
@@ -346,7 +353,7 @@ public class GameController : MonoBehaviour
         }
 
         Menu = Instantiate(RingMenu);
-        Menu.transform.SetParent(Camera.transform);
+        Menu.transform.SetParent(CameraObject.transform);
         Menu.transform.GetComponent<MenuToggle>().Own(ringMenuBasis);
     }
 
@@ -388,9 +395,13 @@ public class GameController : MonoBehaviour
         // 11 = use power 1
         // 12 = use power 2
         // 13 = use power 3
-        // 14 = use power 4
+        // 14 super secret power or something
+        // 15 = use duck collector
         Cursor.SetCursor(GetCursorForMode(mode), Vector2.zero, CursorMode.Auto);
         cursorMode = mode % 20;
+        if (cursorMode > 5) {
+        selection = -1;
+        }
     }
 
     private Texture2D GetCursorForMode(int mode)
@@ -419,6 +430,8 @@ public class GameController : MonoBehaviour
                 return speedPowerCursor;
             case 14:
                 return specialPowerCursor;
+            case 15:
+                return duckScooper;
             default:
                 return cleanerCursor;
         }
@@ -495,11 +508,7 @@ public class GameController : MonoBehaviour
     }
 
     public void ToggleTax() {
-        // cost for both turning on/off
-        if (money >= 200) {
-            money -= 200;
-            borderCleanse = !borderCleanse;
-        }
+        borderCleanse = !borderCleanse;
     }
 
     public void MapFocus(GameObject caller) {
@@ -515,7 +524,7 @@ public class GameController : MonoBehaviour
         }
 
         RegionZoomTimer = RegionZoomDuration;
-        prevCamera = Camera.transform.localPosition;
+        prevCamera = CameraObject.transform.localPosition;
         prevScale = transform.localScale;
         eventualCamera = cameraMove[regionIndex];
         eventualScale = controllerScale[regionIndex];
