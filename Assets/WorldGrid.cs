@@ -6,7 +6,6 @@ using static UnityEngine.EventSystems.EventTrigger;
 [ExecuteInEditMode]
 public class WorldGrid : MonoBehaviour
 {
-    public Power empty;
     public GameObject tile;
     public float shiftLeft;
     public float shiftUp;

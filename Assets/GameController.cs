@@ -278,11 +278,10 @@ public class GameController : MonoBehaviour
 
         ringMenuBasis = World.WithinDuckRing(caller);
 
-        Power suds = null;
+        GameObject suds = null;
         BasicBlight blight = null;
 
         for (int i = 0; i < caller.transform.childCount; i++) {
-            suds = suds == null ? caller.transform.GetChild(i).GetComponent<Power>() : suds;
             blight = blight == null ? caller.transform.GetChild(i).GetComponent<BasicBlight>() : blight;
         }
 
