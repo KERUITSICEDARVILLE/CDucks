@@ -118,7 +118,7 @@ public class WorldGrid : MonoBehaviour
         {
             if (Application.isPlaying)
             {
-                AnimateRows(toppleControlTime, toppleControlTime + Time.deltaTime);
+                AnimateRows(toppleControlTime / toppleTime);
             }
         }
         
@@ -546,7 +546,7 @@ public class WorldGrid : MonoBehaviour
         }
     }
 
-    private void AnimateRows(float time1, float time2) {
+    /*private void AnimateRows(float time1, float time2) {
         List<WorldTile>[] rowArray = rows.ToArray();
         WorldTile[] singleRow;
         float thetaRange, halfPlane, theta1, theta2;
@@ -604,6 +604,41 @@ public class WorldGrid : MonoBehaviour
 
             for (int c = 0; c < singleRow.Length; c++) {
                 singleRow[c].transform.localPosition = singleRow[c].initialTransform + closestDeltasArr[c].y * waveNormal * 0.5f;
+            }
+
+        }
+    }*/
+
+    private void AnimateRows(float sweep) {
+        List<WorldTile> row;
+        float thetaRange, halfPlane, theta;
+        float r, realX, tilexValue, t;
+
+        Vector2[] ctlPoints = new Vector2[3];
+
+        for (int i = 0; i < rows.Count; i++) {
+        row = rows[i];
+        realX = rowAnimPs[i].x + rowAnimPs[i].z;
+        halfPlane = Mathf.Atan(Mathf.Abs(rowAnimPs[i].y / realX));
+        thetaRange = (Mathf.PI - 2f * halfPlane);
+        theta = sweep * thetaRange + halfPlane;
+
+        r = new Vector2(realX, rowAnimPs[i].y).magnitude;
+
+        // find relevant x and t(x)
+
+            for (int c = 0; c < row.Count; c++) {
+                tilexValue = 2f * rowAnimPs[i].x * ((float)c + 0.5f) / (float)row.Count;
+                ctlPoints[0] = new Vector2(0f, 0f);
+                ctlPoints[1] = new Vector2( r * Mathf.Cos(theta) + rowAnimPs[i].x,
+                                        r * Mathf.Sin(theta) + rowAnimPs[i].y);
+                ctlPoints[2] = new Vector2(2f * rowAnimPs[i].x, 0f);
+                t = (Mathf.Sqrt(/*b^2*/ ctlPoints[1].x * ctlPoints[1].x
+                                /*4ac*/ + tilexValue * (ctlPoints[2].x - 2f * ctlPoints[1].x)) - ctlPoints[1].x)
+                    / (ctlPoints[2].x - 2f * ctlPoints[1].x);
+                BezierBoil(3, ctlPoints, t);
+                //Debug.Log(ctlPoints[0].x + "same as?: " + tilexValue);
+                row[c].transform.localPosition = row[c].initialTransform + ctlPoints[0].y * waveNormal * 0.5f;
             }
 
         }
