@@ -85,11 +85,13 @@ public class GameController : MonoBehaviour
     public float RoundDuration;
     private float RoundTimer;
     private float RoundStartMessageTimer;
+
+    [Header("UI Elements")]
     public TMP_Text RoundTMP;
     public TMP_Text RoundTime;
     public TMP_Text Message;
     public TMP_Text MoneyDisplay;
-    public TMP_Text AlgaeCount;
+    public Button SkipButton;
 
     [Header("Cursors")]
     public Texture2D cleanerCursor;
@@ -121,7 +123,7 @@ public class GameController : MonoBehaviour
         haveSwipePower = false;
         RegionZoomTimer = 0;
         RoundStartMessageTimer = 0;
-        RoundTimer = RoundDuration;
+        RoundTimer = 0;
         Cursor.SetCursor(GetCursorForMode(0), Vector2.zero, CursorMode.Auto);
         eventualScale = scaleOrigin;
         eventualCamera = cameraOrigin;
@@ -156,20 +158,19 @@ public class GameController : MonoBehaviour
         // Have we lost yet? Progress to next round if no blight or timer < 0f
         int divvy = (int)RoundTimer;
         if (RoundTimer > 0f) {
-            RoundTime.text = ( (divvy < 60) ? ("") : (divvy / 60 + ":") ) + (divvy % 60);
+            RoundTime.text = ( (divvy < 60) ? ("") : (divvy / 60 + ":") ) + ((divvy % 60 > 9) ? (divvy % 60):("0" + divvy % 60));
             RoundTimer -= Time.deltaTime;
             if (RoundTimer < 10f) {
-                RoundTime.transform.localPosition = new Vector3(281.2f, 123f, 0f) + new Vector3(0f, (10f - RoundTimer) / 2f * (RoundTimer - divvy) * Mathf.Sin(RoundTimer * 10f * Mathf.PI), 0f);
+                RoundTime.transform.localPosition = new Vector3(0f, (10f - RoundTimer) / 2f * (RoundTimer - divvy) * Mathf.Sin(RoundTimer * 10f * Mathf.PI), 0f);
             }
         }
-        if (World.EntityCount<BasicBlight>() == 0 || RoundTimer < 0f)
+        if (World.EntityCount<BasicBlight>() == 0)
         {
-            Round += 1;
-            DisplayRound();
-            SpawnRound();
-            RoundTMP.text = "" + Round;
-            RoundTimer = RoundDuration;
-            RoundTime.transform.localPosition = new Vector3(281.2f, 123f, 0f);
+            SkipButton.interactable = true;
+        }
+        if (RoundTimer <= 0f)
+        {
+            StartNextRound();
         }
         if (RoundStartMessageTimer > 0)
         {
@@ -540,5 +541,16 @@ public class GameController : MonoBehaviour
         prevScale = transform.localScale;
         eventualCamera = cameraMove[regionIndex];
         eventualScale = controllerScale[regionIndex];
+    }
+
+    public void StartNextRound()
+    {
+        Round += 1;
+        DisplayRound();
+        SpawnRound();
+        RoundTMP.text = "" + Round;
+        RoundTimer = RoundDuration;
+        RoundTime.transform.localPosition = Vector3.zero;
+        SkipButton.interactable = false;
     }
 }

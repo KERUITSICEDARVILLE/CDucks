@@ -1,10 +1,12 @@
 using UnityEngine;
 using System.Collections.Generic;
+using TMPro;
 
 public class DuckController : MonoBehaviour
 {
     public int allowance;
     public WorldGrid World;
+    public TMP_Text DuckCount;
     private HashSet<GameObject> Subset;
     private float timer;
     const float timerMax = 5f;
@@ -98,9 +100,11 @@ public class DuckController : MonoBehaviour
     public void Register(GameObject caller) {
         // do duck ring check and whatnot
         Subset.Add(caller);
+        DuckCount.text = "" + Subset.Count;
     }
 
     public void Unregister(GameObject caller) {
         Subset.Remove(caller);
+        DuckCount.text = "" + Subset.Count;
     }
 }

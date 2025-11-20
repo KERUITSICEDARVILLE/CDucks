@@ -74,21 +74,26 @@ public class BlightController : MonoBehaviour
                 shouldLive.Add(iChild);
             }
         } // select all enabled or at border cells
-
-        for (int i = 0; i < allowance; i++) {
-            // take one random
-            select = Random.Range(0, shouldLive.Count);
-            while (!shouldLive[select].GetComponent<BasicBlight>().enabled) {
+        if (shouldLive.Count > 0)
+        {
+            for (int i = 0; i < allowance; i++)
+            {
+                // take one random
                 select = Random.Range(0, shouldLive.Count);
-            }
-            shouldLive[select].GetComponent<BasicBlight>().enabled = false;
-            // give one random
-            select = Random.Range(0, shouldLive.Count);
-            while (shouldLive[select].GetComponent<BasicBlight>().enabled) {
+                while (!shouldLive[select].GetComponent<BasicBlight>().enabled)
+                {
+                    select = Random.Range(0, shouldLive.Count);
+                }
+                shouldLive[select].GetComponent<BasicBlight>().enabled = false;
+                // give one random
                 select = Random.Range(0, shouldLive.Count);
-            }
-            shouldLive[select].GetComponent<BasicBlight>().enabled = true;
-        } // jumble all of the previously selected
+                while (shouldLive[select].GetComponent<BasicBlight>().enabled)
+                {
+                    select = Random.Range(0, shouldLive.Count);
+                }
+                shouldLive[select].GetComponent<BasicBlight>().enabled = true;
+            } // jumble all of the previously selected
+        }
 
     }
 
