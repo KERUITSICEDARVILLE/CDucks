@@ -60,6 +60,10 @@ public class BasicBlight : MonoBehaviour
         if (Random.Range(MaxGrowth - tolerance, MaxGrowth) > MaxGrowth - tolerance * Mathf.Pow(Growth / MaxGrowth, Taut)) {
             BlightSpread();
         }
+
+        if (transform.parent.GetComponent<WorldTile>().isBeingPressed) {
+            Growth -= Time.deltaTime * GrowthRate * 4f;
+        }
         
     }
 

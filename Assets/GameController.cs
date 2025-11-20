@@ -13,6 +13,7 @@ public class GameController : MonoBehaviour
     public GameObject CameraObject;
     public Vector3 cameraOrigin;
     public Vector3 scaleOrigin;
+    const int RoundMax = 6;
     public int Round;
     private int moneyAmount;
     public int money {
@@ -82,7 +83,7 @@ public class GameController : MonoBehaviour
     public float RegionZoomDuration;
     public float RoundMessageDuration;
     private float RegionZoomTimer;
-    public float RoundDuration;
+    public float[] RoundDurations;
     private float RoundTimer;
     private float RoundStartMessageTimer;
 
@@ -146,15 +147,6 @@ public class GameController : MonoBehaviour
             }
         }*/
 
-        // Animate zoom
-        float t;
-        if (RegionZoomTimer > 0) {
-            t = RegionZoomTimer / RegionZoomDuration;
-            CameraObject.transform.localPosition = (1 - t) * eventualCamera + t * prevCamera;
-            transform.localScale = (1 - t) * eventualScale + t * prevScale;
-            RegionZoomTimer -= Time.deltaTime;
-        }
-
         // Have we lost yet? Progress to next round if no blight or timer < 0f
         int divvy = (int)RoundTimer;
         if (RoundTimer > 0f) {
@@ -170,6 +162,10 @@ public class GameController : MonoBehaviour
         }
         if (RoundTimer <= 0f)
         {
+            if (Round > RoundMax) {
+                WinGame();
+                return;
+            }
             StartNextRound();
         }
         if (RoundStartMessageTimer > 0)
@@ -186,6 +182,16 @@ public class GameController : MonoBehaviour
         if (World.IsFull<BasicBlight>())
         {
             LoseGame();
+            return;
+        }
+
+        // Animate zoom
+        float t;
+        if (RegionZoomTimer > 0) {
+            t = RegionZoomTimer / RegionZoomDuration;
+            CameraObject.transform.localPosition = (1 - t) * eventualCamera + t * prevCamera;
+            transform.localScale = (1 - t) * eventualScale + t * prevScale;
+            RegionZoomTimer -= Time.deltaTime;
         }
 
         // scuffed old system inputs
@@ -236,7 +242,7 @@ public class GameController : MonoBehaviour
 
     private void SpawnRound()
     {
-        int EnemyCount = 1 + 2 * Round + Round * Round / 5;
+        int EnemyCount = 13 + 2 * Round + Round * Round / 5;
         for (int i = 0; i < EnemyCount; i++) {
             GameObject enemy = Instantiate(BasicBlight);
             AddBlightToRandomCell(enemy);
@@ -270,8 +276,15 @@ public class GameController : MonoBehaviour
 
     public void LoseGame()
     {
+        Round = RoundMax + 1;
         Message.text = "You Lose!";
         Message.color = new Color(5.0f, 0.0f, 0.0f, 1.0f);
+    }
+
+    public void WinGame()
+    {
+        Message.text = "You Win!";
+        Message.color = new Color(0.0f, 5.0f, 5.0f, 1.0f);
     }
 
     public void HoverTile(WorldTile caller) {
@@ -544,11 +557,12 @@ public class GameController : MonoBehaviour
 
     public void StartNextRound()
     {
+
+        RoundTimer = RoundDurations[Round];
         Round += 1;
         DisplayRound();
         SpawnRound();
         RoundTMP.text = "" + Round;
-        RoundTimer = RoundDuration;
         RoundTime.transform.localPosition = Vector3.zero;
         SkipButton.interactable = false;
     }

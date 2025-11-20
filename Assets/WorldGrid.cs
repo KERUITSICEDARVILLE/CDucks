@@ -304,6 +304,29 @@ public class WorldGrid : MonoBehaviour
         return adjacent.ToArray();
     }
 
+    public bool boolint(int x) {
+        return x == 0 ? false : true;
+    }
+
+    public Vector2Int[] CellNeighborhood(Vector2Int cell_origin, int range) {
+        HashSet<Vector2Int>neighborhood_a = new HashSet<Vector2Int>();
+        HashSet<Vector2Int>neighborhood_b;
+        Vector2Int[] neighbors;
+        neighborhood_a.Add(cell_origin);
+        while (boolint(range--)) {
+            neighborhood_b = new HashSet<Vector2Int>(neighborhood_a);
+            foreach (Vector2Int cell in neighborhood_a) {
+                neighbors = sides(cell);
+                for (int i = 0; i < neighbors.Length; i++) {
+                    neighborhood_b.Add(neighbors[i] + cell);
+                }
+            }
+            neighborhood_a = neighborhood_b;
+        }
+        neighborhood_a.Remove(cell_origin);
+        return new List<Vector2Int>(neighborhood_a).ToArray();
+    }
+
     public int CountAdjacentCellsWithType<T>(Vector2Int cell)
     {
 
