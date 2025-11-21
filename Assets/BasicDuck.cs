@@ -10,6 +10,7 @@ public class BasicDuck : MonoBehaviour
     private bool eventKill;
     public GameObject zzz;
     public GameObject HPbar;
+    public int attackRange;
     public float MaxHealth;
     private float healthPool;
     public float HP {
@@ -36,6 +37,7 @@ public class BasicDuck : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        attackRange = 3;
         transform.localScale = new Vector3(3.2f, 3.2f, 3.2f);
         HP = MaxHealth;
         if (transform.parent != null) {
@@ -64,7 +66,7 @@ public class BasicDuck : MonoBehaviour
 
         if (cooldown < 0f && World.CountAdjacentCellsWithType<BasicBlight>(cell) > 0)
         {
-            WorldTile target = World.GetRandomAdjacentTileWithType<BasicBlight>(cell);
+            WorldTile target = World.GetRandomAdjacentTileRangeWithType<BasicBlight>(cell, attackRange);
             victim = World.GetObjectAtCell<BasicBlight>(target.tileCoord).GetComponent<BasicBlight>();
             victim.enabled = true;
             victim.Damage(power);

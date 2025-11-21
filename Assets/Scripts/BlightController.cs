@@ -16,7 +16,7 @@ public class BlightController : MonoBehaviour
     void Start()
     {
         timer = timerMax;
-        allowance = 40;
+        allowance = 50;
         Subset = new HashSet<GameObject>();
     }
 
@@ -99,6 +99,7 @@ public class BlightController : MonoBehaviour
 
     }
 
+    // need to lock down these functions to only be accessible from one blight mutation
     public void Register(GameObject caller) {
         Subset.Add(caller);
         AlgaeCount.text = "" + Subset.Count;
