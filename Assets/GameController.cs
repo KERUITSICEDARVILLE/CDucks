@@ -1,7 +1,10 @@
 using TMPro;
 using UnityEngine;
+<<<<<<< HEAD
 using UnityEngine.UI;
 using UnityEngine.LightTransport;
+=======
+>>>>>>> main
 
 using System.Collections.Generic;
 
