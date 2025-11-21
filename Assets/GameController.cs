@@ -70,6 +70,7 @@ public class GameController : MonoBehaviour
 
     [Header("Enemies")]
     public GameObject BasicBlight;
+    public GameObject BlightMutation;
 
     [Header("Scene Setup")]
     private GameObject Menu;
@@ -247,6 +248,10 @@ public class GameController : MonoBehaviour
             GameObject enemy = Instantiate(BasicBlight);
             AddBlightToRandomCell(enemy);
         }
+        for (int i = 1; i < Round; i++) {
+            GameObject mut = Instantiate(BlightMutation);
+            AddBlightToRandomCell(mut);
+        }
     }
 
     private void AddBlightToRandomCell(GameObject enemy)
@@ -355,7 +360,7 @@ public class GameController : MonoBehaviour
             for (int i = 0; i < caller.transform.childCount; i++) {
                 BasicDuck child = caller.transform.GetChild(i).GetComponent<BasicDuck>();
                 if (child != null) {
-                    money += (int)(child.HP / child.MaxHealth * (float)GetCost(child.duckMode));
+                    money += (int)(0.5f * child.HP / child.MaxHealth * (float)GetCost(child.duckMode));
                     child.Kill();
                 }
             }
@@ -476,7 +481,7 @@ public class GameController : MonoBehaviour
 
     private int GetCost(int mode)
     {
-        switch (cursorMode)
+        switch (mode)
         {
             case 0:
                 return 0;

@@ -72,6 +72,9 @@ public class BasicDuck : MonoBehaviour
             FindAnyObjectByType<GameController>().money += (int) power;
             cooldown = 1.0f;
         }
+        if (HP < MaxHealth && World.CountAdjacentCellsWithType<BasicBlight>(cell) == 0) {
+            HP += 0.00625f * power * Time.deltaTime;
+        }
     }
 
     public bool Damage(float amount) {

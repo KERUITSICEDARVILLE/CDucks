@@ -559,6 +559,24 @@ public class WorldGrid : MonoBehaviour
         return null;
     }
 
+    public List<WorldTile> Gather(WorldTile endpt) {
+        if (endpt == null) {
+            return null;
+        }
+        List<WorldTile> ring = new List<WorldTile>();
+
+        WorldTile curr = endpt;
+
+        while (curr != null) {
+            ring.Add(curr);
+            curr = GetTile(curr.discoveryParentCoord);
+        }
+        if (ring.Count == 0) {
+            return null;
+        }
+        return ring;
+    }
+
     public List<WorldTile> WithinDuckRing(WorldTile check) {
         foreach (List<WorldTile> ring in duckRings) {
             foreach (WorldTile tile in ring) {
@@ -586,14 +604,7 @@ public class WorldGrid : MonoBehaviour
     }
 
     public List<WorldTile> AddNewDuckRing(WorldTile endpt) {
-        List<WorldTile> ring = new List<WorldTile>();
-
-        WorldTile curr = endpt;
-
-        while (curr != null) {
-            ring.Add(curr);
-            curr = GetTile(curr.discoveryParentCoord);
-        }
+        List<WorldTile> ring = Gather(endpt);
         duckRings.Add(ring);
         return ring;
     }
