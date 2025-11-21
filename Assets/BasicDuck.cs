@@ -64,7 +64,7 @@ public class BasicDuck : MonoBehaviour
             cooldown -= speed * Time.deltaTime;
         }
 
-        if (cooldown < 0f && World.CountAdjacentCellsWithType<BasicBlight>(cell) > 0)
+        if (cooldown < 0f && World.CountAdjacentCellRangeWithType<BasicBlight>(cell, attackRange) > 0)
         {
             WorldTile target = World.GetRandomAdjacentTileRangeWithType<BasicBlight>(cell, attackRange);
             victim = World.GetObjectAtCell<BasicBlight>(target.tileCoord).GetComponent<BasicBlight>();

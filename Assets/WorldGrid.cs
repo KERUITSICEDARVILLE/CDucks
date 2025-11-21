@@ -1,17 +1,7 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 using UnityEngine;
 using NUnit.Framework;
 using System.Collections.Generic;
 using static UnityEngine.EventSystems.EventTrigger;
-=======
-using System.Collections.Generic;
-using UnityEngine;
->>>>>>> main
-=======
-using System.Collections.Generic;
-using UnityEngine;
->>>>>>> main
 
 [ExecuteInEditMode]
 public class WorldGrid : MonoBehaviour
@@ -338,7 +328,7 @@ public class WorldGrid : MonoBehaviour
         int count = 0;
         foreach (Vector2Int side in CellNeighborhood(cell, range))
         {
-            if (GetObjectAtCell<T>(cell) != null)
+            if (GetObjectAtCell<T>(side) != null)
             {
                 count++;
             }
