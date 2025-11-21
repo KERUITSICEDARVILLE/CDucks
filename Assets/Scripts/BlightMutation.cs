@@ -33,12 +33,13 @@ public class BlightMutation : MonoBehaviour
         if (TargetTile == null || Path == null) {
             return;
         }
-        if (World.GetObjectAtCell<BasicBlight>(TargetTile.tileCoord) == null) {
+        GameObject loadTarget = World.GetObjectAtCell<BasicBlight>(TargetTile.tileCoord);
+        if (loadTarget == null) {
             Controller.RetargetNear(this, TargetTile);
         }
-        GameObject loadTarget = World.GetObjectAtCell<BasicBlight>(TargetTile.tileCoord);
-        if (loadTarget) {
-            loadTarget.GetComponent<BasicBlight>().enabled = true;
+        GameObject CellBlight = World.GetObjectAtCell<BasicBlight>(cell);
+        if (CellBlight != null) {
+            CellBlight.GetComponent<BasicBlight>().enabled = true;
         }
         if (moveTimer > 0f && Path.Count > 0) {
             moveTimer -= Time.deltaTime;
