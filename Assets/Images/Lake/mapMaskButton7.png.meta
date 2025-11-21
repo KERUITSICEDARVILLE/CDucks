@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 681bab3e36a527a4ebd3e4fc541a8c12
+guid: db514b1d7afa33e479b5153d8379e4e0
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6100708878091867837
-    second: Clean_0
+      213: -7966736663631193570
+    second: mapMaskButton7_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Clean_0
+      name: mapMaskButton7_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 64
-        height: 64
+        x: 548
+        y: 24
+        width: 171
+        height: 74
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: db6dcb4d6621aa450800000000000000
-      internalID: 6100708878091867837
+      spriteID: e1a9e29c637707190800000000000000
+      internalID: -7966736663631193570
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Clean_0: 6100708878091867837
+      mapMaskButton7_0: -7966736663631193570
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
