@@ -6,6 +6,8 @@ public class BasicBlight : MonoBehaviour
     public BlightController Controller;
     public WorldGrid World;
 
+    public Animation minus;
+
     private float growth;
     public float Growth {
         set
@@ -36,6 +38,8 @@ public class BasicBlight : MonoBehaviour
             }
         }
 
+        //minus = GetComponent<Animation>();
+
         Controller = GameObject.FindAnyObjectByType<BlightController>().GetComponent<BlightController>();
         Controller.Register(gameObject);
         transform.localScale = new Vector3(1f, 1f, 1f);
@@ -46,10 +50,13 @@ public class BasicBlight : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-
-        if (FindAnyObjectByType<GameController>().ringMenuBasis != null && Random.Range(0f, 50f) < 29f) {
-            return;
+        GameObject obj = World.GetObjectAtCell<BlightMutation>(cell);
+        if (obj != null) {
+            GrowthRate += Random.Range(0.5f, 1.0f);
+            GetComponent<SpriteRenderer>().color = new Vector4(1f, 1f / GrowthRate, 1f / GrowthRate, 1f);
+            Destroy(obj);
         }
+
         if (Growth <= 0.0)
         {
             Controller.Unregister(gameObject);
@@ -62,6 +69,10 @@ public class BasicBlight : MonoBehaviour
 
         if (Random.Range(MaxGrowth - tolerance, MaxGrowth) > MaxGrowth - tolerance * Mathf.Pow(Growth / MaxGrowth, Taut)) {
             BlightSpread();
+        }
+
+        if (transform.parent.GetComponent<WorldTile>().isBeingPressed) {
+            Growth -= Time.deltaTime * GrowthRate * 4f;
         }
         
     }
@@ -95,6 +106,7 @@ public class BasicBlight : MonoBehaviour
 
     public void Damage(float amount)
     {
+        //minus.Play();
         Growth -= amount;
     }
 

@@ -2,6 +2,8 @@ using TMPro;
 using UnityEngine;
 using System.Collections.Generic;
 
+// TODO: give priority to blight with higher growth rates
+
 public class BlightController : MonoBehaviour
 {
     public int allowance;
@@ -14,7 +16,7 @@ public class BlightController : MonoBehaviour
     void Start()
     {
         timer = timerMax;
-        allowance = 30;
+        allowance = 40;
         Subset = new HashSet<GameObject>();
     }
 
@@ -74,21 +76,26 @@ public class BlightController : MonoBehaviour
                 shouldLive.Add(iChild);
             }
         } // select all enabled or at border cells
-
-        for (int i = 0; i < allowance; i++) {
-            // take one random
-            select = Random.Range(0, shouldLive.Count);
-            while (!shouldLive[select].GetComponent<BasicBlight>().enabled) {
+        if (shouldLive.Count > 0)
+        {
+            for (int i = 0; i < allowance; i++)
+            {
+                // take one random
                 select = Random.Range(0, shouldLive.Count);
-            }
-            shouldLive[select].GetComponent<BasicBlight>().enabled = false;
-            // give one random
-            select = Random.Range(0, shouldLive.Count);
-            while (shouldLive[select].GetComponent<BasicBlight>().enabled) {
+                while (!shouldLive[select].GetComponent<BasicBlight>().enabled)
+                {
+                    select = Random.Range(0, shouldLive.Count);
+                }
+                shouldLive[select].GetComponent<BasicBlight>().enabled = false;
+                // give one random
                 select = Random.Range(0, shouldLive.Count);
-            }
-            shouldLive[select].GetComponent<BasicBlight>().enabled = true;
-        } // jumble all of the previously selected
+                while (shouldLive[select].GetComponent<BasicBlight>().enabled)
+                {
+                    select = Random.Range(0, shouldLive.Count);
+                }
+                shouldLive[select].GetComponent<BasicBlight>().enabled = true;
+            } // jumble all of the previously selected
+        }
 
     }
 
@@ -100,6 +107,30 @@ public class BlightController : MonoBehaviour
     public void Unregister(GameObject caller) {
         Subset.Remove(caller);
         AlgaeCount.text = "" + Subset.Count;
+    }
+
+    public GameObject GrabRandomBlight() {
+        List<GameObject>flat = new List<GameObject>(Subset);
+        return flat[Random.Range(0, flat.Count)]; 
+    }
+
+    public void GiveMeTarget(BlightMutation caller) {
+        WorldTile stop = GrabRandomBlight().transform.parent.GetComponent<WorldTile>();
+        WorldTile endpt = World.BFSstopstart<BasicDuck>(stop, World.GetTile(caller.cell), true, 0);
+        List<WorldTile> path = World.Gather(endpt);
+        if (path == null) {
+            Destroy(caller.gameObject);
+            return;
+        }
+        path.Reverse();
+        path.Add(stop);
+        caller.Path = path;
+        caller.TargetTile = endpt;
+        World.ResetDiscoveryChannels();
+    }
+
+    public void RetargetNear(BlightMutation caller, WorldTile tile) {
+        //
     }
 
 }

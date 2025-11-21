@@ -2,14 +2,16 @@ using UnityEngine;
 
 public class BasicDuck : MonoBehaviour
 {
+    public int duckMode;
+
     public DuckController Controller;
     public WorldGrid World;
 
     private bool eventKill;
-    private float healthPool;
     public GameObject zzz;
     public GameObject HPbar;
     public float MaxHealth;
+    private float healthPool;
     public float HP {
         set {
             healthPool = value;
@@ -50,12 +52,11 @@ public class BasicDuck : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        BasicBlight victim;
+
         if (eventKill) {
             Controller.Unregister(gameObject);
             Destroy(gameObject);
-        }
-        if (FindAnyObjectByType<GameController>().ringMenuBasis != null && Random.Range(0f, 50f) < 29f) {
-            return;
         }
         if (cooldown > 0f) {
             cooldown -= speed * Time.deltaTime;
@@ -64,11 +65,15 @@ public class BasicDuck : MonoBehaviour
         if (cooldown < 0f && World.CountAdjacentCellsWithType<BasicBlight>(cell) > 0)
         {
             WorldTile target = World.GetRandomAdjacentTileWithType<BasicBlight>(cell);
-            World.GetObjectAtCell<BasicBlight>(target.tileCoord).GetComponent<BasicBlight>().enabled = true;
-            World.GetObjectAtCell<BasicBlight>(target.tileCoord).GetComponent<BasicBlight>().Damage(power);
-            
+            victim = World.GetObjectAtCell<BasicBlight>(target.tileCoord).GetComponent<BasicBlight>();
+            victim.enabled = true;
+            victim.Damage(power);
+            Damage(0.5f * (healthPool + Random.Range(0f, 0.1f)) / power);
             FindAnyObjectByType<GameController>().money += (int) power;
             cooldown = 1.0f;
+        }
+        if (HP < MaxHealth && World.CountAdjacentCellsWithType<BasicBlight>(cell) == 0) {
+            HP += 0.00625f * power * Time.deltaTime;
         }
     }
 

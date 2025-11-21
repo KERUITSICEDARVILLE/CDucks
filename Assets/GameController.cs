@@ -13,6 +13,7 @@ public class GameController : MonoBehaviour
     public GameObject CameraObject;
     public Vector3 cameraOrigin;
     public Vector3 scaleOrigin;
+    const int RoundMax = 6;
     public int Round;
     private int moneyAmount;
     public int money {
@@ -69,12 +70,12 @@ public class GameController : MonoBehaviour
 
     [Header("Enemies")]
     public GameObject BasicBlight;
+    public GameObject BlightMutation;
 
     [Header("Scene Setup")]
     private GameObject Menu;
     public GameObject UI;
     public GameObject Shop;
-    public GameObject ShavedTangle;
     public GameObject RingMenu;
     public WorldGrid World;
     private int selection;
@@ -83,10 +84,16 @@ public class GameController : MonoBehaviour
     public float RegionZoomDuration;
     public float RoundMessageDuration;
     private float RegionZoomTimer;
+    public float[] RoundDurations;
+    private float RoundTimer;
     private float RoundStartMessageTimer;
+
+    [Header("UI Elements")]
+    public TMP_Text RoundTMP;
+    public TMP_Text RoundTime;
     public TMP_Text Message;
     public TMP_Text MoneyDisplay;
-    public TMP_Text AlgaeCount;
+    public Button SkipButton;
 
     [Header("Cursors")]
     public Texture2D cleanerCursor;
@@ -108,7 +115,7 @@ public class GameController : MonoBehaviour
     {
         uniTime = 0f;
         Menu = null;
-        unlocks = 2;
+        unlocks = 1;
         Round = 0;
         money = 0;
         selection = -1;
@@ -118,6 +125,7 @@ public class GameController : MonoBehaviour
         haveSwipePower = false;
         RegionZoomTimer = 0;
         RoundStartMessageTimer = 0;
+        RoundTimer = 0;
         Cursor.SetCursor(GetCursorForMode(0), Vector2.zero, CursorMode.Auto);
         eventualScale = scaleOrigin;
         eventualCamera = cameraOrigin;
@@ -128,12 +136,9 @@ public class GameController : MonoBehaviour
     {
 
         // Duck Ring Menu System
-        if (ringMenuBasis != null) {
+        /*if (ringMenuBasis != null) {
             HeighlightRing();
             HandleRingMenu();
-            if (Random.Range(0f, 50f) < 29f) {
-                return;
-            }
         }
         if (ringMenuBasis == null && Menu != null) {
             MenuToggle eventScript = Menu.transform.GetComponent<MenuToggle>();
@@ -141,23 +146,28 @@ public class GameController : MonoBehaviour
                 Destroy(Menu);
                 Menu = null;
             }
-        }
+        }*/
 
-        // Animate zoom
-        float t;
-        if (RegionZoomTimer > 0) {
-            t = RegionZoomTimer / RegionZoomDuration;
-            CameraObject.transform.localPosition = (1 - t) * eventualCamera + t * prevCamera;
-            transform.localScale = (1 - t) * eventualScale + t * prevScale;
-            RegionZoomTimer -= Time.deltaTime;
+        // Have we lost yet? Progress to next round if no blight or timer < 0f
+        int divvy = (int)RoundTimer;
+        if (RoundTimer > 0f) {
+            RoundTime.text = ( (divvy < 60) ? ("") : (divvy / 60 + ":") ) + ((divvy % 60 > 9) ? (divvy % 60):("0" + divvy % 60));
+            RoundTimer -= Time.deltaTime;
+            if (RoundTimer < 10f) {
+                RoundTime.transform.localPosition = new Vector3(0f, (10f - RoundTimer) / 2f * (RoundTimer - divvy) * Mathf.Sin(RoundTimer * 10f * Mathf.PI), 0f);
+            }
         }
-
-        // Have we lost yet? Progress to next round if no blight
         if (World.EntityCount<BasicBlight>() == 0)
         {
-            Round += 1;
-            DisplayRound();
-            SpawnRound();
+            SkipButton.interactable = true;
+        }
+        if (RoundTimer <= 0f)
+        {
+            if (Round > RoundMax) {
+                WinGame();
+                return;
+            }
+            StartNextRound();
         }
         if (RoundStartMessageTimer > 0)
         {
@@ -173,6 +183,16 @@ public class GameController : MonoBehaviour
         if (World.IsFull<BasicBlight>())
         {
             LoseGame();
+            return;
+        }
+
+        // Animate zoom
+        float t;
+        if (RegionZoomTimer > 0) {
+            t = RegionZoomTimer / RegionZoomDuration;
+            CameraObject.transform.localPosition = (1 - t) * eventualCamera + t * prevCamera;
+            transform.localScale = (1 - t) * eventualScale + t * prevScale;
+            RegionZoomTimer -= Time.deltaTime;
         }
 
         // scuffed old system inputs
@@ -223,10 +243,14 @@ public class GameController : MonoBehaviour
 
     private void SpawnRound()
     {
-        int EnemyCount = 1 + 2 * Round + Round * Round / 5;
+        int EnemyCount = 13 + 2 * Round + Round * Round / 5;
         for (int i = 0; i < EnemyCount; i++) {
             GameObject enemy = Instantiate(BasicBlight);
             AddBlightToRandomCell(enemy);
+        }
+        for (int i = 1; i < Round; i++) {
+            GameObject mut = Instantiate(BlightMutation);
+            AddBlightToRandomCell(mut);
         }
     }
 
@@ -257,19 +281,25 @@ public class GameController : MonoBehaviour
 
     public void LoseGame()
     {
+        Round = RoundMax + 1;
         Message.text = "You Lose!";
         Message.color = new Color(5.0f, 0.0f, 0.0f, 1.0f);
+    }
+
+    public void WinGame()
+    {
+        Message.text = "You Win!";
+        Message.color = new Color(0.0f, 5.0f, 5.0f, 1.0f);
     }
 
     public void HoverTile(WorldTile caller) {
 
         ringMenuBasis = World.WithinDuckRing(caller);
 
-        Power suds = null;
+        GameObject suds = null;
         BasicBlight blight = null;
 
         for (int i = 0; i < caller.transform.childCount; i++) {
-            suds = suds == null ? caller.transform.GetChild(i).GetComponent<Power>() : suds;
             blight = blight == null ? caller.transform.GetChild(i).GetComponent<BasicBlight>() : blight;
         }
 
@@ -330,7 +360,7 @@ public class GameController : MonoBehaviour
             for (int i = 0; i < caller.transform.childCount; i++) {
                 BasicDuck child = caller.transform.GetChild(i).GetComponent<BasicDuck>();
                 if (child != null) {
-                    money += (int)(child.HP * child.power * 5f);
+                    money += (int)(0.5f * child.HP / child.MaxHealth * (float)GetCost(child.duckMode));
                     child.Kill();
                 }
             }
@@ -357,28 +387,32 @@ public class GameController : MonoBehaviour
         Menu.transform.GetComponent<MenuToggle>().Own(ringMenuBasis);
     }
 
-    public void Upgrade(List<WorldTile> menuRing) {
+    public void Upgrade() {
+        for (int i = 1; i < Shop.transform.childCount; i++) {
+            if (!Shop.transform.GetChild(i).GetComponent<Button>().interactable) {
+                Shop.transform.GetChild(i).GetComponent<Button>().interactable = true;
+                break;
+            }
+        }
+        unlocks++;
+    }
+
+    public void DuckRingUpgrade(List<WorldTile> menuRing) {
         bool powerLevel = true;
 
         foreach (WorldTile iChild in menuRing) { // see if all are at unlocks power level
             BasicDuck child = World.GetObjectAtCell<BasicDuck>(iChild.tileCoord).GetComponent<BasicDuck>();
-            powerLevel &= child.power == GetDuckForMode(unlocks - 1).GetComponent<BasicDuck>().power;
+            powerLevel &= child.duckMode == unlocks - 1;
         }
 
         if (powerLevel) {
-            foreach(WorldTile iChild in menuRing) { // delete
+            foreach(WorldTile iChild in menuRing) { // delete all
                 World.GetObjectAtCell<BasicDuck>(iChild.tileCoord).GetComponent<BasicDuck>().Kill();
             }
             World.AddAtTile(Instantiate(GetDuckForMode(unlocks)), menuRing[0]);
             World.RemoveDuckRing(menuRing[0]);
             ringMenuBasis = null;
-            for (int i = 0; i < Shop.transform.childCount; i++) {
-                if (!Shop.transform.GetChild(i).GetComponent<Button>().interactable) {
-                    Shop.transform.GetChild(i).GetComponent<Button>().interactable = true;
-                    break;
-                }
-            }
-            unlocks++;
+            Upgrade();
         }
         Debug.Log("did stuff");
     }
@@ -447,7 +481,7 @@ public class GameController : MonoBehaviour
 
     private int GetCost(int mode)
     {
-        switch (cursorMode)
+        switch (mode)
         {
             case 0:
                 return 0;
@@ -528,5 +562,18 @@ public class GameController : MonoBehaviour
         prevScale = transform.localScale;
         eventualCamera = cameraMove[regionIndex];
         eventualScale = controllerScale[regionIndex];
+    }
+
+    public void StartNextRound()
+    {
+
+        RoundTimer = RoundDurations[Round];
+        Round += 1;
+        DisplayRound();
+        Upgrade();
+        SpawnRound();
+        RoundTMP.text = "" + Round;
+        RoundTime.transform.localPosition = Vector3.zero;
+        SkipButton.interactable = false;
     }
 }
