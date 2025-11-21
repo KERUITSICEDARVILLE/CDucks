@@ -114,7 +114,7 @@ public class GameController : MonoBehaviour
     {
         uniTime = 0f;
         Menu = null;
-        unlocks = 2;
+        unlocks = 1;
         Round = 0;
         money = 0;
         selection = -1;
@@ -355,7 +355,7 @@ public class GameController : MonoBehaviour
             for (int i = 0; i < caller.transform.childCount; i++) {
                 BasicDuck child = caller.transform.GetChild(i).GetComponent<BasicDuck>();
                 if (child != null) {
-                    money += (int)(child.HP * child.power * 5f);
+                    money += (int)(child.HP / child.MaxHealth * (float)GetCost(child.duckMode));
                     child.Kill();
                 }
             }
@@ -382,28 +382,32 @@ public class GameController : MonoBehaviour
         Menu.transform.GetComponent<MenuToggle>().Own(ringMenuBasis);
     }
 
-    public void Upgrade(List<WorldTile> menuRing) {
+    public void Upgrade() {
+        for (int i = 1; i < Shop.transform.childCount; i++) {
+            if (!Shop.transform.GetChild(i).GetComponent<Button>().interactable) {
+                Shop.transform.GetChild(i).GetComponent<Button>().interactable = true;
+                break;
+            }
+        }
+        unlocks++;
+    }
+
+    public void DuckRingUpgrade(List<WorldTile> menuRing) {
         bool powerLevel = true;
 
         foreach (WorldTile iChild in menuRing) { // see if all are at unlocks power level
             BasicDuck child = World.GetObjectAtCell<BasicDuck>(iChild.tileCoord).GetComponent<BasicDuck>();
-            powerLevel &= child.power == GetDuckForMode(unlocks - 1).GetComponent<BasicDuck>().power;
+            powerLevel &= child.duckMode == unlocks - 1;
         }
 
         if (powerLevel) {
-            foreach(WorldTile iChild in menuRing) { // delete
+            foreach(WorldTile iChild in menuRing) { // delete all
                 World.GetObjectAtCell<BasicDuck>(iChild.tileCoord).GetComponent<BasicDuck>().Kill();
             }
             World.AddAtTile(Instantiate(GetDuckForMode(unlocks)), menuRing[0]);
             World.RemoveDuckRing(menuRing[0]);
             ringMenuBasis = null;
-            for (int i = 0; i < Shop.transform.childCount; i++) {
-                if (!Shop.transform.GetChild(i).GetComponent<Button>().interactable) {
-                    Shop.transform.GetChild(i).GetComponent<Button>().interactable = true;
-                    break;
-                }
-            }
-            unlocks++;
+            Upgrade();
         }
         Debug.Log("did stuff");
     }
@@ -561,6 +565,7 @@ public class GameController : MonoBehaviour
         RoundTimer = RoundDurations[Round];
         Round += 1;
         DisplayRound();
+        Upgrade();
         SpawnRound();
         RoundTMP.text = "" + Round;
         RoundTime.transform.localPosition = Vector3.zero;

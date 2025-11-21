@@ -289,6 +289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a1d4cb5cac6427468ea0d6e626ac8b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  duckMode: 1
   Controller: {fileID: 0}
   World: {fileID: 0}
   zzz: {fileID: 1548859080064093945}

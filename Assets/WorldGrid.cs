@@ -222,15 +222,6 @@ public class WorldGrid : MonoBehaviour
 
     public WorldTile GetTile(Vector2Int cell)
     {
-
-        /*for (int i = 0; i < transform.childCount; i++)
-        {
-            WorldTile tile = transform.GetChild(i).gameObject.GetComponent<WorldTile>();
-            if (tile.tileCoord == cell)
-            {
-                return tile;
-            }
-        }*/
         if (tileMap.ContainsKey(cell)) {
             return tileMap[cell];
         }
@@ -308,7 +299,11 @@ public class WorldGrid : MonoBehaviour
         return x == 0 ? false : true;
     }
 
+    // START RANGE CAPABILITIES
     public Vector2Int[] CellNeighborhood(Vector2Int cell_origin, int range) {
+        if (range < 1) {
+            range = 1;
+        }
         HashSet<Vector2Int>neighborhood_a = new HashSet<Vector2Int>();
         HashSet<Vector2Int>neighborhood_b;
         Vector2Int[] neighbors;
@@ -326,6 +321,81 @@ public class WorldGrid : MonoBehaviour
         neighborhood_a.Remove(cell_origin);
         return new List<Vector2Int>(neighborhood_a).ToArray();
     }
+
+    public int CountAdjacentCellRangeWithType<T>(Vector2Int cell, int range)
+    {
+
+        int count = 0;
+        foreach (Vector2Int side in CellNeighborhood(cell, range))
+        {
+            if (GetObjectAtCell<T>(cell) != null)
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public WorldTile[] GetAdjacentTileRangeWithType<T>(Vector2Int cell, int range)
+    {
+        if (CountAdjacentCellRangeWithType<T>(cell, range) == 0)
+        {
+            return null;
+        }
+
+        List<WorldTile>ret = new List<WorldTile>();
+
+        foreach (Vector2Int neighbor in CellNeighborhood(cell, range)) {
+            if (GetObjectAtCell<T>(neighbor) != null) {
+                ret.Add(GetTile(neighbor));
+            }
+        }
+
+        return ret.ToArray();
+    }
+
+    public WorldTile GetRandomAdjacentTileRangeWithType<T>(Vector2Int cell, int range) {
+        WorldTile[] cells = GetAdjacentTileRangeWithType<T>(cell, range);
+        return cells[Random.Range(0, cells.Length)];
+    }
+
+    public WorldTile[] GetAdjacentTileStripeWithType<T>(Vector2Int cell, int stripe)
+    {
+        if (stripe == 1) {
+            GetAdjacentTileRangeWithType<T>(cell, 1);
+        }
+
+        if (CountAdjacentCellRangeWithType<T>(cell, stripe) == 0)
+        {
+            return null;
+        }
+
+        List<WorldTile>rangeBigger = new List<WorldTile>();
+        List<WorldTile>rangeLesser = new List<WorldTile>();
+
+        foreach (Vector2Int neighbor in CellNeighborhood(cell, stripe)) {
+            if (GetObjectAtCell<T>(neighbor) != null) {
+                rangeBigger.Add(GetTile(neighbor));
+            }
+        }
+
+        foreach (Vector2Int neighbor in CellNeighborhood(cell, stripe - 1)) {
+            if (GetObjectAtCell<T>(neighbor) != null) {
+                rangeLesser.Add(GetTile(neighbor));
+            }
+        }
+
+        foreach (WorldTile removable in rangeLesser) {
+            rangeBigger.Remove(removable);
+        }
+
+        if (rangeBigger.Count == 0) {
+            return null;
+        }
+
+        return rangeBigger.ToArray();
+    }
+    // END RANGE CAPABILITIES
 
     public int CountAdjacentCellsWithType<T>(Vector2Int cell)
     {
@@ -567,69 +637,6 @@ public class WorldGrid : MonoBehaviour
             }
         }
     }
-
-    /*private void AnimateRows(float time1, float time2) {
-        List<WorldTile>[] rowArray = rows.ToArray();
-        WorldTile[] singleRow;
-        float thetaRange, halfPlane, theta1, theta2;
-        float r, realX, tilexValue;
-        Vector2[] closestDeltasArr;
-        Vector2 delta;    
-
-        Vector2[] ctl1Points = new Vector2[3];
-        Vector2[] ctl2Points = new Vector2[3];
-
-        for (int i = 0; i < rowArray.Length; i++) {
-        realX = rowAnimPs[i].x + rowAnimPs[i].z;
-        halfPlane = Mathf.Atan(Mathf.Abs(rowAnimPs[i].y / realX));
-        thetaRange = (Mathf.PI - 2f * halfPlane);
-        theta1 = time1 / toppleTime * thetaRange + halfPlane;
-        theta2 = time2 / toppleTime * thetaRange + halfPlane;
-
-        r = new Vector2(realX, rowAnimPs[i].y).magnitude;
-
-        singleRow = rowArray[i].ToArray();
-
-        closestDeltasArr = new Vector2[singleRow.Length];
-
-            for (float t = 0; t < 1f; t += 0.01f) { // test out points on row
-
-            ctl1Points[0] = new Vector2(0f, 0f);
-            ctl1Points[1] = new Vector2(r * Mathf.Cos(theta1) + rowAnimPs[i].x,
-                                        r * Mathf.Sin(theta1) + rowAnimPs[i].y);
-            ctl1Points[2] = new Vector2(2f * rowAnimPs[i].x, 0f);
-
-            ctl2Points[0] = new Vector2(0f, 0f);
-            ctl2Points[1] = new Vector2(r * Mathf.Cos(theta2) + rowAnimPs[i].x,
-                                        r * Mathf.Sin(theta2) + rowAnimPs[i].y);
-            ctl2Points[2] = new Vector2(2f * rowAnimPs[i].x, 0f);
-
-            BezierBoil(3, ctl1Points, t);
-            BezierBoil(3, ctl2Points, t);
-
-            ctl1Points[0].x = 0f;
-
-            delta = ctl2Points[0];// - ctl1Points[0];
-
-                for (int c = 0; c < singleRow.Length; c++) {
-                    tilexValue = 2f * realX * ((float)c + 5.5f) / (float)(singleRow.Length + 10) - rowAnimPs[i].z;
-                    if (closestDeltasArr[c] == null) {
-                        closestDeltasArr[c] = delta;
-                    } else {
-                        if (Mathf.Abs(delta.x - tilexValue) < Mathf.Abs(closestDeltasArr[c].x - tilexValue)) {
-                            closestDeltasArr[c] = delta;
-                        }
-                    }
-                }
-
-            }
-
-            for (int c = 0; c < singleRow.Length; c++) {
-                singleRow[c].transform.localPosition = singleRow[c].initialTransform + closestDeltasArr[c].y * waveNormal * 0.5f;
-            }
-
-        }
-    }*/
 
     private void AnimateRows(float sweep) {
         List<WorldTile> row;
