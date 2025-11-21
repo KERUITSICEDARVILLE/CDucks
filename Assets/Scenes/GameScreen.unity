@@ -537986,9 +537986,12 @@ RectTransform:
   m_GameObject: {fileID: 2035499227}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 0.034493275, y: 0.034493275, z: 0.040764775}
 =======
+=======
+>>>>>>> main
   m_LocalPosition: {x: 0, y: 0, z: -5}
   m_LocalScale: {x: 0.031357523, y: 0.033970647, z: 0.040764775}
 >>>>>>> main
