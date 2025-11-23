@@ -369,8 +369,8 @@ public class GameController : MonoBehaviour
             GameObject target = World.GetObjectAtCell<BasicBlight>(tile);
             if (target != null)
             {
-                target.GetComponent<BasicBlight>().Damage(1.0f);
-                money += 1;
+                target.GetComponent<BasicBlight>().Damage(4.0f * Time.deltaTime);
+                money += (Random.value < Time.deltaTime * 4.0f) ? 1:0;
             }
         }
         // duck remover

@@ -56,6 +56,19 @@ public class BlightMutation : MonoBehaviour
             Path.RemoveAt(0);
         }
 
+        BasicBlight obj = World.GetObjectAtCell<BasicBlight>(cell).GetComponent<BasicBlight>();
+        if (obj != null)
+        {
+            // begin transformation
+            obj.GrowthRate += Random.Range(1.0f, 1.8f);
+            obj.MaxGrowth += Random.Range(2.0f, 5.0f);
+            GetComponent<SpriteRenderer>().color = new Vector4(1f, 1f / obj.GrowthRate, 1f / obj.GrowthRate, 1f);
+            obj.Lineage = Controller.GiveMeUniqueID();
+            // end transformation
+            Controller.UnregisterMutation(gameObject);
+            Destroy(gameObject);
+        }
+
         // if near duck, move faster
 
     }

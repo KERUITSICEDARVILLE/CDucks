@@ -51,4 +51,12 @@ public class WorldTile : MonoBehaviour
         isBeingPressed = false;
         //GetComponent<SpriteRenderer>().color = color;
     }
+
+    public void OnMouseOver()
+    {
+        if (Input.GetMouseButton(0))
+        {
+            FindAnyObjectByType<GameController>().ClickTile(this);
+        }
+    }
 }

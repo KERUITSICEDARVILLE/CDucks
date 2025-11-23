@@ -50,19 +50,8 @@ public class BasicBlight : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        GameObject obj = World.GetObjectAtCell<BlightMutation>(cell);
-        if (obj != null) {
-            // begin transformation
-            GrowthRate += Random.Range(1.0f, 1.8f);
-            MaxGrowth += Random.Range(2.0f, 5.0f);
-            GetComponent<SpriteRenderer>().color = new Vector4(1f, 1f / GrowthRate, 1f / GrowthRate, 1f);
-            Lineage = Controller.GiveMeUniqueID();
-            // end transformation
-            Controller.UnregisterMutation(obj);
-            Destroy(obj);
-        }
 
         if (Growth <= 0.0)
         {
@@ -73,13 +62,9 @@ public class BasicBlight : MonoBehaviour
         {
             Growth += Time.deltaTime * GrowthRate;
         }
-
-        if (Random.Range(MaxGrowth - tolerance, MaxGrowth) > MaxGrowth - tolerance * Mathf.Pow(Growth / MaxGrowth, Taut)) {
+        else if (Random.value > .9)
+        {
             BlightSpread();
-        }
-
-        if (transform.parent.GetComponent<WorldTile>().isBeingPressed) {
-            Growth -= Time.deltaTime * 4f;
         }
         
     }
