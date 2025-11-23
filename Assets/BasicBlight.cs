@@ -79,7 +79,7 @@ public class BasicBlight : MonoBehaviour
         }
 
         if (transform.parent.GetComponent<WorldTile>().isBeingPressed) {
-            Growth -= Time.deltaTime * GrowthRate * 4f;
+            Growth -= Time.deltaTime * 4f;
         }
         
     }

@@ -72,12 +72,13 @@ public class GameController : MonoBehaviour
     public GameObject Power4;
 
     [Header("Enemies")]
-    public GameObject BasicBlight;
+    public GameObject[] Blights;
     public GameObject BlightMutation;
-    public BlightController bController;
-    public DuckController dController;
+    
 
     [Header("Scene Setup")]
+    public BlightController bController;
+    public DuckController dController;
     public GameObject UI;
     public GameObject Shop;
     public GameObject RingMenu;
@@ -256,14 +257,17 @@ public class GameController : MonoBehaviour
 
     private void SpawnRound()
     {
-        int EnemyCount = 13 + 2 * Round + Round * Round / 5;
-        for (int i = 0; i < EnemyCount; i++) {
-            GameObject enemy = Instantiate(BasicBlight);
-            AddBlightToRandomCell(enemy);
-        }
-        for (int i = 1; i < Round; i++) {
-            GameObject mut = Instantiate(BlightMutation);
-            AddBlightToRandomCell(mut);
+        if (Round < 7)
+        {
+            int EnemyCount = 13 + 2 * Round + Round * Round / 5;
+            for (int i = 0; i < EnemyCount; i++) {
+                GameObject enemy = Instantiate(Blights[Round-1]);
+                AddBlightToRandomCell(enemy);
+            }
+            for (int i = 1; i < Round; i++) {
+                GameObject mut = Instantiate(BlightMutation);
+                AddBlightToRandomCell(mut);
+            }
         }
     }
 
