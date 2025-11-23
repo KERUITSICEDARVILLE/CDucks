@@ -7,17 +7,23 @@ using System.Collections.Generic;
 public class BlightController : MonoBehaviour
 {
     public int allowance;
+    public int terrorAllowance;
     public WorldGrid World;
     public TMP_Text AlgaeCount;
     private HashSet<GameObject> Subset;
+    private HashSet<GameObject> Mutations;
+    private HashSet<int> idSet; 
     private float timer;
-    const float timerMax = 5f;
+    const float timerMax = 2f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         timer = timerMax;
-        allowance = 50;
+        allowance = 40;
+        terrorAllowance = 10;
         Subset = new HashSet<GameObject>();
+        Mutations = new HashSet<GameObject>();
+        idSet = new HashSet<int>();
     }
 
     void Update()
@@ -70,12 +76,28 @@ public class BlightController : MonoBehaviour
 
         List<GameObject> shouldLive = new List<GameObject>();
 
+        bool shouldLiveAllActive = true;
+
+        int maxLineage = 0;
+        float maxGrowth = 0.5f;
+
+        BasicBlight iterate;
+
         foreach (GameObject iChild in Subset) {
-            if (iChild.GetComponent<BasicBlight>().enabled
+            iterate = iChild.GetComponent<BasicBlight>();
+            if (iterate.enabled
                 || World.CountAdjacentCellsWithoutType<BasicBlight>(iChild.transform.parent.GetComponent<WorldTile>().tileCoord) > 0) {
+                maxGrowth = maxGrowth > iterate.GrowthRate ? maxGrowth : iterate.GrowthRate;
+                maxLineage = maxGrowth > iterate.GrowthRate ? maxLineage : iterate.Lineage;
+                shouldLiveAllActive &= iterate.enabled;
                 shouldLive.Add(iChild);
             }
         } // select all enabled or at border cells
+
+        if (shouldLiveAllActive) {
+            return;
+        }
+
         if (shouldLive.Count > 0)
         {
             for (int i = 0; i < allowance; i++)
@@ -97,6 +119,16 @@ public class BlightController : MonoBehaviour
             } // jumble all of the previously selected
         }
 
+        int terror = terrorAllowance;
+
+        foreach (GameObject iChild in shouldLive) {
+            iterate = iChild.GetComponent<BasicBlight>();
+            if (iterate.Lineage == maxLineage && !iterate.enabled && terror > 0) {
+                iterate.enabled = true;
+                terror--;
+            }
+        }
+
     }
 
     // need to lock down these functions to only be accessible from one blight mutation
@@ -104,6 +136,23 @@ public class BlightController : MonoBehaviour
         Subset.Add(caller);
         AlgaeCount.text = "" + Subset.Count;
     }
+
+    public int GiveMeUniqueID() {
+        int selection = Random.Range(0, 256);
+        while (idSet.Contains(selection)) {
+            selection = Random.Range(0, 256);
+        }
+        idSet.Add(selection);
+        return selection;
+    }
+
+    public void RegisterMutation(GameObject caller) {
+        Mutations.Add(caller);
+    }
+
+    public void UnregisterMutation(GameObject caller) {
+        Mutations.Remove(caller);
+    }    
 
     public void Unregister(GameObject caller) {
         Subset.Remove(caller);
@@ -132,6 +181,21 @@ public class BlightController : MonoBehaviour
 
     public void RetargetNear(BlightMutation caller, WorldTile tile) {
         //
+    }
+
+    public void Nuke() {
+        foreach (GameObject iChild in Subset) {
+            Destroy(iChild);
+        }
+        Subset = new HashSet<GameObject>();
+        foreach (GameObject iChild in Mutations) {
+            Destroy(iChild);
+        }
+        Mutations = new HashSet<GameObject>();
+    }
+
+    public bool isFull() {
+        return Subset.Count > 999;
     }
 
 }

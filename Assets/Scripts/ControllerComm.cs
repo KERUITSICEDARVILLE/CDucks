@@ -2,10 +2,11 @@ using UnityEngine;
 
 public class ControllerComm : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    public int region;
+
     void Start()
     {
-        // start transparent
         GetComponent<SpriteRenderer>().color = new Vector4(1f, 1f, 1f, 0f);
     }
 
@@ -18,9 +19,7 @@ public class ControllerComm : MonoBehaviour
         GetComponent<SpriteRenderer>().color = new Vector4(1f, 1f, 1f, 0f);
     }
 
-    // Update is called once per frame
     public void OnMouseDown() {
-//        transform.localPosition += new Vector3(0f, 0f, 5f);
-        FindAnyObjectByType<GameController>().MapFocus(gameObject);
+        FindAnyObjectByType<GameController>().MapFocus(region);
     }
 }

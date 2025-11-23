@@ -9,12 +9,12 @@ public class DuckController : MonoBehaviour
     public TMP_Text DuckCount;
     private HashSet<GameObject> Subset;
     private float timer;
-    const float timerMax = 5f;
+    const float timerMax = 2f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         timer = timerMax;
-        allowance = 30;
+        allowance = 20;
         Subset = new HashSet<GameObject>();
     }
 
@@ -107,4 +107,12 @@ public class DuckController : MonoBehaviour
         Subset.Remove(caller);
         DuckCount.text = "" + Subset.Count;
     }
+
+    public void Nuke() {
+        foreach (GameObject iChild in Subset) {
+            Destroy(iChild);
+        }
+        Subset = new HashSet<GameObject>();
+    }
+    
 }

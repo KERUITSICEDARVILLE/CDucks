@@ -1,13 +1,8 @@
 using TMPro;
 using UnityEngine;
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 using UnityEngine.UI;
 using UnityEngine.LightTransport;
-=======
->>>>>>> main
-=======
->>>>>>> main
 
 using System.Collections.Generic;
 
@@ -16,10 +11,12 @@ public class GameController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     [Header("Game State")]
+    public bool gameEnd;
     public GameObject CameraObject;
     public Vector3 cameraOrigin;
     public Vector3 scaleOrigin;
-    const int RoundMax = 6;
+    const int RoundMax = 7;
+    const int numDucks = 6;
     public int Round;
     private int moneyAmount;
     public int money {
@@ -39,7 +36,7 @@ public class GameController : MonoBehaviour
     public int cursorMode;
 
     [Header("Map Region State")]
-    public GameObject[] Regions;
+    public int RegionNum;
     public Vector3[] cameraMove;
     public Vector3[] controllerScale;
     private int regionIndex;
@@ -77,13 +74,15 @@ public class GameController : MonoBehaviour
     [Header("Enemies")]
     public GameObject BasicBlight;
     public GameObject BlightMutation;
+    public BlightController bController;
+    public DuckController dController;
 
     [Header("Scene Setup")]
-    private GameObject Menu;
     public GameObject UI;
     public GameObject Shop;
     public GameObject RingMenu;
     public WorldGrid World;
+    private GameObject Menu;
     private int selection;
     public int unlocks;
     private float uniTime;
@@ -119,6 +118,7 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        gameEnd = false;
         uniTime = 0f;
         Menu = null;
         unlocks = 1;
@@ -141,18 +141,18 @@ public class GameController : MonoBehaviour
     void Update()
     {
 
-        // Duck Ring Menu System
-        /*if (ringMenuBasis != null) {
-            HeighlightRing();
-            HandleRingMenu();
+        // Animate zoom
+        float t;
+        if (RegionZoomTimer > 0) {
+            t = RegionZoomTimer / RegionZoomDuration;
+            CameraObject.transform.localPosition = (1 - t) * eventualCamera + t * prevCamera;
+            transform.localScale = (1 - t) * eventualScale + t * prevScale;
+            RegionZoomTimer -= Time.deltaTime;
         }
-        if (ringMenuBasis == null && Menu != null) {
-            MenuToggle eventScript = Menu.transform.GetComponent<MenuToggle>();
-            if (eventScript.readyDestroy) {
-                Destroy(Menu);
-                Menu = null;
-            }
-        }*/
+
+        if (gameEnd) {
+            return;
+        }
 
         // Have we lost yet? Progress to next round if no blight or timer < 0f
         int divvy = (int)RoundTimer;
@@ -167,14 +167,7 @@ public class GameController : MonoBehaviour
         {
             SkipButton.interactable = true;
         }
-        if (RoundTimer <= 0f)
-        {
-            if (Round > RoundMax) {
-                WinGame();
-                return;
-            }
-            StartNextRound();
-        }
+
         if (RoundStartMessageTimer > 0)
         {
             RoundStartMessageTimer -= Time.deltaTime;
@@ -185,20 +178,6 @@ public class GameController : MonoBehaviour
             }
 
             Message.color = new Color(1.0f, 1.0f, 1.0f, RoundStartMessageTimer / RoundMessageDuration);
-        }
-        if (World.IsFull<BasicBlight>())
-        {
-            LoseGame();
-            return;
-        }
-
-        // Animate zoom
-        float t;
-        if (RegionZoomTimer > 0) {
-            t = RegionZoomTimer / RegionZoomDuration;
-            CameraObject.transform.localPosition = (1 - t) * eventualCamera + t * prevCamera;
-            transform.localScale = (1 - t) * eventualScale + t * prevScale;
-            RegionZoomTimer -= Time.deltaTime;
         }
 
         // scuffed old system inputs
@@ -213,19 +192,14 @@ public class GameController : MonoBehaviour
         }
 
         if (Input.GetMouseButton(1)) {
-            regionIndex = -1;
-            eventualCamera = cameraOrigin;
-            eventualScale = scaleOrigin;
-            prevCamera = CameraObject.transform.localPosition;
-            prevScale = transform.localScale;
-            RegionZoomTimer = RegionZoomDuration;
+            MapUnfocus();
         }
         
         if (Input.GetKeyDown("escape")) {
             UI.GetComponent<Canvas>().enabled = !UI.GetComponent<Canvas>().enabled;
         }
 
-        if (Input.GetMouseButton(2) && regionIndex != -1) {
+        if ((Input.GetMouseButton(2) || (Input.GetMouseButton(0) && selection == -2)) && regionIndex != -1) {
             Vector3 perPixel =  ( Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0)) -
                                 Camera.main.ScreenToWorldPoint(new Vector3(64, 0, 0)) );
             CameraObject.transform.localPosition += Input.mousePositionDelta * perPixel.x / 32f;
@@ -237,6 +211,39 @@ public class GameController : MonoBehaviour
         Vector3 tanglePos = Shop.transform.GetChild(selection + 1).transform.localPosition;
         GameObject tangle = Shop.transform.GetChild(0).gameObject;
         tangle.transform.localPosition = tangleDelta + tanglePos;
+
+        if (RoundTimer <= 0f && Round > RoundMax) {
+            bController.Nuke();
+            MapUnfocus();
+            WinGame();
+            return;
+        }
+
+        if (bController.isFull())
+        {
+            dController.Nuke();
+            MapUnfocus();
+            LoseGame();
+            return;
+        }
+
+        if (RoundTimer <= 0f)
+        {
+            StartNextRound();
+        }
+
+        // Duck Ring Menu System
+        /*if (ringMenuBasis != null) {
+            HeighlightRing();
+            HandleRingMenu();
+        }
+        if (ringMenuBasis == null && Menu != null) {
+            MenuToggle eventScript = Menu.transform.GetComponent<MenuToggle>();
+            if (eventScript.readyDestroy) {
+                Destroy(Menu);
+                Menu = null;
+            }
+        }*/
 
     }
 
@@ -290,12 +297,14 @@ public class GameController : MonoBehaviour
         Round = RoundMax + 1;
         Message.text = "You Lose!";
         Message.color = new Color(5.0f, 0.0f, 0.0f, 1.0f);
+        gameEnd = true;
     }
 
     public void WinGame()
     {
         Message.text = "You Win!";
         Message.color = new Color(0.0f, 5.0f, 5.0f, 1.0f);
+        gameEnd = true;
     }
 
     public void HoverTile(WorldTile caller) {
@@ -394,6 +403,9 @@ public class GameController : MonoBehaviour
     }
 
     public void Upgrade() {
+        if (unlocks > numDucks) {
+            return;
+        }
         for (int i = 1; i < Shop.transform.childCount; i++) {
             if (!Shop.transform.GetChild(i).GetComponent<Button>().interactable) {
                 Shop.transform.GetChild(i).GetComponent<Button>().interactable = true;
@@ -551,23 +563,29 @@ public class GameController : MonoBehaviour
         borderCleanse = !borderCleanse;
     }
 
-    public void MapFocus(GameObject caller) {
+    public void MapFocus(int caller) {
 
-        for (regionIndex = 0; regionIndex < Regions.Length; regionIndex++) {
-            if (Regions[regionIndex] == caller) {
-                break;
-            }
-        }
-        if (regionIndex == Regions.Length) {
+        if (caller >= RegionNum || gameEnd) {
             regionIndex = -1;
             return;
         }
 
+        regionIndex = caller;
+
         RegionZoomTimer = RegionZoomDuration;
         prevCamera = CameraObject.transform.localPosition;
         prevScale = transform.localScale;
-        eventualCamera = cameraMove[regionIndex];
-        eventualScale = controllerScale[regionIndex];
+        eventualCamera = cameraMove[caller];
+        eventualScale = controllerScale[caller];
+    }
+
+    public void MapUnfocus() {
+        regionIndex = -1;
+        eventualCamera = cameraOrigin;
+        eventualScale = scaleOrigin;
+        prevCamera = CameraObject.transform.localPosition;
+        prevScale = transform.localScale;
+        RegionZoomTimer = RegionZoomDuration;
     }
 
     public void StartNextRound()

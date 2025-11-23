@@ -19,8 +19,10 @@ public class BlightMutation : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
         World = FindAnyObjectByType<WorldGrid>().GetComponent<WorldGrid>();
         Controller = FindAnyObjectByType<BlightController>().GetComponent<BlightController>();
+        Controller.RegisterMutation(gameObject);
         Controller.GiveMeTarget(this);
         moveTimer = moveTimeMax;
     }
@@ -28,8 +30,8 @@ public class BlightMutation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
-        transform.localPosition = new Vector3(0f, 0f, -2.820513f);
+        // if GameController.regionIndex != -1 then show HUD alert
+
         if (TargetTile == null || Path == null) {
             return;
         }
@@ -50,6 +52,7 @@ public class BlightMutation : MonoBehaviour
             }
             WorldTile next = Path[0];
             transform.SetParent(next.gameObject.transform);
+            transform.localPosition = new Vector3(0f, 0f, -2.820513f);
             Path.RemoveAt(0);
         }
 

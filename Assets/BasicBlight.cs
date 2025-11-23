@@ -24,6 +24,8 @@ public class BasicBlight : MonoBehaviour
     public float tolerance;
     public float Taut;
 
+    public int Lineage;
+
     public Vector2Int cell {
         get { return transform.parent.GetComponent<WorldTile>().tileCoord; }
     }
@@ -31,7 +33,6 @@ public class BasicBlight : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
 
         if (transform.parent != null) {
             if (transform.parent.parent != null) {
@@ -53,8 +54,13 @@ public class BasicBlight : MonoBehaviour
     {
         GameObject obj = World.GetObjectAtCell<BlightMutation>(cell);
         if (obj != null) {
-            GrowthRate += Random.Range(0.5f, 1.0f);
+            // begin transformation
+            GrowthRate += Random.Range(1.0f, 1.8f);
+            MaxGrowth += Random.Range(2.0f, 5.0f);
             GetComponent<SpriteRenderer>().color = new Vector4(1f, 1f / GrowthRate, 1f / GrowthRate, 1f);
+            Lineage = Controller.GiveMeUniqueID();
+            // end transformation
+            Controller.UnregisterMutation(obj);
             Destroy(obj);
         }
 

@@ -70,8 +70,8 @@ public class BasicDuck : MonoBehaviour
             victim = World.GetObjectAtCell<BasicBlight>(target.tileCoord).GetComponent<BasicBlight>();
             victim.enabled = true;
             victim.Damage(power);
-            Damage(0.5f * (healthPool + Random.Range(0f, 0.1f)) / power);
-            FindAnyObjectByType<GameController>().money += (int) power;
+            Damage(0.25f * (MaxHealth + healthPool * Random.Range(0f, 0.1f)) / power);
+            FindAnyObjectByType<GameController>().money += (int) (power * 1.5);
             cooldown = 1.0f;
         }
         if (HP < MaxHealth && World.CountAdjacentCellsWithType<BasicBlight>(cell) == 0) {
