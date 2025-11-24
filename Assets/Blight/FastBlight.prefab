@@ -57,7 +57,7 @@ MonoBehaviour:
   GrowthRate: 1.5
   tolerance: 1
   Taut: 20
-  Lineage: 0
+  Lineage: 1
 --- !u!212 &2967337111675365541
 SpriteRenderer:
   m_ObjectHideFlags: 0

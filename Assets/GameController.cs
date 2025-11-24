@@ -81,6 +81,7 @@ public class GameController : MonoBehaviour
     public DuckController dController;
     public GameObject UI;
     public GameObject Shop;
+    public GameObject Tangle;
     public GameObject RingMenu;
     public WorldGrid World;
     private GameObject Menu;
@@ -103,6 +104,7 @@ public class GameController : MonoBehaviour
 
     [Header("Cursors")]
     public Texture2D cleanerCursor;
+    public Texture2D panCursor;
 
     public Texture2D basicDuckCursor;
     public Texture2D armyDuckCursor;
@@ -184,7 +186,7 @@ public class GameController : MonoBehaviour
         // scuffed old system inputs
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll != 0f) {
-            if (scroll > 0f) {
+            if (scroll < 0f) {
                 selection = (selection + 1) % unlocks;
             } else {
                 selection = selection < 1 ? unlocks - 1 : selection - 1;
@@ -207,11 +209,10 @@ public class GameController : MonoBehaviour
         }
         // end scuffed old system inputs
 
-        // this nonsense should only change upon setcursor requests really.
-        Vector3 tangleDelta = selection == -1 ? new Vector3(500f, 0f, 0f) : new Vector3(0f, 14f, 0f);
-        Vector3 tanglePos = Shop.transform.GetChild(selection + 1).transform.localPosition;
-        GameObject tangle = Shop.transform.GetChild(0).gameObject;
-        tangle.transform.localPosition = tangleDelta + tanglePos;
+        if (selection >= 0) {
+            Tangle.transform.localPosition = Shop.transform.GetChild(selection).transform.localPosition + new Vector3(0f, 14f, 0f);
+        }
+        Tangle.SetActive(selection >= 0);
 
         if (RoundTimer <= 0f && Round > RoundMax) {
             bController.Nuke();
@@ -453,10 +454,16 @@ public class GameController : MonoBehaviour
         // 13 = use power 3
         // 14 super secret power or something
         // 15 = use duck collector
-        Cursor.SetCursor(GetCursorForMode(mode), Vector2.zero, CursorMode.Auto);
+
         cursorMode = mode % 20;
-        if (cursorMode > 5) {
+        Cursor.SetCursor(GetCursorForMode(cursorMode), Vector2.zero, CursorMode.Auto);
+        if (cursorMode > 6) {
         selection = -1;
+        } else {
+            selection = cursorMode;
+        }
+        if (cursorMode == -2) {
+            selection = -2;
         }
     }
 
@@ -464,6 +471,8 @@ public class GameController : MonoBehaviour
     {
         switch (mode)
         {
+            case -2:
+                return panCursor;
             case 0:
                 return cleanerCursor;
             case 1:
