@@ -37,7 +37,8 @@ public class BlightMutation : MonoBehaviour
         }
         GameObject loadTarget = World.GetObjectAtCell<BasicBlight>(TargetTile.tileCoord);
         if (loadTarget == null) {
-            Controller.RetargetNear(this, TargetTile);
+            Controller.GiveMeTarget(this);
+            //Controller.RetargetNear(this, TargetTile);
         }
         GameObject CellBlight = World.GetObjectAtCell<BasicBlight>(cell);
         if (CellBlight != null) {

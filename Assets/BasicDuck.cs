@@ -37,7 +37,6 @@ public class BasicDuck : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        attackRange = 3;
         transform.localScale = new Vector3(3.2f, 3.2f, 3.2f);
         HP = MaxHealth;
         if (transform.parent != null) {

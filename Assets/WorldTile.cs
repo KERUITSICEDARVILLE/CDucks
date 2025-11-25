@@ -8,7 +8,20 @@ public class WorldTile : MonoBehaviour
     public Color color;
     public Color pressed;
     public Color heighlight;
-    public bool isBeingPressed;
+    public SpriteRenderer render;
+    public Color TileColor {
+        set {
+            if (value == new Color(0f, 0f, 0f, 0f)) {
+                render.color = color;
+            } else {
+                render.color = value;
+            }
+        }
+        get {
+            return render.color;
+        }
+    }
+    public GameController Controller;
 
     [Header("Discovery and Relevant Metadata")]
     public Vector2Int discoveryParentCoord;
@@ -18,45 +31,36 @@ public class WorldTile : MonoBehaviour
     [Header("Waves")]
     public Vector3 initialTransform;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         initialTransform = transform.localPosition;
-        GetComponent<SpriteRenderer>().color = color;
+        Controller = FindAnyObjectByType<GameController>();
+        render = GetComponent<SpriteRenderer>();
+        render.color = color;
     }
-
-    // Update is called once per frame
 
     public void OnMouseEnter()
     {
-        GetComponent<SpriteRenderer>().color = heighlight;
-        FindAnyObjectByType<GameController>().HoverTile(this);
+        render.color = heighlight;
+        Controller.HoverTile(this);
     }
 
     public void OnMouseExit()
     {
-        isBeingPressed = false;
-        GetComponent<SpriteRenderer>().color = color;
-        FindAnyObjectByType<GameController>().ExitTile(this);
+        render.color = color;
+        Controller.ExitTile(this);
     }
 
     public void OnMouseDown()
     {
-        isBeingPressed = true;
-        //GetComponent<SpriteRenderer>().color = pressed;
-        FindAnyObjectByType<GameController>().ClickTile(this);
-    }
-
-    public void OnMouseUp() {
-        isBeingPressed = false;
-        //GetComponent<SpriteRenderer>().color = color;
+        Controller.ClickTile(this);
     }
 
     public void OnMouseOver()
     {
-        if (Input.GetMouseButton(0))
-        {
-            FindAnyObjectByType<GameController>().ClickTile(this);
+        if (Input.GetMouseButton(0)) {
+            Controller.ClickTile(this);
         }
     }
+
 }

@@ -32,7 +32,6 @@ public class GameController : MonoBehaviour
     public List<WorldTile> ringMenuBasis;
 
     public bool borderCleanse;
-    public bool haveSwipePower;
     public int cursorMode;
 
     [Header("Map Region State")]
@@ -44,37 +43,6 @@ public class GameController : MonoBehaviour
     private Vector3 prevScale;
     private Vector3 eventualCamera;
     private Vector3 eventualScale;
-
-    [Header("Item Costs")]
-    public int Duck1Cost;
-    public int Duck2Cost;
-    public int Duck3Cost;
-    public int Duck4Cost;
-    public int Duck5Cost;
-    public int Duck6Cost;
-
-    public int Power1Cost;
-    public int Power2Cost;
-    public int Power3Cost;
-    public int Power4Cost;
-
-    [Header("Item Prefabs")]
-    public GameObject Duck1;
-    public GameObject Duck2;
-    public GameObject Duck3;
-    public GameObject Duck4;
-    public GameObject Duck5;
-    public GameObject Duck6;
-
-    public GameObject Power1;
-    public GameObject Power2;
-    public GameObject Power3;
-    public GameObject Power4;
-
-    [Header("Enemies")]
-    public GameObject[] Blights;
-    public GameObject BlightMutation;
-    
 
     [Header("Scene Setup")]
     public BlightController bController;
@@ -119,6 +87,36 @@ public class GameController : MonoBehaviour
     public Texture2D duckScooper;
     public Texture2D specialPowerCursor;
 
+    [Header("Item Costs")]
+    public int Duck1Cost;
+    public int Duck2Cost;
+    public int Duck3Cost;
+    public int Duck4Cost;
+    public int Duck5Cost;
+    public int Duck6Cost;
+
+    public int Power1Cost;
+    public int Power2Cost;
+    public int Power3Cost;
+    public int Power4Cost;
+
+    [Header("Item Prefabs")]
+    public GameObject Duck1;
+    public GameObject Duck2;
+    public GameObject Duck3;
+    public GameObject Duck4;
+    public GameObject Duck5;
+    public GameObject Duck6;
+
+    public GameObject Power1;
+    public GameObject Power2;
+    public GameObject Power3;
+    public GameObject Power4;
+
+    [Header("Enemies")]
+    public GameObject[] Blights;
+    public GameObject BlightMutation;
+
     void Start()
     {
         gameEnd = false;
@@ -131,7 +129,6 @@ public class GameController : MonoBehaviour
         regionIndex = -1;
         ringMenuBasis = null;
         borderCleanse = false;
-        haveSwipePower = false;
         RegionZoomTimer = 0;
         RoundStartMessageTimer = 0;
         RoundTimer = 0;
@@ -192,6 +189,10 @@ public class GameController : MonoBehaviour
                 selection = selection < 1 ? unlocks - 1 : selection - 1;
             }
             SetCursorMode(selection);
+            /* if we are hovering over a tile then
+            Tile.OnMouseExit();
+            Tile.OnMouseEnter();
+            */
         }
 
         if (Input.GetMouseButton(1)) {
@@ -318,6 +319,7 @@ public class GameController : MonoBehaviour
 
         GameObject suds = null;
         BasicBlight blight = null;
+        Vector2Int[] tileset = null;
 
         for (int i = 0; i < caller.transform.childCount; i++) {
             blight = blight == null ? caller.transform.GetChild(i).GetComponent<BasicBlight>() : blight;
@@ -327,12 +329,27 @@ public class GameController : MonoBehaviour
             blight.enabled = true;
         }
 
+        if (!Input.GetMouseButton(0) && cursorMode > 0) {
+            tileset = World.CellNeighborhoodStripe(caller.tileCoord, GetDuckForMode(cursorMode).GetComponent<BasicDuck>().attackRange);
+            foreach (Vector2Int cell in tileset) {
+                World.GetTile(cell).TileColor = new Color(1f, 0.25f, 0f, 1f);
+            }
+            tileset = World.CellNeighborhood(caller.tileCoord, GetDuckForMode(cursorMode).GetComponent<BasicDuck>().attackRange - 1);
+            foreach (Vector2Int cell in tileset) {
+                World.GetTile(cell).TileColor = new Color(0f, 1f, 0.25f, 1f);
+            }
+        }
+
         if ((suds != null && cursorMode == 0) || (Input.GetMouseButton(0) && cursorMode > 0) || cursorMode == 14) {
             ClickTile(caller);
         }
     }
 
     public void ExitTile(WorldTile caller) {
+        Vector2Int[] range = World.CellNeighborhood(caller.tileCoord, 5);
+        foreach (Vector2Int cell in range) {
+            World.GetTile(cell).TileColor = new Color(0f, 0f, 0f, 0f);
+        }
         ringMenuBasis = null;
     }
 
@@ -385,7 +402,12 @@ public class GameController : MonoBehaviour
                 }
             }
         }
-        
+
+        Vector2Int[] range = World.CellNeighborhood(tile, 5);
+        foreach (Vector2Int cell in range) {
+            World.GetTile(cell).TileColor = new Color(0f, 0f, 0f, 0f);
+        }
+
     }
 
     public void HeighlightRing() { // extremely dumb and complains constantly
