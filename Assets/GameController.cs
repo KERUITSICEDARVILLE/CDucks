@@ -211,7 +211,7 @@ public class GameController : MonoBehaviour
         // end scuffed old system inputs
 
         if (selection >= 0) {
-            Tangle.transform.localPosition = Shop.transform.GetChild(selection).transform.localPosition + new Vector3(0f, 14f, 0f);
+            Tangle.transform.localPosition = Shop.transform.GetChild(selection).transform.localPosition + new Vector3(0f, 13f, 0f);
         }
         Tangle.SetActive(selection >= 0);
 
@@ -317,6 +317,7 @@ public class GameController : MonoBehaviour
 
         ringMenuBasis = World.WithinDuckRing(caller);
 
+        GameObject occupant = null;
         GameObject suds = null;
         BasicBlight blight = null;
         Vector2Int[] tileset = null;
@@ -329,18 +330,30 @@ public class GameController : MonoBehaviour
             blight.enabled = true;
         }
 
+        occupant = World.GetObjectAtCell<BasicBlight>(caller.tileCoord);
+        if (occupant == null) {
+        occupant = World.GetObjectAtCell<BasicDuck>(caller.tileCoord);
+        }
+
         if (!Input.GetMouseButton(0) && cursorMode > 0 && cursorMode < 7) {
+            if (occupant == null) {
             tileset = World.CellNeighborhoodStripe(caller.tileCoord, GetDuckForMode(cursorMode).GetComponent<BasicDuck>().attackRange);
-            foreach (Vector2Int cell in tileset) {
-                World.GetTile(cell).TileColor = new Color(1f, 0.25f, 0f, 1f);
-            }
+                foreach (Vector2Int cell in tileset) {
+                    World.GetTile(cell).TileColor = new Color(1f, 0.25f, 0f, 1f);
+                }
             tileset = World.CellNeighborhood(caller.tileCoord, GetDuckForMode(cursorMode).GetComponent<BasicDuck>().attackRange - 1);
-            foreach (Vector2Int cell in tileset) {
-                World.GetTile(cell).TileColor = new Color(0f, 1f, 0.25f, 1f);
+                foreach (Vector2Int cell in tileset) {
+                    World.GetTile(cell).TileColor = new Color(0f, 1f, 0.25f, 1f);
+                }
+            } else {
+            tileset = World.CellNeighborhood(caller.tileCoord, GetDuckForMode(cursorMode).GetComponent<BasicDuck>().attackRange);
+                foreach (Vector2Int cell in tileset) {
+                    World.GetTile(cell).TileColor = new Color(1f, 0f, 0f, 1f);
+                }
             }
         }
 
-        if ((suds != null && cursorMode == 0) || (Input.GetMouseButton(0) && cursorMode > 0) || cursorMode == 14) {
+        if (Input.GetMouseButton(0) && cursorMode > 0 && cursorMode < 7 && occupant == null) {
             ClickTile(caller);
         }
     }
