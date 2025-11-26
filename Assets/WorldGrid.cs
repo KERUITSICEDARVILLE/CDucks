@@ -16,6 +16,7 @@ public class WorldGrid : MonoBehaviour
     public int ymax;
 
     public bool build;
+    public bool toggleUpdate;
 
     public Color color1;
     public Color color2;
@@ -109,6 +110,22 @@ public class WorldGrid : MonoBehaviour
                 {
                     addTile(new Vector2Int(x, y));
                 }
+            }
+        }
+
+        if (toggleUpdate && !Application.isPlaying) {
+            toggleUpdate = false;
+            /*WorldTile current;
+            for (int i = 0; i < transform.childCount; i++) {
+                current = transform.GetChild(i).GetComponent<WorldTile>();
+                current.enabled = !(current.enabled);
+                Debug.Log(current.enabled);
+            }*/
+            WorldTile current;
+            for (int i = 0; i < transform.childCount; i++) {
+                current = transform.GetChild(i).GetComponent<WorldTile>();
+                current.colorDuration = 0.25f;
+                Debug.Log(current.enabled);
             }
         }
 

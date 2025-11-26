@@ -6,21 +6,8 @@ public class WorldTile : MonoBehaviour
     [Header("Identity Information")]
     public Vector2Int tileCoord;
     public Color color;
-    public Color pressed;
     public Color heighlight;
     public SpriteRenderer render;
-    public Color TileColor {
-        set {
-            if (value == new Color(0f, 0f, 0f, 0f)) {
-                render.color = color;
-            } else {
-                render.color = value;
-            }
-        }
-        get {
-            return render.color;
-        }
-    }
     public GameController Controller;
 
     [Header("Discovery and Relevant Metadata")]
@@ -31,12 +18,55 @@ public class WorldTile : MonoBehaviour
     [Header("Waves")]
     public Vector3 initialTransform;
 
-    void Start()
+    [Header("Makes things nicer to look at")]
+    public float colorDuration;
+    public float colorTimer;
+    public Color prevColor;
+    public Color eventualColor;
+    public Color TileColor {
+        set {
+            prevColor = render.color;
+            if (value == new Color(0f, 0f, 0f, 0f)) {
+                eventualColor = color;
+            } else {
+                eventualColor = value;
+            }
+            colorTimer = colorDuration;
+            this.enabled = true;
+        }
+        get {
+            return render.color;
+        }
+    }
+
+    void Awake()
     {
         initialTransform = transform.localPosition;
         Controller = FindAnyObjectByType<GameController>();
         render = GetComponent<SpriteRenderer>();
         render.color = color;
+        colorTimer = 0f;
+    }
+
+    void Update() { // fear not for this is (almost) never touched
+        if (!Application.isPlaying) {
+            return;
+        }
+        //Debug.Log("first time?");
+        //Debug.Break();
+        float t;
+        float decay = 0f;
+        if (colorTimer > 0f) {
+            if (colorTimer / colorDuration < 0.5f) {
+                decay = (Input.mousePositionDelta).magnitude * Time.deltaTime;
+            }
+            t = colorTimer / colorDuration;
+            render.color = (1 - t) * eventualColor + t * prevColor;
+            colorTimer -= Time.deltaTime + decay;
+        } else {
+            render.color = eventualColor;
+            this.enabled = false;
+        }
     }
 
     public void OnMouseEnter()

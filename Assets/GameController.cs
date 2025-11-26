@@ -329,7 +329,7 @@ public class GameController : MonoBehaviour
             blight.enabled = true;
         }
 
-        if (!Input.GetMouseButton(0) && cursorMode > 0) {
+        if (!Input.GetMouseButton(0) && cursorMode > 0 && cursorMode < 7) {
             tileset = World.CellNeighborhoodStripe(caller.tileCoord, GetDuckForMode(cursorMode).GetComponent<BasicDuck>().attackRange);
             foreach (Vector2Int cell in tileset) {
                 World.GetTile(cell).TileColor = new Color(1f, 0.25f, 0f, 1f);
