@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 
 using UnityEngine.UI;
-using UnityEngine.LightTransport;
+//using UnityEngine.LightTransport;
 
 using System.Collections.Generic;
 
@@ -15,9 +15,20 @@ public class GameController : MonoBehaviour
     public GameObject CameraObject;
     public Vector3 cameraOrigin;
     public Vector3 scaleOrigin;
-    const int RoundMax = 7;
+    const int RoundMax = 8;
     const int numDucks = 6;
     public int Round;
+    private int walletAmount;
+    public int wallet {
+        set {
+            walletAmount = value;
+            WalletDisplay.text = "" + walletAmount;
+        }
+        get {
+            return walletAmount;
+        }
+    }
+
     private int moneyAmount;
     public int money {
         set {
@@ -60,6 +71,7 @@ public class GameController : MonoBehaviour
     public float RoundMessageDuration;
     private float RegionZoomTimer;
     public float[] RoundDurations;
+    public float[] RoundModifiers;
     private float RoundTimer;
     private float RoundStartMessageTimer;
 
@@ -67,6 +79,7 @@ public class GameController : MonoBehaviour
     public TMP_Text RoundTMP;
     public TMP_Text RoundTime;
     public TMP_Text Message;
+    public TMP_Text WalletDisplay;
     public TMP_Text MoneyDisplay;
     public Button SkipButton;
 
@@ -101,6 +114,7 @@ public class GameController : MonoBehaviour
     public int Power4Cost;
 
     [Header("Item Prefabs")]
+    public int maxRange;
     public GameObject Duck1;
     public GameObject Duck2;
     public GameObject Duck3;
@@ -122,9 +136,8 @@ public class GameController : MonoBehaviour
         gameEnd = false;
         uniTime = 0f;
         Menu = null;
-        unlocks = 1;
+        unlocks = 0;
         Round = 0;
-        money = 0;
         selection = -1;
         regionIndex = -1;
         ringMenuBasis = null;
@@ -181,21 +194,26 @@ public class GameController : MonoBehaviour
         }
 
         // scuffed old system inputs
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
-        if (scroll != 0f) {
-            if (scroll < 0f) {
-                selection = (selection + 1) % unlocks;
-            } else {
-                selection = selection < 1 ? unlocks - 1 : selection - 1;
+            if (Input.GetAxis("Mouse ScrollWheel") < 0f) {
+                MapUnfocus();
             }
-            SetCursorMode(selection);
-            /* if we are hovering over a tile then
-            Tile.OnMouseExit();
-            Tile.OnMouseEnter();
-            */
-        }
+            if (Input.GetKeyDown("d")) {
+                selection = (selection + 1) % unlocks;
+                SetCursorMode(selection);
+            }
+            if (Input.GetKeyDown("a")) {
+                selection = selection < 1 ? unlocks - 1 : selection - 1;
+                SetCursorMode(selection);
+            }
 
-        if (Input.GetMouseButton(1)) {
+            for (int i = 0; i < 6; i++) {
+                if (Input.GetKey("" + i)) {
+                    selection = i;
+                    SetCursorMode(selection);
+                }
+            }
+
+        if (Input.GetMouseButton(1)) { // do something else with right click
             MapUnfocus();
         }
         
@@ -346,7 +364,7 @@ public class GameController : MonoBehaviour
                     World.GetTile(cell).TileColor = new Color(0f, 1f, 0.25f, 1f);
                 }
             } else {
-            tileset = World.CellNeighborhood(caller.tileCoord, GetDuckForMode(cursorMode).GetComponent<BasicDuck>().attackRange);
+            tileset = World.CellNeighborhood(caller.tileCoord, 1);
                 foreach (Vector2Int cell in tileset) {
                     World.GetTile(cell).TileColor = new Color(1f, 0f, 0f, 1f);
                 }
@@ -359,7 +377,7 @@ public class GameController : MonoBehaviour
     }
 
     public void ExitTile(WorldTile caller) {
-        Vector2Int[] range = World.CellNeighborhood(caller.tileCoord, 5);
+        Vector2Int[] range = World.CellNeighborhood(caller.tileCoord, maxRange);
         foreach (Vector2Int cell in range) {
             World.GetTile(cell).TileColor = new Color(0f, 0f, 0f, 0f);
         }
@@ -401,7 +419,7 @@ public class GameController : MonoBehaviour
             if (target != null)
             {
                 target.GetComponent<BasicBlight>().Damage(4.0f * Time.deltaTime);
-                money += (Random.value < Time.deltaTime * 4.0f) ? 1:0;
+                wallet += (Random.value < Time.deltaTime * 4.0f) ? 1:0;
             }
         }
         // duck remover
@@ -416,9 +434,12 @@ public class GameController : MonoBehaviour
             }
         }
 
-        Vector2Int[] range = World.CellNeighborhood(tile, 5);
-        foreach (Vector2Int cell in range) {
-            World.GetTile(cell).TileColor = new Color(0f, 0f, 0f, 0f);
+        if (World.GetObjectAtCell<BasicBlight>(tile) == null
+                && World.GetObjectAtCell<BasicDuck>(tile) == null) {
+            Vector2Int[] range = World.CellNeighborhood(tile, maxRange);
+            foreach (Vector2Int cell in range) {
+                World.GetTile(cell).TileColor = new Color(0f, 0f, 0f, 0f);
+            }
         }
 
     }
@@ -446,7 +467,7 @@ public class GameController : MonoBehaviour
         if (unlocks > numDucks) {
             return;
         }
-        for (int i = 1; i < Shop.transform.childCount; i++) {
+        for (int i = 0; i < Shop.transform.childCount; i++) {
             if (!Shop.transform.GetChild(i).GetComponent<Button>().interactable) {
                 Shop.transform.GetChild(i).GetComponent<Button>().interactable = true;
                 break;
@@ -639,6 +660,13 @@ public class GameController : MonoBehaviour
     public void StartNextRound()
     {
 
+        if (wallet == 0 && money == 0) {
+            wallet = 4;
+        } else {
+            money += (int)((float)wallet * RoundModifiers[Round]);
+            wallet = Round * GetCost(Round); // base on next duck tier price
+        }
+
         RoundTimer = RoundDurations[Round];
         Round += 1;
         DisplayRound();
@@ -647,5 +675,10 @@ public class GameController : MonoBehaviour
         RoundTMP.text = "" + Round;
         RoundTime.transform.localPosition = Vector3.zero;
         SkipButton.interactable = false;
+    }
+
+    public void Redeem() {
+        money += wallet / 4;
+        wallet = 0;
     }
 }

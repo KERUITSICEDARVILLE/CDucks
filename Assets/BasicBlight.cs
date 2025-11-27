@@ -7,11 +7,12 @@ public class BasicBlight : MonoBehaviour
 
     public Animation minus;
 
+    private bool once;
     private float growth;
     public float Growth {
         set
         {
-            GetComponent<SpriteRenderer>().size = new Vector2( 0.25f + 0.75f * growth / MaxGrowth, 0.25f + 0.75f * growth / MaxGrowth);
+            GetComponent<SpriteRenderer>().size = new Vector2(0.25f + 0.75f * growth / MaxGrowth, 0.25f + 0.75f * growth / MaxGrowth);
             growth = value;
         }
         get
@@ -33,7 +34,11 @@ public class BasicBlight : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        if (!once) {
+            once = true;
+        } else {
+            return;
+        }
         if (transform.parent != null) {
             if (transform.parent.parent != null) {
                 World = transform.parent.parent.GetComponent<WorldGrid>();
@@ -52,9 +57,9 @@ public class BasicBlight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (Growth <= 0.0)
         {
+            FindAnyObjectByType<GameController>().wallet += 2;
             Controller.Unregister(gameObject);
             Destroy(gameObject);
         }
@@ -100,6 +105,14 @@ public class BasicBlight : MonoBehaviour
     {
         //minus.Play();
         Growth -= amount;
+    }
+
+    public void Wake() {
+
+    }
+
+    public void Sleep() {
+        
     }
 
 }

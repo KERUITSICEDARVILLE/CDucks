@@ -57,7 +57,7 @@ public class WorldTile : MonoBehaviour
         float t;
         float decay = 0f;
         if (colorTimer > 0f) {
-            if (colorTimer / colorDuration < 0.5f) {
+            if (colorTimer / colorDuration < 0.75f) {
                 decay = (Input.mousePositionDelta).magnitude * Time.deltaTime;
             }
             t = colorTimer / colorDuration;

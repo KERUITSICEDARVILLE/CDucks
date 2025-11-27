@@ -561,8 +561,8 @@ MonoBehaviour:
   tileCoord: {x: 12, y: 3}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 855485}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -2261,8 +2261,8 @@ MonoBehaviour:
   tileCoord: {x: 5, y: 5}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 5222076}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -2601,8 +2601,8 @@ MonoBehaviour:
   tileCoord: {x: 9, y: 0}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 6714921}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -9231,8 +9231,8 @@ MonoBehaviour:
   tileCoord: {x: 11, y: -4}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 36359523}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -15521,8 +15521,8 @@ MonoBehaviour:
   tileCoord: {x: 3, y: 3}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 58439070}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -17458,6 +17458,7 @@ RectTransform:
   m_LocalScale: {x: 0.9968407, y: 0.9968407, z: 0.9968407}
   m_ConstrainProportionsScale: 1
   m_Children:
+  - {fileID: 1881293608}
   - {fileID: 1813004849}
   m_Father: {fileID: 1214141275}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -17487,9 +17488,9 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 0.52156866, g: 0.7803922, b: 0.27058825, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_PressedColor: {r: 0.46274513, g: 0.74509805, b: 0.14117648, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -20117,8 +20118,8 @@ MonoBehaviour:
   tileCoord: {x: 16, y: -2}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 70244133}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -26747,8 +26748,8 @@ MonoBehaviour:
   tileCoord: {x: 12, y: -5}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 93653238}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -29882,8 +29883,8 @@ MonoBehaviour:
   tileCoord: {x: 8, y: 0}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 101143292}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -34642,8 +34643,8 @@ MonoBehaviour:
   tileCoord: {x: 17, y: -4}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 118246748}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -35322,8 +35323,8 @@ MonoBehaviour:
   tileCoord: {x: 16, y: -3}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 120073386}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -39402,8 +39403,8 @@ MonoBehaviour:
   tileCoord: {x: 15, y: 0}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 133999926}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -43897,8 +43898,8 @@ MonoBehaviour:
   tileCoord: {x: 7, y: 3}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 146750027}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -54587,8 +54588,8 @@ MonoBehaviour:
   tileCoord: {x: 9, y: 2}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 177226220}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -59517,8 +59518,8 @@ MonoBehaviour:
   tileCoord: {x: 15, y: -5}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 195411100}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -65372,8 +65373,8 @@ MonoBehaviour:
   tileCoord: {x: 4, y: 4}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 216962636}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -73872,8 +73873,8 @@ MonoBehaviour:
   tileCoord: {x: 17, y: -5}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 251534411}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -80842,8 +80843,8 @@ MonoBehaviour:
   tileCoord: {x: 4, y: 3}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 275143094}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -82882,8 +82883,8 @@ MonoBehaviour:
   tileCoord: {x: 9, y: 5}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 280581229}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -84582,8 +84583,8 @@ MonoBehaviour:
   tileCoord: {x: 5, y: 2}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 285319857}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -86282,8 +86283,8 @@ MonoBehaviour:
   tileCoord: {x: 8, y: 2}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 296320899}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -91413,6 +91414,142 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &317066367
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 317066368}
+  - component: {fileID: 317066370}
+  - component: {fileID: 317066369}
+  m_Layer: 5
+  m_Name: WalletDisplay
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &317066368
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 317066367}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1323863151}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 34, y: 0}
+  m_SizeDelta: {x: 80, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &317066369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 317066367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 0
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 20
+  m_fontSizeBase: 20
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 0
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &317066370
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 317066367}
+  m_CullTransparentMesh: 1
 --- !u!1 &317734757
 GameObject:
   m_ObjectHideFlags: 0
@@ -95160,8 +95297,8 @@ MonoBehaviour:
   tileCoord: {x: 13, y: -3}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 327607963}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -101620,8 +101757,8 @@ MonoBehaviour:
   tileCoord: {x: 7, y: 1}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 348416890}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -101790,8 +101927,8 @@ MonoBehaviour:
   tileCoord: {x: 13, y: 3}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 351224671}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -110630,8 +110767,8 @@ MonoBehaviour:
   tileCoord: {x: 8, y: 5}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 383084604}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -112160,8 +112297,8 @@ MonoBehaviour:
   tileCoord: {x: 15, y: -3}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 389601518}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -113180,8 +113317,8 @@ MonoBehaviour:
   tileCoord: {x: 7, y: 2}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 392293662}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -123853,8 +123990,8 @@ MonoBehaviour:
   tileCoord: {x: 7, y: 5}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 439562918}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -124533,8 +124670,8 @@ MonoBehaviour:
   tileCoord: {x: 10, y: 1}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 441246191}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -130864,8 +131001,8 @@ MonoBehaviour:
   tileCoord: {x: 19, y: -8}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 472338763}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -137122,8 +137259,8 @@ MonoBehaviour:
   tileCoord: {x: 19, y: -7}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 498817089}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -138822,8 +138959,8 @@ MonoBehaviour:
   tileCoord: {x: 11, y: -1}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 503982588}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -143487,8 +143624,8 @@ MonoBehaviour:
   tileCoord: {x: 17, y: -7}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 525211691}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -144847,8 +144984,8 @@ MonoBehaviour:
   tileCoord: {x: 11, y: 2}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 529159350}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -147227,8 +147364,8 @@ MonoBehaviour:
   tileCoord: {x: 13, y: 1}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 536926918}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -150532,8 +150669,8 @@ MonoBehaviour:
   tileCoord: {x: 6, y: 3}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 548075772}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -151552,8 +151689,8 @@ MonoBehaviour:
   tileCoord: {x: 3, y: 0}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 552132423}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -155632,8 +155769,8 @@ MonoBehaviour:
   tileCoord: {x: 3, y: 2}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 569563026}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -157137,8 +157274,8 @@ MonoBehaviour:
   tileCoord: {x: 3, y: 1}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 574021542}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -162067,8 +162204,8 @@ MonoBehaviour:
   tileCoord: {x: 12, y: -1}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 594037037}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -168187,8 +168324,8 @@ MonoBehaviour:
   tileCoord: {x: 12, y: 4}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 614196711}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -172777,8 +172914,8 @@ MonoBehaviour:
   tileCoord: {x: 8, y: 4}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 624026525}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -177612,8 +177749,8 @@ MonoBehaviour:
   tileCoord: {x: 13, y: -5}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 638489323}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -179110,8 +179247,8 @@ MonoBehaviour:
   tileCoord: {x: 18, y: -5}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 647021727}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -184040,8 +184177,8 @@ MonoBehaviour:
   tileCoord: {x: 17, y: -3}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 664334640}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -189820,8 +189957,8 @@ MonoBehaviour:
   tileCoord: {x: 12, y: -3}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 684737874}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -192540,8 +192677,8 @@ MonoBehaviour:
   tileCoord: {x: 19, y: -6}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 692849799}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -192948,6 +193085,81 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &694701966
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 694701967}
+  - component: {fileID: 694701969}
+  - component: {fileID: 694701968}
+  m_Layer: 5
+  m_Name: RedeemArc
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &694701967
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 694701966}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2, y: 0.6666668, z: 0.6666668}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1985137311}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 2, y: 2.5}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &694701968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 694701966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 790c57b72c5d0e441811d27a10c206d7, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &694701969
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 694701966}
+  m_CullTransparentMesh: 1
 --- !u!1 &697332199
 GameObject:
   m_ObjectHideFlags: 0
@@ -195570,14 +195782,26 @@ MonoBehaviour:
   - 45
   - 60
   - 70
+  - 70
   - 0
+  RoundModifiers:
+  - 1
+  - 1
+  - 1.1
+  - 1.2
+  - 1.3
+  - 1.4
+  - 1.5
+  - 1.6
+  - 1.7
   RoundTMP: {fileID: 1743353848}
   RoundTime: {fileID: 1712125522}
   Message: {fileID: 1369898235}
+  WalletDisplay: {fileID: 317066369}
   MoneyDisplay: {fileID: 1621535177}
   SkipButton: {fileID: 1629806441}
   cleanerCursor: {fileID: 2800000, guid: c682b4c890f626b43a424ba117a4dd24, type: 3}
-  panCursor: {fileID: 2800000, guid: fb594903f3deff741b39e4606f94e726, type: 3}
+  panCursor: {fileID: 2800000, guid: 5aac8855179b4834c8db689fd6cfc5c5, type: 3}
   basicDuckCursor: {fileID: 2800000, guid: 81fb2bc03731cd14fa64feddbf476292, type: 3}
   armyDuckCursor: {fileID: 2800000, guid: 91b23812af86fc641b70bd87269934d0, type: 3}
   ninjaDuckCursor: {fileID: 2800000, guid: f81d7875b87044344b2ebd82776d0f96, type: 3}
@@ -195599,6 +195823,7 @@ MonoBehaviour:
   Power2Cost: 10
   Power3Cost: 12
   Power4Cost: 50
+  maxRange: 6
   Duck1: {fileID: 4102887691643673938, guid: 95dc436fe6f6c464ca591dbc4c7ac884, type: 3}
   Duck2: {fileID: 1969045776691929745, guid: 761ca8432b776504988b4d1403e5462a, type: 3}
   Duck3: {fileID: 1969045776691929745, guid: a5b2e14d4c08af74c8e59985a720189d, type: 3}
@@ -206321,8 +206546,8 @@ MonoBehaviour:
   tileCoord: {x: 8, y: 1}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 746602974}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -215538,8 +215763,8 @@ MonoBehaviour:
   tileCoord: {x: 14, y: 2}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 774138939}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -223448,8 +223673,8 @@ MonoBehaviour:
   tileCoord: {x: 12, y: 1}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 808434214}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -229905,6 +230130,142 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &834598892
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 834598893}
+  - component: {fileID: 834598895}
+  - component: {fileID: 834598894}
+  m_Layer: 5
+  m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &834598893
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834598892}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1985137311}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 60.35, y: -15.03}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &834598894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834598892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: Redeem
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 20
+  m_fontSizeBase: 20
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &834598895
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834598892}
+  m_CullTransparentMesh: 1
 --- !u!1 &834867041
 GameObject:
   m_ObjectHideFlags: 0
@@ -230007,8 +230368,8 @@ MonoBehaviour:
   tileCoord: {x: 6, y: 1}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 834867045}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -234257,8 +234618,8 @@ MonoBehaviour:
   tileCoord: {x: 11, y: 1}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 854920493}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -238441,7 +238802,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 113.4, y: 252}
+  m_AnchoredPosition: {x: 175, y: 252}
   m_SizeDelta: {x: 108.4, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &870430650
@@ -239094,8 +239455,8 @@ MonoBehaviour:
   tileCoord: {x: 5, y: 0}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 873497813}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -239264,8 +239625,8 @@ MonoBehaviour:
   tileCoord: {x: 7, y: 4}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 873676467}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -244672,8 +245033,8 @@ MonoBehaviour:
   tileCoord: {x: 10, y: 3}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 889606059}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -249262,8 +249623,8 @@ MonoBehaviour:
   tileCoord: {x: 13, y: -2}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 905374757}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -255019,7 +255380,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 929146340}
   m_OnClick:
     m_PersistentCalls:
@@ -260106,8 +260467,8 @@ MonoBehaviour:
   tileCoord: {x: 5, y: 3}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 948964061}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -263131,8 +263492,8 @@ MonoBehaviour:
   tileCoord: {x: 7, y: 0}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 965724427}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -269970,8 +270331,8 @@ MonoBehaviour:
   tileCoord: {x: 1, y: 1}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 993221690}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -284409,8 +284770,8 @@ MonoBehaviour:
   tileCoord: {x: 13, y: -1}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1051463140}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -291719,8 +292080,8 @@ MonoBehaviour:
   tileCoord: {x: 7, y: 6}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1077673825}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -296819,8 +297180,8 @@ MonoBehaviour:
   tileCoord: {x: 15, y: -1}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1098382459}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -303109,8 +303470,8 @@ MonoBehaviour:
   tileCoord: {x: 0, y: 1}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1124422202}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -310589,8 +310950,8 @@ MonoBehaviour:
   tileCoord: {x: 8, y: 6}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1155639385}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -322734,8 +323095,8 @@ MonoBehaviour:
   tileCoord: {x: 18, y: -7}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1202111203}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -323924,8 +324285,8 @@ MonoBehaviour:
   tileCoord: {x: 11, y: 0}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1207984633}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -324264,8 +324625,8 @@ MonoBehaviour:
   tileCoord: {x: 6, y: 6}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1209250167}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -328973,8 +329334,8 @@ MonoBehaviour:
   tileCoord: {x: 2, y: 2}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1226350424}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -333808,8 +334169,8 @@ MonoBehaviour:
   tileCoord: {x: 11, y: -3}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1240334946}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -337623,8 +337984,8 @@ MonoBehaviour:
   tileCoord: {x: 13, y: 2}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1252536103}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -341533,8 +341894,8 @@ MonoBehaviour:
   tileCoord: {x: 12, y: 0}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1264641341}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -344927,8 +345288,8 @@ MonoBehaviour:
   tileCoord: {x: 4, y: 2}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1272513501}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -348038,92 +348399,92 @@ MonoBehaviour:
   DoDrift: 0
   DoWaving: 1
   rowAnimPs:
-  - {x: 5.0404563, y: -40.76059, z: 4.5116673}
-  - {x: 5.318591, y: -40.611008, z: 4.3665037}
-  - {x: 5.8415217, y: -40.557083, z: 4.2884903}
-  - {x: 5.8070583, y: -40.449947, z: 4.681973}
-  - {x: 5.3119397, y: -40.62668, z: 4.7421107}
-  - {x: 5.0244875, y: -40.63198, z: 4.856665}
-  - {x: 5.020541, y: -40.03716, z: 4.7806177}
-  - {x: 5.8221965, y: -40.75535, z: 4.6210546}
-  - {x: 5.059281, y: -40.044575, z: 4.665342}
-  - {x: 5.0100384, y: -40.16561, z: 4.036526}
-  - {x: 5.226472, y: -40.83297, z: 4.7465305}
-  - {x: 5.589469, y: -40.931458, z: 4.2573724}
-  - {x: 5.2946234, y: -40.908134, z: 4.7605596}
-  - {x: 5.8282385, y: -40.285603, z: 4.874677}
-  - {x: 5.9235797, y: -40.336697, z: 4.984422}
-  - {x: 5.5886664, y: -40.83638, z: 4.344473}
-  - {x: 5.301857, y: -40.95526, z: 4.653089}
-  - {x: 5.190542, y: -40.370804, z: 4.5712585}
-  - {x: 5.8539877, y: -40.29814, z: 4.5386457}
-  - {x: 5.966183, y: -40.041393, z: 4.1419954}
-  - {x: 5.3648624, y: -40.78775, z: 4.899045}
-  - {x: 5.616929, y: -40.5625, z: 4.1218987}
-  - {x: 5.6859927, y: -40.57036, z: 4.851367}
-  - {x: 5.169338, y: -40.20684, z: 4.820807}
-  - {x: 5.395445, y: -40.34129, z: 4.541023}
-  - {x: 5.547905, y: -40.31723, z: 4.813024}
-  - {x: 5.1012516, y: -40.843742, z: 4.980859}
-  - {x: 5.2478046, y: -40.55043, z: 4.472948}
-  - {x: 5.865745, y: -40.17039, z: 4.7613163}
-  - {x: 5.534732, y: -40.74137, z: 4.4772367}
-  - {x: 5.09739, y: -40.226387, z: 4.072525}
-  - {x: 5.069454, y: -40.000862, z: 4.3772545}
-  - {x: 5.3817563, y: -40.165268, z: 4.4859447}
-  - {x: 5.0772676, y: -40.35682, z: 4.810436}
-  - {x: 5.5959225, y: -40.719025, z: 4.5669355}
-  - {x: 5.71043, y: -40.17845, z: 4.4943566}
-  - {x: 5.5017447, y: -40.29991, z: 4.166889}
-  - {x: 5.0206823, y: -40.271057, z: 4.5158186}
-  - {x: 5.18481, y: -40.609234, z: 4.472638}
-  - {x: 5.4315634, y: -40.142323, z: 4.361518}
-  - {x: 5.8538046, y: -40.838882, z: 4.461255}
-  - {x: 5.856221, y: -40.764008, z: 4.6239343}
-  - {x: 5.784669, y: -40.105736, z: 4.391009}
-  - {x: 5.6467514, y: -40.12811, z: 4.8774686}
-  - {x: 5.036549, y: -40.124966, z: 4.241781}
-  - {x: 5.1311145, y: -40.960262, z: 4.5615954}
-  - {x: 5.633339, y: -40.824394, z: 4.7967496}
-  - {x: 5.7075152, y: -40.482666, z: 4.813723}
-  - {x: 5.812099, y: -40.190792, z: 4.532956}
-  - {x: 5.9038854, y: -40.324486, z: 4.775917}
-  - {x: 5.685276, y: -40.278046, z: 4.304079}
-  - {x: 5.0018296, y: -40.409233, z: 4.5772195}
-  - {x: 5.7132454, y: -40.67142, z: 4.5385046}
-  - {x: 5.6053066, y: -40.29801, z: 4.394495}
-  - {x: 5.1013975, y: -40.773346, z: 4.358306}
-  - {x: 5.4729867, y: -40.352108, z: 4.8168535}
-  - {x: 5.3383446, y: -40.815376, z: 4.3061924}
-  - {x: 5.5812125, y: -40.120872, z: 4.4692717}
-  - {x: 5.632147, y: -40.18569, z: 4.5742917}
-  - {x: 5.2848706, y: -40.293728, z: 4.0705757}
-  - {x: 5.687313, y: -40.089382, z: 4.333623}
-  - {x: 5.273978, y: -40.894257, z: 4.2457576}
-  - {x: 5.554385, y: -40.596973, z: 4.8669043}
-  - {x: 5.558276, y: -40.513657, z: 4.514246}
-  - {x: 5.178603, y: -40.65208, z: 4.0144806}
-  - {x: 5.5177326, y: -40.814316, z: 4.7248816}
-  - {x: 5.68577, y: -40.160057, z: 4.023129}
-  - {x: 5.444708, y: -40.10766, z: 4.12551}
-  - {x: 5.4956226, y: -40.82942, z: 4.3089485}
-  - {x: 5.3972344, y: -40.11751, z: 4.1740766}
-  - {x: 5.2683854, y: -40.61109, z: 4.80661}
-  - {x: 5.6840787, y: -40.63993, z: 4.6317587}
-  - {x: 5.0863876, y: -40.920002, z: 4.999102}
-  - {x: 5.360624, y: -40.649597, z: 4.148719}
-  - {x: 5.7855835, y: -40.081947, z: 4.1981754}
-  - {x: 5.8971443, y: -40.185837, z: 4.83181}
-  - {x: 5.084514, y: -40.639294, z: 4.6132565}
-  - {x: 5.352849, y: -40.120514, z: 4.0203114}
-  - {x: 5.092121, y: -40.780254, z: 4.3672543}
-  - {x: 5.3303075, y: -40.41209, z: 4.448413}
-  - {x: 5.3603535, y: -40.122406, z: 4.5116625}
-  - {x: 5.6392827, y: -40.17453, z: 4.22112}
-  - {x: 5.9320793, y: -40.26596, z: 4.9843163}
-  - {x: 5.000447, y: -40.90768, z: 4.994062}
-  - {x: 5.9788303, y: -40.21813, z: 4.704296}
-  - {x: 5.666289, y: -40.016804, z: 4.214307}
+  - {x: 5.187187, y: -40.605625, z: 4.6110334}
+  - {x: 5.5386868, y: -40.11844, z: 4.8704767}
+  - {x: 5.7064443, y: -40.029465, z: 4.7831674}
+  - {x: 5.025792, y: -40.933163, z: 4.728972}
+  - {x: 5.2915235, y: -40.432102, z: 4.7426925}
+  - {x: 5.619352, y: -40.002834, z: 4.5713663}
+  - {x: 5.445842, y: -40.35196, z: 4.3796673}
+  - {x: 5.294456, y: -40.090923, z: 4.244441}
+  - {x: 5.6392198, y: -40.674286, z: 4.094184}
+  - {x: 5.240839, y: -40.384468, z: 4.954019}
+  - {x: 5.083741, y: -40.354847, z: 4.05745}
+  - {x: 5.892378, y: -40.33588, z: 4.632196}
+  - {x: 5.119245, y: -40.087788, z: 4.43799}
+  - {x: 5.9626226, y: -40.34608, z: 4.235451}
+  - {x: 5.909762, y: -40.62388, z: 4.007426}
+  - {x: 5.4099574, y: -40.180977, z: 4.834303}
+  - {x: 5.220602, y: -40.78174, z: 4.8791056}
+  - {x: 5.754807, y: -40.158524, z: 4.5319066}
+  - {x: 5.523028, y: -40.703156, z: 4.2665024}
+  - {x: 5.531046, y: -40.176125, z: 4.16133}
+  - {x: 5.003842, y: -40.250107, z: 4.856926}
+  - {x: 5.9183035, y: -40.349735, z: 4.0957427}
+  - {x: 5.1282887, y: -40.47252, z: 4.519375}
+  - {x: 5.635167, y: -40.212326, z: 4.134634}
+  - {x: 5.145814, y: -40.613457, z: 4.1054325}
+  - {x: 5.4337826, y: -40.93213, z: 4.1530886}
+  - {x: 5.4728036, y: -40.37552, z: 4.5725718}
+  - {x: 5.5752335, y: -40.62823, z: 4.083761}
+  - {x: 5.5449204, y: -40.939102, z: 4.671805}
+  - {x: 5.8554063, y: -40.887394, z: 4.2349596}
+  - {x: 5.381515, y: -40.8146, z: 4.3959465}
+  - {x: 5.195893, y: -40.388866, z: 4.6470127}
+  - {x: 5.103079, y: -40.2217, z: 4.958648}
+  - {x: 5.103982, y: -40.472137, z: 4.120879}
+  - {x: 5.6671653, y: -40.58539, z: 4.6329913}
+  - {x: 5.0434246, y: -40.57532, z: 4.649709}
+  - {x: 5.969044, y: -40.19564, z: 4.3965755}
+  - {x: 5.794176, y: -40.592876, z: 4.3111267}
+  - {x: 5.514445, y: -40.67715, z: 4.2823687}
+  - {x: 5.0715275, y: -40.152836, z: 4.5486736}
+  - {x: 5.8375235, y: -40.959145, z: 4.0834336}
+  - {x: 5.617401, y: -40.656883, z: 4.5158806}
+  - {x: 5.9999576, y: -40.67958, z: 4.6132975}
+  - {x: 5.3714, y: -40.101307, z: 4.0604086}
+  - {x: 5.298463, y: -40.289978, z: 4.7107267}
+  - {x: 5.6455164, y: -40.192917, z: 4.785664}
+  - {x: 5.12756, y: -40.62451, z: 4.61818}
+  - {x: 5.084195, y: -40.240917, z: 4.4421067}
+  - {x: 5.880889, y: -40.457325, z: 4.704814}
+  - {x: 5.4818163, y: -40.22546, z: 4.2003946}
+  - {x: 5.475415, y: -40.11666, z: 4.9977646}
+  - {x: 5.547288, y: -40.347816, z: 4.355878}
+  - {x: 5.7113304, y: -40.84321, z: 4.290059}
+  - {x: 5.29552, y: -40.323654, z: 4.225435}
+  - {x: 5.647468, y: -40.463726, z: 4.977043}
+  - {x: 5.52553, y: -40.0802, z: 4.852779}
+  - {x: 5.2557125, y: -40.992138, z: 4.002729}
+  - {x: 5.964081, y: -40.935463, z: 4.531771}
+  - {x: 5.628315, y: -40.603676, z: 4.147591}
+  - {x: 5.5004787, y: -40.82708, z: 4.315598}
+  - {x: 5.9783835, y: -40.651375, z: 4.1629024}
+  - {x: 5.056285, y: -40.005585, z: 4.183899}
+  - {x: 5.069895, y: -40.23555, z: 4.0079613}
+  - {x: 5.8620625, y: -40.22106, z: 4.7206707}
+  - {x: 5.445583, y: -40.948906, z: 4.366}
+  - {x: 5.0185537, y: -40.87171, z: 4.5313606}
+  - {x: 5.077462, y: -40.523567, z: 4.5453806}
+  - {x: 5.0898957, y: -40.971714, z: 4.6407433}
+  - {x: 5.2635355, y: -40.90139, z: 4.5139937}
+  - {x: 5.086095, y: -40.733795, z: 4.5079193}
+  - {x: 5.129317, y: -40.691315, z: 4.216056}
+  - {x: 5.5154967, y: -40.084484, z: 4.3188534}
+  - {x: 5.0314426, y: -40.468353, z: 4.964326}
+  - {x: 5.82073, y: -40.935265, z: 4.2753954}
+  - {x: 5.7935557, y: -40.89853, z: 4.9792194}
+  - {x: 5.4995556, y: -40.372124, z: 4.0082355}
+  - {x: 5.5945897, y: -40.95816, z: 4.4120226}
+  - {x: 5.933822, y: -40.663784, z: 4.1065373}
+  - {x: 5.4326353, y: -40.67198, z: 4.385575}
+  - {x: 5.12765, y: -40.70063, z: 4.618018}
+  - {x: 5.42274, y: -40.62136, z: 4.1143346}
+  - {x: 5.7820654, y: -40.80931, z: 4.324295}
+  - {x: 5.836248, y: -40.663254, z: 4.584363}
+  - {x: 5.9853, y: -40.95002, z: 4.6046443}
+  - {x: 5.775539, y: -40.497704, z: 4.550976}
+  - {x: 5.823151, y: -40.757507, z: 4.0166235}
   toppleTime: 3
   waveNormal: {x: -0.5, y: 0.866, z: 0}
 --- !u!1 &1280868447
@@ -351391,8 +351752,8 @@ MonoBehaviour:
   tileCoord: {x: 9, y: -1}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1291206438}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -351901,8 +352262,8 @@ MonoBehaviour:
   tileCoord: {x: 11, y: -5}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1293971727}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -352343,8 +352704,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 88.2, y: -36.1}
-  m_SizeDelta: {x: 1300, y: 560}
+  m_AnchoredPosition: {x: 88.2, y: 33.9}
+  m_SizeDelta: {x: 1300, y: 700}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1297188339
 MonoBehaviour:
@@ -352366,7 +352727,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1347532211411968617, guid: ce7837406fc688540bce0d0546a1856d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ce7837406fc688540bce0d0546a1856d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -359116,8 +359477,8 @@ MonoBehaviour:
   tileCoord: {x: 1, y: 0}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1315604116}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -361224,6 +361585,83 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1323863150
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1323863151}
+  - component: {fileID: 1323863153}
+  - component: {fileID: 1323863152}
+  m_Layer: 5
+  m_Name: Wallet
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1323863151
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1323863150}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1530789610}
+  - {fileID: 317066368}
+  m_Father: {fileID: 2035499231}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 294, y: 252}
+  m_SizeDelta: {x: 108.4, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1323863152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1323863150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.5921569, g: 0.72156864, b: 0.47450984, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1323863153
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1323863150}
+  m_CullTransparentMesh: 1
 --- !u!1 &1324907337
 GameObject:
   m_ObjectHideFlags: 0
@@ -365574,8 +366012,8 @@ MonoBehaviour:
   tileCoord: {x: 9, y: 3}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1341154722}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -366424,8 +366862,8 @@ MonoBehaviour:
   tileCoord: {x: 6, y: 5}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1342344282}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -369042,8 +369480,8 @@ MonoBehaviour:
   tileCoord: {x: 13, y: 0}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1354201402}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -369722,8 +370160,8 @@ MonoBehaviour:
   tileCoord: {x: 9, y: 1}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1355826899}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -378528,8 +378966,8 @@ MonoBehaviour:
   tileCoord: {x: 11, y: 3}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1387302276}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -384478,8 +384916,8 @@ MonoBehaviour:
   tileCoord: {x: 11, y: -2}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1407762771}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -402668,8 +403106,8 @@ MonoBehaviour:
   tileCoord: {x: 14, y: -1}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1471942611}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -405558,8 +405996,8 @@ MonoBehaviour:
   tileCoord: {x: 10, y: 5}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1482109789}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -406002,7 +406440,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -114.8, y: 252}
+  m_AnchoredPosition: {x: -253, y: 252}
   m_SizeDelta: {x: 260, y: 48.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1483055942
@@ -408185,8 +408623,8 @@ MonoBehaviour:
   tileCoord: {x: 8, y: 3}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1489225526}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -418433,8 +418871,8 @@ MonoBehaviour:
   tileCoord: {x: 14, y: -2}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1525978335}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -419861,6 +420299,81 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1530789609
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1530789610}
+  - component: {fileID: 1530789612}
+  - component: {fileID: 1530789611}
+  m_Layer: 0
+  m_Name: CoinageLabel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1530789610
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1530789609}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1323863151}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -26, y: 0}
+  m_SizeDelta: {x: 40, y: 40}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1530789611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1530789609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.7607844, g: 0.7607844, b: 0.7607844, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 293f056fb7592e944a9d425fe5c16238, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1530789612
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1530789609}
+  m_CullTransparentMesh: 1
 --- !u!1 &1531430569
 GameObject:
   m_ObjectHideFlags: 0
@@ -429360,8 +429873,8 @@ MonoBehaviour:
   tileCoord: {x: 14, y: -4}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1563885214}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -429700,8 +430213,8 @@ MonoBehaviour:
   tileCoord: {x: 2, y: 1}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1564971550}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -444324,8 +444837,8 @@ MonoBehaviour:
   tileCoord: {x: 10, y: 4}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1636972291}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -445004,8 +445517,8 @@ MonoBehaviour:
   tileCoord: {x: 18, y: -6}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1638734536}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -450917,8 +451430,8 @@ MonoBehaviour:
   tileCoord: {x: 12, y: 2}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1659147575}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -456662,8 +457175,8 @@ MonoBehaviour:
   tileCoord: {x: 12, y: -4}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1691690052}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -461667,8 +462180,8 @@ MonoBehaviour:
   tileCoord: {x: 12, y: -2}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1709378942}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -469928,8 +470441,8 @@ MonoBehaviour:
   tileCoord: {x: 6, y: 4}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1739244287}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -474484,8 +474997,8 @@ MonoBehaviour:
   tileCoord: {x: 16, y: -4}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1757975368}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -479244,8 +479757,8 @@ MonoBehaviour:
   tileCoord: {x: 14, y: -5}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1782796424}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -481321,8 +481834,8 @@ MonoBehaviour:
   tileCoord: {x: 10, y: 0}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1788418455}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -485166,7 +485679,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 297, y: 234}
+  m_AnchoredPosition: {x: 0, y: 234}
   m_SizeDelta: {x: 170, y: 83.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1797727862
@@ -489824,8 +490337,8 @@ RectTransform:
   m_GameObject: {fileID: 1813004848}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.029352238}
-  m_LocalScale: {x: 0.99987495, y: 0.9998747, z: 0.9998749}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.73, y: 0.73, z: 0.73}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 64613688}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -489841,7 +490354,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1813004848}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
@@ -490545,8 +491058,8 @@ MonoBehaviour:
   tileCoord: {x: 5, y: 1}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1816585311}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -493435,8 +493948,8 @@ MonoBehaviour:
   tileCoord: {x: 9, y: 4}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1829223472}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -495950,8 +496463,8 @@ MonoBehaviour:
   tileCoord: {x: 10, y: -1}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1835341844}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -496290,8 +496803,8 @@ MonoBehaviour:
   tileCoord: {x: 15, y: -2}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1837696434}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -504790,8 +505303,8 @@ MonoBehaviour:
   tileCoord: {x: 18, y: -4}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1869739494}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -508768,6 +509281,81 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1881293607
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1881293608}
+  - component: {fileID: 1881293610}
+  - component: {fileID: 1881293609}
+  m_Layer: 5
+  m_Name: Pan
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1881293608
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881293607}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.62, y: 0.62, z: 0.62}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 64613688}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1881293609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881293607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 84e0e559a4c421140ae0b7dc8391a2ee, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1881293610
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881293607}
+  m_CullTransparentMesh: 1
 --- !u!1 &1881704066
 GameObject:
   m_ObjectHideFlags: 0
@@ -519788,8 +520376,8 @@ MonoBehaviour:
   tileCoord: {x: 14, y: 0}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1910193172}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -535468,8 +536056,8 @@ MonoBehaviour:
   tileCoord: {x: 15, y: -4}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1968136710}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -537508,8 +538096,8 @@ MonoBehaviour:
   tileCoord: {x: 14, y: -3}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1973778310}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -538188,8 +538776,8 @@ MonoBehaviour:
   tileCoord: {x: 6, y: 2}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 1978097083}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -539106,6 +539694,140 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1985137310
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1985137311}
+  - component: {fileID: 1985137314}
+  - component: {fileID: 1985137313}
+  - component: {fileID: 1985137312}
+  m_Layer: 5
+  m_Name: Redeem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1985137311
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1985137310}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 694701967}
+  - {fileID: 834598893}
+  m_Father: {fileID: 2035499231}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 230.2, y: 206.6}
+  m_SizeDelta: {x: 209.07, y: 41.5}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1985137312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1985137310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 0.5019608, g: 0.7490196, b: 0.25882354, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.18039216, g: 0.30980393, b: 0.027450982, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1985137313}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 707780711}
+        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
+        m_MethodName: Redeem
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
+--- !u!114 &1985137313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1985137310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1985137314
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1985137310}
+  m_CullTransparentMesh: 1
 --- !u!1 &1985332081
 GameObject:
   m_ObjectHideFlags: 0
@@ -544784,8 +545506,8 @@ MonoBehaviour:
   tileCoord: {x: 5, y: 4}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 2010512245}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -548014,8 +548736,8 @@ MonoBehaviour:
   tileCoord: {x: 13, y: -4}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 2022920988}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -549544,8 +550266,8 @@ MonoBehaviour:
   tileCoord: {x: 11, y: 4}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 2027970027}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -551718,6 +552440,8 @@ RectTransform:
   - {fileID: 1214141275}
   - {fileID: 1797727861}
   - {fileID: 870430649}
+  - {fileID: 1323863151}
+  - {fileID: 1985137311}
   - {fileID: 1483055940}
   m_Father: {fileID: 1033225140}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -560881,8 +561605,8 @@ MonoBehaviour:
   tileCoord: {x: 16, y: -1}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 2060316703}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -562921,8 +563645,8 @@ MonoBehaviour:
   tileCoord: {x: 10, y: 2}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 2069944361}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -565131,8 +565855,8 @@ MonoBehaviour:
   tileCoord: {x: 4, y: 1}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 2078220419}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -570879,8 +571603,8 @@ MonoBehaviour:
   tileCoord: {x: 16, y: -5}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 2098260850}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -579855,8 +580579,8 @@ MonoBehaviour:
   tileCoord: {x: 2, y: 3}
   color: {r: 0, g: 0.78431374, b: 1, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 2128701861}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -582065,8 +582789,8 @@ MonoBehaviour:
   tileCoord: {x: 17, y: -6}
   color: {r: 0, g: 0.39215687, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 2134873985}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0
@@ -583425,8 +584149,8 @@ MonoBehaviour:
   tileCoord: {x: 14, y: 1}
   color: {r: 0, g: 0.5882353, b: 0.78431374, a: 1}
   heighlight: {r: 1, g: 1, b: 1, a: 1}
-  render: {fileID: 0}
-  Controller: {fileID: 0}
+  render: {fileID: 2139758229}
+  Controller: {fileID: 707780711}
   discoveryParentCoord: {x: 0, y: 0}
   lengthToOrigin: 0
   isDiscovered: 0

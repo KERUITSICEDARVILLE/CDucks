@@ -7,6 +7,7 @@ public class BasicDuck : MonoBehaviour
     public DuckController Controller;
     public WorldGrid World;
 
+    private bool once;
     private bool eventKill;
     public GameObject zzz;
     public GameObject HPbar;
@@ -37,6 +38,11 @@ public class BasicDuck : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if (!once) {
+            once = true;
+        } else {
+            return;
+        }
         transform.localScale = new Vector3(3.2f, 3.2f, 3.2f);
         HP = MaxHealth;
         if (transform.parent != null) {
@@ -70,7 +76,7 @@ public class BasicDuck : MonoBehaviour
             victim.enabled = true;
             victim.Damage(power);
             Damage(0.25f * (MaxHealth + healthPool * Random.Range(0f, 0.1f)) / power);
-            FindAnyObjectByType<GameController>().money += (int) (power * 1.5);
+            FindAnyObjectByType<GameController>().wallet += (int) (power * 1.5);
             cooldown = 1.0f;
         }
         if (HP < MaxHealth && World.CountAdjacentCellsWithType<BasicBlight>(cell) == 0) {

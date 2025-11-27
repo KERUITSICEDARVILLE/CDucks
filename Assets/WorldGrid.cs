@@ -727,14 +727,12 @@ public class WorldGrid : MonoBehaviour
         GameObject victimObj;
         BasicBlight victim;
         WorldTile[] row;
-        int localMoney;
 
         foreach (List<WorldTile> rowList in rows) {
             row = rowList.ToArray();
             victimObj = GetObjectAtCell<BasicBlight>(row[0].tileCoord);
-            localMoney = FindAnyObjectByType<GameController>().money;
             if (victimObj != null) {
-                FindAnyObjectByType<GameController>().money++;
+                FindAnyObjectByType<GameController>().wallet++;
                 victim = victimObj.GetComponent<BasicBlight>();
                 victim.Growth = -1f;
             }
