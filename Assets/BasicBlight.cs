@@ -57,6 +57,9 @@ public class BasicBlight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!Controller.enabled) {
+            return; 
+        }
         if (Growth <= 0.0)
         {
             FindAnyObjectByType<GameController>().wallet += 2;

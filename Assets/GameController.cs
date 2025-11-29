@@ -12,6 +12,19 @@ public class GameController : MonoBehaviour
 
     [Header("Game State")]
     public bool gameEnd;
+    private bool gamePause;
+    public bool Pause {
+        set {
+            UI.SetActive(!value);
+            SettingsUI.SetActive(value);
+            gamePause = value;
+            bController.enabled = !value;
+            dController.enabled = !value;
+        }
+        get {
+            return gamePause;
+        }
+    }
     public GameObject CameraObject;
     public Vector3 cameraOrigin;
     public Vector3 scaleOrigin;
@@ -46,12 +59,16 @@ public class GameController : MonoBehaviour
     public int cursorMode;
 
     [Header("Map Region State")]
+    public GameObject Scroll;
+    public float zoomPercent;
     public int RegionNum;
     public Vector3[] cameraMove;
     public Vector3[] controllerScale;
     private int regionIndex;
+    private float prevCamSize;
     private Vector3 prevCamera;
     private Vector3 prevScale;
+    private float eventualCamSize;
     private Vector3 eventualCamera;
     private Vector3 eventualScale;
 
@@ -59,6 +76,7 @@ public class GameController : MonoBehaviour
     public BlightController bController;
     public DuckController dController;
     public GameObject UI;
+    public GameObject SettingsUI;
     public GameObject Shop;
     public GameObject Tangle;
     public GameObject RingMenu;
@@ -139,6 +157,7 @@ public class GameController : MonoBehaviour
         unlocks = 0;
         Round = 0;
         selection = -1;
+        UnsetZoom();
         regionIndex = -1;
         ringMenuBasis = null;
         borderCleanse = false;
@@ -153,19 +172,41 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown("escape")) {
+            Pause = !Pause;
+        }
 
         // Animate zoom
         float t;
         if (RegionZoomTimer > 0) {
             t = RegionZoomTimer / RegionZoomDuration;
+            CameraObject.GetComponent<Camera>().orthographicSize =
+                                    (1 - t) * eventualCamSize + t * prevCamSize;
             CameraObject.transform.localPosition = (1 - t) * eventualCamera + t * prevCamera;
             transform.localScale = (1 - t) * eventualScale + t * prevScale;
             RegionZoomTimer -= Time.deltaTime;
         }
 
-        if (gameEnd) {
+        if (gameEnd || gamePause) {
             return;
         }
+
+        // control immediate zoom
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        Vector3 priorScale;
+        if ( !(RegionZoomTimer > 0) && scroll != 0f && !(zoomPercent + scroll < 0f)
+            && (regionIndex == -1 && !(zoomPercent + scroll < 0.5f)
+                || regionIndex != -1 && !(zoomPercent + scroll > 1f) )
+            )
+        {
+            zoomPercent += scroll;
+            Scroll.GetComponent<RectTransform>().sizeDelta = new Vector2(20f + (1f - zoomPercent) * 170f, 8.5f);
+            CameraObject.GetComponent<Camera>().orthographicSize = 15f / (zoomPercent + 1f);
+        } else if (regionIndex != -1 && zoomPercent + scroll < 0f) {
+            MapUnfocus();
+        }
+
+
 
         // Have we lost yet? Progress to next round if no blight or timer < 0f
         int divvy = (int)RoundTimer;
@@ -194,9 +235,6 @@ public class GameController : MonoBehaviour
         }
 
         // scuffed old system inputs
-            if (Input.GetAxis("Mouse ScrollWheel") < 0f) {
-                MapUnfocus();
-            }
             if (Input.GetKeyDown("d")) {
                 selection = (selection + 1) % unlocks;
                 SetCursorMode(selection);
@@ -206,9 +244,9 @@ public class GameController : MonoBehaviour
                 SetCursorMode(selection);
             }
 
-            for (int i = 0; i < 6; i++) {
+            for (int i = 1; i < 7; i++) {
                 if (Input.GetKey("" + i)) {
-                    selection = i;
+                    selection = i - 1;
                     SetCursorMode(selection);
                 }
             }
@@ -217,7 +255,7 @@ public class GameController : MonoBehaviour
             MapUnfocus();
         }
         
-        if (Input.GetKeyDown("escape")) {
+        if (Input.GetKeyDown("space")) {
             UI.GetComponent<Canvas>().enabled = !UI.GetComponent<Canvas>().enabled;
         }
 
@@ -336,7 +374,6 @@ public class GameController : MonoBehaviour
         ringMenuBasis = World.WithinDuckRing(caller);
 
         GameObject occupant = null;
-        GameObject suds = null;
         BasicBlight blight = null;
         Vector2Int[] tileset = null;
 
@@ -633,28 +670,38 @@ public class GameController : MonoBehaviour
     }
 
     public void MapFocus(int caller) {
-
         if (caller >= RegionNum || gameEnd) {
             regionIndex = -1;
             return;
         }
 
+        UnsetZoom();
         regionIndex = caller;
 
         RegionZoomTimer = RegionZoomDuration;
+        prevCamSize = 10f;
         prevCamera = CameraObject.transform.localPosition;
         prevScale = transform.localScale;
+        eventualCamSize = 10f;
         eventualCamera = cameraMove[caller];
         eventualScale = controllerScale[caller];
     }
 
     public void MapUnfocus() {
+        UnsetZoom();
         regionIndex = -1;
+        eventualCamSize = 10f;
         eventualCamera = cameraOrigin;
         eventualScale = scaleOrigin;
+        prevCamSize = CameraObject.GetComponent<Camera>().orthographicSize;
         prevCamera = CameraObject.transform.localPosition;
         prevScale = transform.localScale;
         RegionZoomTimer = RegionZoomDuration;
+    }
+
+    public void UnsetZoom() {
+        zoomPercent = 0.5f;
+        Scroll.GetComponent<RectTransform>().sizeDelta = new Vector2(105f, 8.5f);
     }
 
     public void StartNextRound()
@@ -681,4 +728,5 @@ public class GameController : MonoBehaviour
         money += wallet / 4;
         wallet = 0;
     }
+
 }

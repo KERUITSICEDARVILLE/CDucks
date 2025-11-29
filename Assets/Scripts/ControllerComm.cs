@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ControllerComm : MonoBehaviour
 {
-
+    public GameController Controller;
     public int region;
 
     void Awake()
@@ -11,12 +11,16 @@ public class ControllerComm : MonoBehaviour
     }
 
     void Update() {
-        if (Input.GetAxis("Mouse ScrollWheel") > 0f) {
-            FindAnyObjectByType<GameController>().MapFocus(region);
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        if (scroll != 0f && Controller.zoomPercent + scroll > 1f) {
+            Controller.MapFocus(region);            
         }
     }
 
     public void OnMouseEnter() {
+        if (Controller.Pause) {
+            return;
+        }
         this.enabled = true;
         GetComponent<SpriteRenderer>().color = new Vector4(1f, 1f, 1f, 1f);
     }
@@ -24,10 +28,16 @@ public class ControllerComm : MonoBehaviour
 
     public void OnMouseExit() {
         GetComponent<SpriteRenderer>().color = new Vector4(1f, 1f, 1f, 0f);
+        if (Controller.Pause) {
+            return;
+        }
         this.enabled = false;
     }
 
     public void OnMouseDown() {
-        FindAnyObjectByType<GameController>().MapFocus(region);
+        if (Controller.Pause) {
+            return;
+        }
+        Controller.MapFocus(region);
     }
 }

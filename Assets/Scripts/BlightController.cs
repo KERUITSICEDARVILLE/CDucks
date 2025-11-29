@@ -16,7 +16,7 @@ public class BlightController : MonoBehaviour
     private float timer;
     const float timerMax = 2f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
         timer = timerMax;
         allowance = 40;

@@ -59,6 +59,10 @@ public class BasicDuck : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!Controller.enabled) {
+            return; 
+        }
+
         BasicBlight victim;
 
         if (eventKill) {

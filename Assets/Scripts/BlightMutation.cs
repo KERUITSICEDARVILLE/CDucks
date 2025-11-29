@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class BlightMutation : MonoBehaviour
 {
+    private bool once;
 
     public WorldGrid World;
     public BlightController Controller;
@@ -19,6 +20,11 @@ public class BlightMutation : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if (!once) {
+            once = true;
+        } else {
+            return;
+        }
         transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
         World = FindAnyObjectByType<WorldGrid>().GetComponent<WorldGrid>();
         Controller = FindAnyObjectByType<BlightController>().GetComponent<BlightController>();
@@ -30,6 +36,9 @@ public class BlightMutation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!Controller.enabled) {
+            return; 
+        }
         // if GameController.regionIndex != -1 then show HUD alert
 
         if (TargetTile == null || Path == null) {
