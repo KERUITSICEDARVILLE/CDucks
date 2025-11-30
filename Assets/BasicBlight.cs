@@ -7,6 +7,7 @@ public class BasicBlight : MonoBehaviour
 
     public Animation minus;
 
+    public bool shouldWake;
     private bool once;
     private float growth;
     public float Growth {
@@ -34,11 +35,12 @@ public class BasicBlight : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (!once) {
+        if (!once) { // we cannot have Awake here due to how Instantiate() does things
             once = true;
         } else {
             return;
         }
+        shouldWake = true;
         if (transform.parent != null) {
             if (transform.parent.parent != null) {
                 World = transform.parent.parent.GetComponent<WorldGrid>();
@@ -57,6 +59,10 @@ public class BasicBlight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!shouldWake) {
+            this.enabled = false;
+            return;
+        }
         if (!Controller.enabled) {
             return; 
         }
@@ -111,11 +117,12 @@ public class BasicBlight : MonoBehaviour
     }
 
     public void Wake() {
-
+        this.enabled = true;
+        shouldWake = true;
     }
 
     public void Sleep() {
-        
+        shouldWake = false;
     }
 
 }

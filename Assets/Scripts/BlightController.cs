@@ -19,8 +19,6 @@ public class BlightController : MonoBehaviour
     void Awake()
     {
         timer = timerMax;
-        allowance = 40;
-        terrorAllowance = 10;
         Subset = new HashSet<GameObject>();
         Mutations = new HashSet<GameObject>();
         idSet = new HashSet<int>();
@@ -38,7 +36,7 @@ public class BlightController : MonoBehaviour
         List<GameObject> dead = new List<GameObject>();
 
         foreach (GameObject iChild in Subset) {
-            if (iChild.GetComponent<BasicBlight>().enabled) {
+            if (iChild.GetComponent<BasicBlight>().shouldWake) { // changed
             live.Add(iChild);
             } else {
             dead.Add(iChild);                
@@ -49,7 +47,7 @@ public class BlightController : MonoBehaviour
             if (World.CountAdjacentCellsWithoutType<BasicBlight>(
                 iChild.transform.parent.GetComponent<WorldTile>().tileCoord
                 ) == 0) {
-                iChild.GetComponent<BasicBlight>().enabled = false;
+                iChild.GetComponent<BasicBlight>().Sleep();
             }
         } // kill within borders
 
@@ -60,8 +58,8 @@ public class BlightController : MonoBehaviour
             needKill = live.Count - allowance;
             while (needKill != 0) {
                 select = Random.Range(0, live.Count);
-                if (live[select].GetComponent<BasicBlight>().enabled) {
-                    live[select].GetComponent<BasicBlight>().enabled = false;
+                if (live[select].GetComponent<BasicBlight>().shouldWake) {
+                    live[select].GetComponent<BasicBlight>().Sleep();
                     needKill--;
                 }
             }
@@ -69,7 +67,7 @@ public class BlightController : MonoBehaviour
             needLive = allowance - live.Count;
             while (needLive != 0 && dead.Count > 0) {
                 select = Random.Range(0, dead.Count);
-                dead[select].GetComponent<BasicBlight>().enabled = true;
+                dead[select].GetComponent<BasicBlight>().Wake();
                 needLive--;
             }
         } // bring total alive to allowance
@@ -85,11 +83,11 @@ public class BlightController : MonoBehaviour
 
         foreach (GameObject iChild in Subset) {
             iterate = iChild.GetComponent<BasicBlight>();
-            if (iterate.enabled
+            if (iterate.shouldWake
                 || World.CountAdjacentCellsWithoutType<BasicBlight>(iChild.transform.parent.GetComponent<WorldTile>().tileCoord) > 0) {
                 maxGrowth = maxGrowth > iterate.GrowthRate ? maxGrowth : iterate.GrowthRate;
                 maxLineage = maxGrowth > iterate.GrowthRate ? maxLineage : iterate.Lineage;
-                shouldLiveAllActive &= iterate.enabled;
+                shouldLiveAllActive &= iterate.shouldWake; // changed
                 shouldLive.Add(iChild);
             }
         } // select all enabled or at border cells
@@ -104,18 +102,18 @@ public class BlightController : MonoBehaviour
             {
                 // take one random
                 select = Random.Range(0, shouldLive.Count);
-                while (!shouldLive[select].GetComponent<BasicBlight>().enabled)
+                while (!shouldLive[select].GetComponent<BasicBlight>().shouldWake)
                 {
                     select = Random.Range(0, shouldLive.Count);
                 }
-                shouldLive[select].GetComponent<BasicBlight>().enabled = false;
+                shouldLive[select].GetComponent<BasicBlight>().Sleep();
                 // give one random
                 select = Random.Range(0, shouldLive.Count);
-                while (shouldLive[select].GetComponent<BasicBlight>().enabled)
+                while (shouldLive[select].GetComponent<BasicBlight>().shouldWake)
                 {
                     select = Random.Range(0, shouldLive.Count);
                 }
-                shouldLive[select].GetComponent<BasicBlight>().enabled = true;
+                shouldLive[select].GetComponent<BasicBlight>().Wake();
             } // jumble all of the previously selected
         }
 
@@ -123,8 +121,8 @@ public class BlightController : MonoBehaviour
 
         foreach (GameObject iChild in shouldLive) {
             iterate = iChild.GetComponent<BasicBlight>();
-            if (iterate.Lineage == maxLineage && !iterate.enabled && terror > 0) {
-                iterate.enabled = true;
+            if (iterate.Lineage == maxLineage && !iterate.shouldWake && terror > 0) {
+                iterate.Wake();
                 terror--;
             }
         }

@@ -617,6 +617,7 @@ public class WorldGrid : MonoBehaviour
     }
 
     public List<WorldTile> WithinDuckRing(WorldTile check) {
+        Debug.Log("is it within a duck ring?");
         foreach (List<WorldTile> ring in duckRings) {
             foreach (WorldTile tile in ring) {
                 if (tile == check) {
@@ -628,6 +629,7 @@ public class WorldGrid : MonoBehaviour
     }
 
     public bool RemoveDuckRing(WorldTile check) {
+        Debug.Log("removing duck ring");
         int removeIndex = duckRings.Count;
         for (int i = 0; i < duckRings.Count; i++) {
             foreach (WorldTile tile in duckRings[i]) {
@@ -643,12 +645,14 @@ public class WorldGrid : MonoBehaviour
     }
 
     public List<WorldTile> AddNewDuckRing(WorldTile endpt) {
+        Debug.Log("adding new duck ring");
         List<WorldTile> ring = Gather(endpt);
         duckRings.Add(ring);
         return ring;
     }
 
     public List<WorldTile> CheckDuckRing(WorldTile origin) {
+        Debug.Log("checking ring");
         // returns null if no ring found
         // the significance of returning a set of V2's in a ring
         // is not such that there is only one ring. It is to return
@@ -677,6 +681,10 @@ public class WorldGrid : MonoBehaviour
             iWorldTile.isDiscovered = false;
             iWorldTile.lengthToOrigin = 0;
         }
+    }
+
+    public void ToggleWaving() {
+        DoWaving = !DoWaving;
     }
 
     private void BezierBoil(int order, Vector2[] controls, float t) { // puts result in controls[0]

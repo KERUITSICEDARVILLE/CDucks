@@ -20,7 +20,7 @@ public class BlightMutation : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (!once) {
+        if (!once) { // we cannot have Awake here due to how Instantiate() does things
             once = true;
         } else {
             return;

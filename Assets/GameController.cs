@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
     private bool gamePause;
     public bool Pause {
         set {
+            SettingsUI.GetComponent<Settings>().ToggleMenu(value);
             UI.SetActive(!value);
             SettingsUI.SetActive(value);
             gamePause = value;
@@ -77,6 +78,7 @@ public class GameController : MonoBehaviour
     public DuckController dController;
     public GameObject UI;
     public GameObject SettingsUI;
+    public GameObject GrassOverlay;
     public GameObject Shop;
     public GameObject Tangle;
     public GameObject RingMenu;
@@ -151,6 +153,7 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        money = 100000;
         gameEnd = false;
         uniTime = 0f;
         Menu = null;
@@ -262,7 +265,7 @@ public class GameController : MonoBehaviour
         if ((Input.GetMouseButton(2) || (Input.GetMouseButton(0) && selection == -2)) && regionIndex != -1) {
             Vector3 perPixel =  ( Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0)) -
                                 Camera.main.ScreenToWorldPoint(new Vector3(64, 0, 0)) );
-            CameraObject.transform.localPosition += Input.mousePositionDelta * perPixel.x / 32f;
+            CameraObject.transform.localPosition += Input.mousePositionDelta * perPixel.x / 32f * (1f / (1.5f - zoomPercent));
         }
         // end scuffed old system inputs
 
@@ -346,7 +349,7 @@ public class GameController : MonoBehaviour
         GameObject duck = World.GetObjectAtCell<BasicDuck>(location.tileCoord);
         if (duck != null)
         {
-            World.RemoveDuckRing(location);
+            //World.RemoveDuckRing(location);
             duck.GetComponent<BasicDuck>().Kill();
         }
 
@@ -371,7 +374,9 @@ public class GameController : MonoBehaviour
 
     public void HoverTile(WorldTile caller) {
 
-        ringMenuBasis = World.WithinDuckRing(caller);
+        caller.TileColor = new Color(1f, 1f, 1f, 1f);
+
+        //ringMenuBasis = World.WithinDuckRing(caller);
 
         GameObject occupant = null;
         BasicBlight blight = null;
@@ -382,7 +387,7 @@ public class GameController : MonoBehaviour
         }
 
         if (blight != null) {
-            blight.enabled = true;
+            blight.Wake();
         }
 
         occupant = World.GetObjectAtCell<BasicBlight>(caller.tileCoord);
@@ -418,6 +423,7 @@ public class GameController : MonoBehaviour
         foreach (Vector2Int cell in range) {
             World.GetTile(cell).TileColor = new Color(0f, 0f, 0f, 0f);
         }
+        caller.TileColor = new Color(0f, 0f, 0f, 0f);
         ringMenuBasis = null;
     }
 
@@ -435,7 +441,7 @@ public class GameController : MonoBehaviour
                 {
                     money -= GetCost(cursorMode);
                     World.AddAtCell(Instantiate(GetDuckForMode(cursorMode)), tile);
-                    ringMenuBasis = World.CheckDuckRing(caller);
+                    //ringMenuBasis = World.CheckDuckRing(caller);
                     World.ResetDiscoveryChannels();
                 }
             }
@@ -526,7 +532,7 @@ public class GameController : MonoBehaviour
                 World.GetObjectAtCell<BasicDuck>(iChild.tileCoord).GetComponent<BasicDuck>().Kill();
             }
             World.AddAtTile(Instantiate(GetDuckForMode(unlocks)), menuRing[0]);
-            World.RemoveDuckRing(menuRing[0]);
+            //World.RemoveDuckRing(menuRing[0]);
             ringMenuBasis = null;
             Upgrade();
         }
@@ -727,6 +733,13 @@ public class GameController : MonoBehaviour
     public void Redeem() {
         money += wallet / 4;
         wallet = 0;
+    }
+
+    public void ChangeOpacity(GameObject caller) {
+        
+        Color changeAlpha = GrassOverlay.GetComponent<Image>().color;
+        changeAlpha.a = caller.GetComponent<Slider>().value;
+        GrassOverlay.GetComponent<Image>().color = changeAlpha;
     }
 
 }
