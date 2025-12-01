@@ -162,18 +162,22 @@ public class BlightController : MonoBehaviour
         return flat[Random.Range(0, flat.Count)]; 
     }
 
-    public void GiveMeTarget(BlightMutation caller) {
+    public void GiveTarget(GameObject subject) {
+        BlightMutation mut = subject.GetComponent<BlightMutation>();
+        if (mut == null) {
+            return;
+        }
         WorldTile stop = GrabRandomBlight().transform.parent.GetComponent<WorldTile>();
-        WorldTile endpt = World.BFSstopstart<BasicDuck>(stop, World.GetTile(caller.cell), true, 0);
+        WorldTile endpt = World.BFSstopstart<BasicDuck>(stop, World.GetTile(mut.cell), true, 0);
         List<WorldTile> path = World.Gather(endpt);
         if (path == null) {
-            Destroy(caller.gameObject);
+            Destroy(mut.gameObject);
             return;
         }
         path.Reverse();
         path.Add(stop);
-        caller.Path = path;
-        caller.TargetTile = endpt;
+        mut.Path = path;
+        mut.TargetTile = endpt;
         World.ResetDiscoveryChannels();
     }
 

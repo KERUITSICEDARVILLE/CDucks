@@ -2,7 +2,6 @@ using TMPro;
 using UnityEngine;
 
 using UnityEngine.UI;
-//using UnityEngine.LightTransport;
 
 using System.Collections.Generic;
 
@@ -28,7 +27,6 @@ public class GameController : MonoBehaviour
     }
     public GameObject CameraObject;
     public Vector3 cameraOrigin;
-    public Vector3 scaleOrigin;
     const int RoundMax = 8;
     const int numDucks = 6;
     public int Round;
@@ -64,14 +62,12 @@ public class GameController : MonoBehaviour
     public float zoomPercent;
     public int RegionNum;
     public Vector3[] cameraMove;
-    public Vector3[] controllerScale;
+    public Vector2[] regionZoomCoeff;
     private int regionIndex;
     private float prevCamSize;
     private Vector3 prevCamera;
-    private Vector3 prevScale;
     private float eventualCamSize;
     private Vector3 eventualCamera;
-    private Vector3 eventualScale;
 
     [Header("Scene Setup")]
     public BlightController bController;
@@ -153,6 +149,7 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        AudioListener.volume = 0.75f;
         money = 100000;
         gameEnd = false;
         uniTime = 0f;
@@ -168,13 +165,14 @@ public class GameController : MonoBehaviour
         RoundStartMessageTimer = 0;
         RoundTimer = 0;
         Cursor.SetCursor(GetCursorForMode(0), Vector2.zero, CursorMode.Auto);
-        eventualScale = scaleOrigin;
         eventualCamera = cameraOrigin;
     }
 
     // Update is called once per frame
     void Update()
     {
+        // if the player zooms in on something that is not a region, we should do something about that...
+
         if (Input.GetKeyDown("escape")) {
             Pause = !Pause;
         }
@@ -186,7 +184,6 @@ public class GameController : MonoBehaviour
             CameraObject.GetComponent<Camera>().orthographicSize =
                                     (1 - t) * eventualCamSize + t * prevCamSize;
             CameraObject.transform.localPosition = (1 - t) * eventualCamera + t * prevCamera;
-            transform.localScale = (1 - t) * eventualScale + t * prevScale;
             RegionZoomTimer -= Time.deltaTime;
         }
 
@@ -196,7 +193,7 @@ public class GameController : MonoBehaviour
 
         // control immediate zoom
         float scroll = Input.GetAxis("Mouse ScrollWheel");
-        Vector3 priorScale;
+        float a, b, r1, r2;
         if ( !(RegionZoomTimer > 0) && scroll != 0f && !(zoomPercent + scroll < 0f)
             && (regionIndex == -1 && !(zoomPercent + scroll < 0.5f)
                 || regionIndex != -1 && !(zoomPercent + scroll > 1f) )
@@ -204,12 +201,23 @@ public class GameController : MonoBehaviour
         {
             zoomPercent += scroll;
             Scroll.GetComponent<RectTransform>().sizeDelta = new Vector2(20f + (1f - zoomPercent) * 170f, 8.5f);
-            CameraObject.GetComponent<Camera>().orthographicSize = 15f / (zoomPercent + 1f);
+            if (scroll > 0f) {
+                CameraObject.transform.localPosition = (0.9f * CameraObject.transform.localPosition +
+                                                    0.1f * Camera.main.ScreenToWorldPoint(Input.mousePosition));
+            }
+            if (regionIndex == -1) {
+                CameraObject.GetComponent<Camera>().orthographicSize = 15f / (zoomPercent + 1f);
+            } else {
+                r1 = regionZoomCoeff[regionIndex][1];
+                r2 = regionZoomCoeff[regionIndex][0];
+                b = (0.5f * r2 - r1) / (r1 - r2);
+                a = (1f + b) * r1;
+                CameraObject.GetComponent<Camera>().orthographicSize = a / (zoomPercent + b); 
+            }
+            ForceBounds();
         } else if (regionIndex != -1 && zoomPercent + scroll < 0f) {
             MapUnfocus();
         }
-
-
 
         // Have we lost yet? Progress to next round if no blight or timer < 0f
         int divvy = (int)RoundTimer;
@@ -247,7 +255,7 @@ public class GameController : MonoBehaviour
                 SetCursorMode(selection);
             }
 
-            for (int i = 1; i < 7; i++) {
+            for (int i = 1; i < unlocks + 1; i++) {
                 if (Input.GetKey("" + i)) {
                     selection = i - 1;
                     SetCursorMode(selection);
@@ -265,8 +273,10 @@ public class GameController : MonoBehaviour
         if ((Input.GetMouseButton(2) || (Input.GetMouseButton(0) && selection == -2)) && regionIndex != -1) {
             Vector3 perPixel =  ( Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0)) -
                                 Camera.main.ScreenToWorldPoint(new Vector3(64, 0, 0)) );
-            CameraObject.transform.localPosition += Input.mousePositionDelta * perPixel.x / 32f * (1f / (1.5f - zoomPercent));
+            CameraObject.transform.localPosition += Input.mousePositionDelta * perPixel.x / 32f * 5f / CameraObject.GetComponent<Camera>().orthographicSize;
+            ForceBounds();
         }
+
         // end scuffed old system inputs
 
         if (selection >= 0) {
@@ -327,13 +337,18 @@ public class GameController : MonoBehaviour
             }
             for (int i = 1; i < Round; i++) {
                 GameObject mut = Instantiate(BlightMutation);
-                AddBlightToRandomCell(mut);
+                if (AddBlightToRandomCell(mut) != null) {
+                    bController.GiveTarget(mut);
+                }
             }
         }
     }
 
-    private void AddBlightToRandomCell(GameObject enemy)
+    private WorldTile AddBlightToRandomCell(GameObject enemy)
     {
+        if (enemy == null) {
+            return null;
+        }
         // Get a random tile without a blight
         WorldTile location = World.GetRandomTile();
         while (!World.IsFull<BasicBlight>() && World.GetObjectAtCell<BasicBlight>(location.tileCoord) != null)
@@ -343,18 +358,19 @@ public class GameController : MonoBehaviour
         if (World.IsFull<BasicBlight>())
         {
             Destroy(enemy);
+            return null;
         }
 
         // If it has a duck KILL IT
         GameObject duck = World.GetObjectAtCell<BasicDuck>(location.tileCoord);
         if (duck != null)
         {
-            //World.RemoveDuckRing(location);
             duck.GetComponent<BasicDuck>().Kill();
         }
 
         // Add baby to the tile
         World.AddAtTile(enemy, location);
+        return location;
     }
 
     public void LoseGame()
@@ -685,12 +701,10 @@ public class GameController : MonoBehaviour
         regionIndex = caller;
 
         RegionZoomTimer = RegionZoomDuration;
-        prevCamSize = 10f;
+        prevCamSize = CameraObject.GetComponent<Camera>().orthographicSize;
         prevCamera = CameraObject.transform.localPosition;
-        prevScale = transform.localScale;
-        eventualCamSize = 10f;
+        eventualCamSize = regionZoomCoeff[caller][0];
         eventualCamera = cameraMove[caller];
-        eventualScale = controllerScale[caller];
     }
 
     public void MapUnfocus() {
@@ -698,10 +712,8 @@ public class GameController : MonoBehaviour
         regionIndex = -1;
         eventualCamSize = 10f;
         eventualCamera = cameraOrigin;
-        eventualScale = scaleOrigin;
         prevCamSize = CameraObject.GetComponent<Camera>().orthographicSize;
         prevCamera = CameraObject.transform.localPosition;
-        prevScale = transform.localScale;
         RegionZoomTimer = RegionZoomDuration;
     }
 
@@ -740,6 +752,27 @@ public class GameController : MonoBehaviour
         Color changeAlpha = GrassOverlay.GetComponent<Image>().color;
         changeAlpha.a = caller.GetComponent<Slider>().value;
         GrassOverlay.GetComponent<Image>().color = changeAlpha;
+    }
+
+    public void ChangeVolume(GameObject caller) {
+        AudioListener.volume = caller.GetComponent<Slider>().value;
+    }
+
+    public void ToggleFullScreen() {
+        Screen.fullScreen = !Screen.fullScreen;
+    }
+
+    public void ToggleResize() {
+        UnityEditor.PlayerSettings.resizableWindow = !UnityEditor.PlayerSettings.resizableWindow;
+    }
+
+    public void ForceBounds() {
+        if (Camera.main.ScreenToWorldPoint(Vector3.zero).x < -24f
+            || Camera.main.ScreenToWorldPoint(Vector3.zero).y < -13f
+            || Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0f, 0f)).x > 24f
+            || Camera.main.ScreenToWorldPoint(new Vector3(0f, Screen.height, 0f)).y > 13f) {
+            MapUnfocus();
+        }
     }
 
 }

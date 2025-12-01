@@ -29,7 +29,6 @@ public class BlightMutation : MonoBehaviour
         World = FindAnyObjectByType<WorldGrid>().GetComponent<WorldGrid>();
         Controller = FindAnyObjectByType<BlightController>().GetComponent<BlightController>();
         Controller.RegisterMutation(gameObject);
-        Controller.GiveMeTarget(this);
         moveTimer = moveTimeMax;
     }
 
@@ -46,12 +45,11 @@ public class BlightMutation : MonoBehaviour
         }
         GameObject loadTarget = World.GetObjectAtCell<BasicBlight>(TargetTile.tileCoord);
         if (loadTarget == null) {
-            Controller.GiveMeTarget(this);
-            //Controller.RetargetNear(this, TargetTile);
+            Controller.GiveTarget(gameObject); // find new target
         }
         GameObject CellBlight = World.GetObjectAtCell<BasicBlight>(cell);
         if (CellBlight != null) {
-            CellBlight.GetComponent<BasicBlight>().enabled = true;
+            CellBlight.GetComponent<BasicBlight>().enabled = true; // Wake?
         }
         if (moveTimer > 0f && Path.Count > 0) {
             moveTimer -= Time.deltaTime;
