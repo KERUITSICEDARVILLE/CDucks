@@ -160,7 +160,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         money = 0;
-        AudioListener.volume = 0.75f;
+        AudioListener.volume = 0.3f;
         gameEnd = false;
         uniTime = 0f;
         Menu = null;
@@ -789,6 +789,10 @@ public class GameController : MonoBehaviour
             || Camera.main.ScreenToWorldPoint(new Vector3(0f, Screen.height, 0f)).y > 13f) {
             MapUnfocus();
         }
+    }
+
+    public void Nuke() {
+        Application.Quit();
     }
 
 }

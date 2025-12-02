@@ -10,6 +10,7 @@ public class DuckController : MonoBehaviour
     private HashSet<GameObject> Subset;
     private float timer;
     const float timerMax = 2f;
+    const int moderation = 4096;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -19,7 +20,8 @@ public class DuckController : MonoBehaviour
 
     void Update()
     {
-/*        if (timer > 0) {
+        int loopModerator = moderation;
+        if (timer > 0) {
             timer -= Time.deltaTime;
             return;
         } else {
@@ -49,19 +51,21 @@ public class DuckController : MonoBehaviour
 
         if (live.Count > allowance) {
             needKill = live.Count - allowance;
-            while (needKill != 0) {
+            while (needKill != 0 && loopModerator != 0) {
                 select = Random.Range(0, live.Count);
                 if (live[select].GetComponent<BasicDuck>().shouldWake) {
                     live[select].GetComponent<BasicDuck>().Sleep();
                     needKill--;
                 }
+                loopModerator--;
             }
         } else {
             needLive = allowance - live.Count;
-            while (needLive != 0 && dead.Count > 0) {
+            while (needLive != 0 && dead.Count > 0 && loopModerator != 0) {
                 select = Random.Range(0, dead.Count);
                 dead[select].GetComponent<BasicDuck>().Wake();
                 needLive--;
+                loopModerator--;
             }
         } // bring total alive to allowance
 
@@ -89,17 +93,19 @@ public class DuckController : MonoBehaviour
         for (int i = 0; i < allowance; i++) {
             // take one random
             select = Random.Range(0, shouldLive.Count);
-            while (!shouldLive[select].GetComponent<BasicDuck>().shouldWake) {
+            while (!shouldLive[select].GetComponent<BasicDuck>().shouldWake && loopModerator != 0) {
                 select = Random.Range(0, shouldLive.Count);
+                loopModerator--;
             }
             shouldLive[select].GetComponent<BasicDuck>().Sleep();
             // give one random
             select = Random.Range(0, shouldLive.Count);
-            while (shouldLive[select].GetComponent<BasicDuck>().shouldWake) {
+            while (shouldLive[select].GetComponent<BasicDuck>().shouldWake && loopModerator != 0) {
                 select = Random.Range(0, shouldLive.Count);
+                loopModerator--;
             }
             shouldLive[select].GetComponent<BasicDuck>().Wake();
-        } // jumble all of the previously selected*/
+        } // jumble all of the previously selected
 
     }
 

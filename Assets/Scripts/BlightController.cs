@@ -15,6 +15,7 @@ public class BlightController : MonoBehaviour
     private HashSet<int> idSet; 
     private float timer;
     const float timerMax = 2f;
+    const int moderation = 4096;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -26,6 +27,7 @@ public class BlightController : MonoBehaviour
 
     void Update()
     {
+        int loopModerator = moderation;
         if (timer > 0) {
             timer -= Time.deltaTime;
             return;
@@ -56,19 +58,21 @@ public class BlightController : MonoBehaviour
 
         if (live.Count > allowance) {
             needKill = live.Count - allowance;
-            while (needKill != 0) {
+            while (needKill != 0 && loopModerator != 0) {
                 select = Random.Range(0, live.Count);
                 if (live[select].GetComponent<BasicBlight>().shouldWake) {
                     live[select].GetComponent<BasicBlight>().Sleep();
                     needKill--;
                 }
+                loopModerator--;
             }
         } else {
             needLive = allowance - live.Count;
-            while (needLive != 0 && dead.Count > 0) {
+            while (needLive != 0 && dead.Count > 0 && loopModerator != 0) {
                 select = Random.Range(0, dead.Count);
                 dead[select].GetComponent<BasicBlight>().Wake();
                 needLive--;
+                loopModerator--;
             }
         } // bring total alive to allowance
 
@@ -102,16 +106,19 @@ public class BlightController : MonoBehaviour
             {
                 // take one random
                 select = Random.Range(0, shouldLive.Count);
-                while (!shouldLive[select].GetComponent<BasicBlight>().shouldWake)
+                while (!shouldLive[select].GetComponent<BasicBlight>().shouldWake && loopModerator != 0)
                 {
                     select = Random.Range(0, shouldLive.Count);
+                    loopModerator--;
+
                 }
                 shouldLive[select].GetComponent<BasicBlight>().Sleep();
                 // give one random
                 select = Random.Range(0, shouldLive.Count);
-                while (shouldLive[select].GetComponent<BasicBlight>().shouldWake)
+                while (shouldLive[select].GetComponent<BasicBlight>().shouldWake && loopModerator != 0)
                 {
                     select = Random.Range(0, shouldLive.Count);
+                    loopModerator--;
                 }
                 shouldLive[select].GetComponent<BasicBlight>().Wake();
             } // jumble all of the previously selected
