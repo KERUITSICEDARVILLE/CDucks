@@ -551,6 +551,7 @@ public class WorldGrid : MonoBehaviour
 
     public WorldTile BFSstopstart<T>(WorldTile stop, WorldTile start, bool evade, int pathMinLength) {
         if (start.isDiscovered) { // enforce start not being discovered
+            Debug.Log("reused BFS");
             return null;
         }
         Queue<WorldTile> q = new Queue<WorldTile>();
@@ -595,6 +596,7 @@ public class WorldGrid : MonoBehaviour
                 }
             }
         }
+        Debug.Log("stop tile did not match any records");
         return null;
     }
 

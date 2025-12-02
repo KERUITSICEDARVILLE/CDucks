@@ -14,6 +14,13 @@ public class GameController : MonoBehaviour
     private bool gamePause;
     public bool Pause {
         set {
+            if (value) {
+                gameLoopAudio.Pause();
+                menuMuse.Play();
+            } else {
+                menuMuse.Pause();
+                gameLoopAudio.Play();
+            }
             SettingsUI.GetComponent<Settings>().ToggleMenu(value);
             UI.SetActive(!value);
             SettingsUI.SetActive(value);
@@ -25,6 +32,7 @@ public class GameController : MonoBehaviour
             return gamePause;
         }
     }
+    public GameObject BossPrefab;
     public GameObject CameraObject;
     public Vector3 cameraOrigin;
     const int RoundMax = 8;
@@ -70,6 +78,8 @@ public class GameController : MonoBehaviour
     private Vector3 eventualCamera;
 
     [Header("Scene Setup")]
+    public AudioSource gameLoopAudio;
+    public AudioSource menuMuse;
     public BlightController bController;
     public DuckController dController;
     public GameObject UI;
@@ -150,7 +160,6 @@ public class GameController : MonoBehaviour
     void Start()
     {
         AudioListener.volume = 0.75f;
-        money = 100000;
         gameEnd = false;
         uniTime = 0f;
         Menu = null;
@@ -166,6 +175,7 @@ public class GameController : MonoBehaviour
         RoundTimer = 0;
         Cursor.SetCursor(GetCursorForMode(0), Vector2.zero, CursorMode.Auto);
         eventualCamera = cameraOrigin;
+        menuMuse.Stop();
     }
 
     // Update is called once per frame
@@ -328,6 +338,9 @@ public class GameController : MonoBehaviour
 
     private void SpawnRound()
     {
+        if (Round == 6 && bController.bossCriteria()) {
+            // Instantiate(BossPrefab);
+        }
         if (Round < 7)
         {
             int EnemyCount = 13 + 2 * Round + Round * Round / 5;

@@ -200,4 +200,9 @@ public class BlightController : MonoBehaviour
         return Subset.Count > 999;
     }
 
+    public bool bossCriteria() {
+        return Subset.Count < 500;
+        // are there blight within range of end tiles?
+    }
+
 }
