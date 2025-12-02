@@ -51,9 +51,13 @@ public class Him : MonoBehaviour
         }
         GameObject loadTarget = World.GetObjectAtCell<MonoBehaviour>(TargetTile.tileCoord);
         if (loadTarget != null || transform.parent == World.GetTile(mapPath[pathIndex]).gameObject) {
+            Debug.Log("if our end tile is occupied or our parent is the end of path");
             NextLoca();
         }
         WorldTile[] enhancees = World.GetAdjacentTileRangeWithType<BasicBlight>(cell, Random.Range(5, 7));
+        if (enhancees == null) {
+            enhancees = new WorldTile[0];
+        }
         BasicBlight objBlight;
 
         foreach (WorldTile enhancee in enhancees) {
@@ -61,7 +65,7 @@ public class Him : MonoBehaviour
             objBlight.GrowthRate += Random.Range(3.0f, 4.0f) * Time.deltaTime;
             objBlight.MaxGrowth += Random.Range(4.0f, 5.0f) * Time.deltaTime;
             objBlight.gameObject.GetComponent<SpriteRenderer>().color = new Vector4(1f, 1f / objBlight.GrowthRate, 1f / objBlight.GrowthRate, 1f);
-            objBlight.Lineage = Controller.GiveMeUniqueID();
+            //objBlight.Lineage = Controller.GiveMeUniqueID();
         }
 
         if (moveTimer > 0f && Path.Count > 0) {
@@ -72,7 +76,9 @@ public class Him : MonoBehaviour
                 return;
             }
             WorldTile next = Path[0];
-            if (World.GetObjectAtCell<MonoBehaviour>(Path[0].tileCoord)) {
+            if (World.GetObjectAtCell<BasicBlight>(Path[0].tileCoord) != null
+                || World.GetObjectAtCell<BasicDuck>(Path[0].tileCoord) != null) {
+                Debug.Log("path was blocked");
                 NextLoca();
                 return;
             }
@@ -93,11 +99,11 @@ public class Him : MonoBehaviour
         }
         transform.SetParent(World.GetTile(mapPath[pathIndex]).gameObject.transform);
         transform.localPosition = new Vector3(0f, 0f, -2.820513f);
-        WorldTile endpt = World.BFSstopstart<BasicBlight>(World.GetTile(mapPath[pathIndex + 1]),
+        WorldTile endpt = World.BFSstopstart<BasicBlight>(this, World.GetTile(mapPath[pathIndex + 1]),
                                                             World.GetTile(mapPath[pathIndex]), true, 0);
         Debug.Log(endpt);
-        List<WorldTile> path = World.Gather(endpt);
-        World.ResetDiscoveryChannels();
+        List<WorldTile> path = World.Gather(this, endpt);
+        World.ResetDiscoveryChannels(this);
         if (path == null) {
             Debug.Log("destroyed 1 " + pathIndex);
             Destroy(gameObject);

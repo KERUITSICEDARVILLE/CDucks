@@ -159,6 +159,7 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        money = 0;
         AudioListener.volume = 0.75f;
         gameEnd = false;
         uniTime = 0f;
@@ -176,6 +177,7 @@ public class GameController : MonoBehaviour
         Cursor.SetCursor(GetCursorForMode(0), Vector2.zero, CursorMode.Auto);
         eventualCamera = cameraOrigin;
         menuMuse.Stop();
+        Screen.fullScreen = true;
     }
 
     // Update is called once per frame
@@ -338,8 +340,9 @@ public class GameController : MonoBehaviour
 
     private void SpawnRound()
     {
-        if (Round == 6 && bController.bossCriteria()) {
-            // Instantiate(BossPrefab);
+        if (Round == 8 && bController.bossCriteria()) {
+            Debug.Log("attempt to spawn boss");
+            Instantiate(BossPrefab);
         }
         if (Round < 7)
         {
@@ -471,7 +474,7 @@ public class GameController : MonoBehaviour
                     money -= GetCost(cursorMode);
                     World.AddAtCell(Instantiate(GetDuckForMode(cursorMode)), tile);
                     //ringMenuBasis = World.CheckDuckRing(caller);
-                    World.ResetDiscoveryChannels();
+                    //World.ResetDiscoveryChannels(this);
                 }
             }
         }
@@ -776,7 +779,7 @@ public class GameController : MonoBehaviour
     }
 
     public void ToggleResize() {
-        UnityEditor.PlayerSettings.resizableWindow = !UnityEditor.PlayerSettings.resizableWindow;
+        //Screen.SetResolution(Screen.currentResolution.width - 10, Screen.currentResolution.height - 10, false);
     }
 
     public void ForceBounds() {

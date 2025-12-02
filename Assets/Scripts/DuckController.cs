@@ -19,7 +19,7 @@ public class DuckController : MonoBehaviour
 
     void Update()
     {
-        if (timer > 0) {
+/*        if (timer > 0) {
             timer -= Time.deltaTime;
             return;
         } else {
@@ -86,7 +86,7 @@ public class DuckController : MonoBehaviour
         // same thing in BlightController, it here brings the entire game to its knees
         // I have spent hours trying to figure out exactly why.
 
-        /*for (int i = 0; i < allowance; i++) {
+        for (int i = 0; i < allowance; i++) {
             // take one random
             select = Random.Range(0, shouldLive.Count);
             while (!shouldLive[select].GetComponent<BasicDuck>().shouldWake) {

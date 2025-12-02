@@ -164,12 +164,13 @@ public class BlightController : MonoBehaviour
 
     public void GiveTarget(GameObject subject) {
         BlightMutation mut = subject.GetComponent<BlightMutation>();
+        MonoBehaviour whichCaller = subject.GetComponent<MonoBehaviour>();
         if (mut == null) {
             return;
         }
         WorldTile stop = GrabRandomBlight().transform.parent.GetComponent<WorldTile>();
-        WorldTile endpt = World.BFSstopstart<BasicDuck>(stop, World.GetTile(mut.cell), true, 0);
-        List<WorldTile> path = World.Gather(endpt);
+        WorldTile endpt = World.BFSstopstart<BasicDuck>(whichCaller, stop, World.GetTile(mut.cell), true, 0);
+        List<WorldTile> path = World.Gather(whichCaller, endpt);
         if (path == null) {
             Destroy(mut.gameObject);
             return;
@@ -178,7 +179,7 @@ public class BlightController : MonoBehaviour
         path.Add(stop);
         mut.Path = path;
         mut.TargetTile = endpt;
-        World.ResetDiscoveryChannels();
+        World.ResetDiscoveryChannels(whichCaller);
     }
 
     public void RetargetNear(BlightMutation caller, WorldTile tile) {
@@ -201,7 +202,7 @@ public class BlightController : MonoBehaviour
     }
 
     public bool bossCriteria() {
-        return Subset.Count < 500;
+        return Subset.Count < 800;
         // are there blight within range of end tiles?
     }
 
