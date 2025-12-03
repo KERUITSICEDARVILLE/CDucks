@@ -2,25 +2,43 @@ using UnityEngine;
 
 public class ControllerComm : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public GameController Controller;
+    public int region;
+
+    void Awake()
     {
-        // start transparent
         GetComponent<SpriteRenderer>().color = new Vector4(1f, 1f, 1f, 0f);
     }
 
+    void Update() {
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        if (scroll != 0f && Controller.zoomPercent + scroll > 1f) {
+            Controller.MapFocus(region);            
+        }
+    }
+
     public void OnMouseEnter() {
+        if (Controller.Pause) {
+            return;
+        }
+        this.enabled = true;
         GetComponent<SpriteRenderer>().color = new Vector4(1f, 1f, 1f, 1f);
     }
 
 
     public void OnMouseExit() {
         GetComponent<SpriteRenderer>().color = new Vector4(1f, 1f, 1f, 0f);
+        if (Controller.Pause) {
+            return;
+        }
+        this.enabled = false;
     }
 
-    // Update is called once per frame
     public void OnMouseDown() {
-//        transform.localPosition += new Vector3(0f, 0f, 5f);
-        FindAnyObjectByType<GameController>().MapFocus(gameObject);
+        if (Controller.Pause) {
+            return;
+        }
+        Controller.MapFocus(region);
     }
+
 }

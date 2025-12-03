@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class BlightMutation : MonoBehaviour
 {
+    private bool once;
 
     public WorldGrid World;
     public BlightController Controller;
@@ -19,27 +20,36 @@ public class BlightMutation : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if (!once) { // we cannot have Awake here due to how Instantiate() does things
+            once = true;
+        } else {
+            return;
+        }
+        transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
         World = FindAnyObjectByType<WorldGrid>().GetComponent<WorldGrid>();
         Controller = FindAnyObjectByType<BlightController>().GetComponent<BlightController>();
-        Controller.GiveMeTarget(this);
+        Controller.RegisterMutation(gameObject);
         moveTimer = moveTimeMax;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.localScale = new Vector3(0.9f, 0.9f, 0.9f);
-        transform.localPosition = new Vector3(0f, 0f, -2.820513f);
+        if (!Controller.enabled) {
+            return; 
+        }
+        // if GameController.regionIndex != -1 then show HUD alert
+
         if (TargetTile == null || Path == null) {
             return;
         }
         GameObject loadTarget = World.GetObjectAtCell<BasicBlight>(TargetTile.tileCoord);
         if (loadTarget == null) {
-            Controller.RetargetNear(this, TargetTile);
+            Controller.GiveTarget(gameObject); // find new target
         }
         GameObject CellBlight = World.GetObjectAtCell<BasicBlight>(cell);
         if (CellBlight != null) {
-            CellBlight.GetComponent<BasicBlight>().enabled = true;
+            CellBlight.GetComponent<BasicBlight>().enabled = true; // Wake?
         }
         if (moveTimer > 0f && Path.Count > 0) {
             moveTimer -= Time.deltaTime;
@@ -50,7 +60,23 @@ public class BlightMutation : MonoBehaviour
             }
             WorldTile next = Path[0];
             transform.SetParent(next.gameObject.transform);
+            transform.localPosition = new Vector3(0f, 0f, -2.820513f);
             Path.RemoveAt(0);
+        }
+
+        GameObject obj = World.GetObjectAtCell<BasicBlight>(cell);
+        BasicBlight objBlight;
+        if (obj != null)
+        {
+            objBlight = obj.GetComponent<BasicBlight>();
+            // begin transformation
+            objBlight.GrowthRate += Random.Range(3.0f, 4.0f);
+            objBlight.MaxGrowth += Random.Range(4.0f, 5.0f);
+            obj.GetComponent<SpriteRenderer>().color = new Vector4(1f, 1f / objBlight.GrowthRate, 1f / objBlight.GrowthRate, 1f);
+            objBlight.Lineage = Controller.GiveMeUniqueID();
+            // end transformation
+            Controller.UnregisterMutation(gameObject);
+            Destroy(gameObject);
         }
 
         // if near duck, move faster

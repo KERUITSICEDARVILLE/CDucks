@@ -294,6 +294,7 @@ MonoBehaviour:
   World: {fileID: 0}
   zzz: {fileID: 1548859080064093945}
   HPbar: {fileID: 111461733425174558}
+  attackRange: 2
   MaxHealth: 0.5
   power: 1.5
   speed: 1

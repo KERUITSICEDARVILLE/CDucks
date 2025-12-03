@@ -26,11 +26,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1852841451044497856, guid: 95dc436fe6f6c464ca591dbc4c7ac884, type: 3}
       propertyPath: power
-      value: 4
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1852841451044497856, guid: 95dc436fe6f6c464ca591dbc4c7ac884, type: 3}
       propertyPath: speed
-      value: 3
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1852841451044497856, guid: 95dc436fe6f6c464ca591dbc4c7ac884, type: 3}
       propertyPath: duckMode
@@ -39,6 +39,10 @@ PrefabInstance:
     - target: {fileID: 1852841451044497856, guid: 95dc436fe6f6c464ca591dbc4c7ac884, type: 3}
       propertyPath: MaxHealth
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1852841451044497856, guid: 95dc436fe6f6c464ca591dbc4c7ac884, type: 3}
+      propertyPath: attackRange
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4102887691643673938, guid: 95dc436fe6f6c464ca591dbc4c7ac884, type: 3}
       propertyPath: m_Name

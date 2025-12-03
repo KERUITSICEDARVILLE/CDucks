@@ -16,6 +16,7 @@ public class WorldGrid : MonoBehaviour
     public int ymax;
 
     public bool build;
+    public bool toggleUpdate;
 
     public Color color1;
     public Color color2;
@@ -63,13 +64,13 @@ public class WorldGrid : MonoBehaviour
         discoverySet.Add(iChild);
 
             // row creation
-            if (!iChild.isDiscovered) {
+            if (!iChild.getIsDiscovered(this)) {
                 row = new List<WorldTile>();
                 upperRight = iChild.tileCoord;
                 upperRightTile = GetTile(upperRight);
                 // above necessary for following check
                 while (upperRightTile != null) {
-                    upperRightTile.isDiscovered = true;
+                    upperRightTile.setIsDiscovered(this, true);
                     row.Add(upperRightTile);
                     upperRight += new Vector2Int(1, upperRight.x % 2);
                     upperRightTile = GetTile(upperRight);
@@ -88,7 +89,7 @@ public class WorldGrid : MonoBehaviour
                                     Random.Range(4f, 5f));
         }
 
-        ResetDiscoveryChannels();
+        ResetDiscoveryChannels(this);
     }
 
     // Update is called once per frame
@@ -109,6 +110,22 @@ public class WorldGrid : MonoBehaviour
                 {
                     addTile(new Vector2Int(x, y));
                 }
+            }
+        }
+
+        if (toggleUpdate && !Application.isPlaying) {
+            toggleUpdate = false;
+            /*WorldTile current;
+            for (int i = 0; i < transform.childCount; i++) {
+                current = transform.GetChild(i).GetComponent<WorldTile>();
+                current.enabled = !(current.enabled);
+                Debug.Log(current.enabled);
+            }*/
+            WorldTile current;
+            for (int i = 0; i < transform.childCount; i++) {
+                current = transform.GetChild(i).GetComponent<WorldTile>();
+                current.colorDuration = 0.25f;
+                Debug.Log(current.enabled);
             }
         }
 
@@ -165,9 +182,7 @@ public class WorldGrid : MonoBehaviour
         newWorldTile.color = GetColorForTile(pos);
         newWorldTile.heighlight = Color.white;
 
-        newWorldTile.isDiscovered = false;
-        newWorldTile.discoveryParentCoord = new Vector2Int(0, 0);
-        newWorldTile.lengthToOrigin = 0;
+        // perhaps add a few identities for game controller and such
         discoverySet.Add(newWorldTile);
         Debug.Log(discoverySet.Count);
     }
@@ -322,13 +337,35 @@ public class WorldGrid : MonoBehaviour
         return new List<Vector2Int>(neighborhood_a).ToArray();
     }
 
+    public Vector2Int[] CellNeighborhoodStripe(Vector2Int cell_origin, int stripe) {
+        if (stripe < 1) {
+            stripe = 1;
+        }
+        HashSet<Vector2Int>neighborhood_a = null;
+        HashSet<Vector2Int>neighborhood_b = new HashSet<Vector2Int>();
+        Vector2Int[] neighbors;
+        neighborhood_b.Add(cell_origin);
+        while (boolint(stripe--)) {
+            neighborhood_a = neighborhood_b;
+            neighborhood_b = new HashSet<Vector2Int>(neighborhood_a);
+            foreach (Vector2Int cell in neighborhood_a) {
+                neighbors = sides(cell);
+                for (int i = 0; i < neighbors.Length; i++) {
+                    neighborhood_b.Add(neighbors[i] + cell);
+                }
+            }
+        }
+        neighborhood_b.ExceptWith(neighborhood_a);
+        return new List<Vector2Int>(neighborhood_b).ToArray();
+    }
+
     public int CountAdjacentCellRangeWithType<T>(Vector2Int cell, int range)
     {
 
         int count = 0;
         foreach (Vector2Int side in CellNeighborhood(cell, range))
         {
-            if (GetObjectAtCell<T>(cell) != null)
+            if (GetObjectAtCell<T>(side) != null)
             {
                 count++;
             }
@@ -510,8 +547,9 @@ public class WorldGrid : MonoBehaviour
         return GetTile(cell) != null;
     }
 
-    public WorldTile BFSstopstart<T>(WorldTile stop, WorldTile start, bool evade, int pathMinLength) {
-        if (start.isDiscovered) { // enforce start not being discovered
+    public WorldTile BFSstopstart<T>(MonoBehaviour caller, WorldTile stop, WorldTile start, bool evade, int pathMinLength) {
+        if (start.getIsDiscovered(caller)) { // enforce start not being discovered
+            Debug.Log("reused BFS");
             return null;
         }
         Queue<WorldTile> q = new Queue<WorldTile>();
@@ -520,8 +558,8 @@ public class WorldGrid : MonoBehaviour
         WorldTile[] children;
         WorldTile[] children2;
         WorldTile parent;
-        start.lengthToOrigin = 1;
-        start.isDiscovered = true;
+        start.setLengthToOrigin(caller, 1);
+        start.setIsDiscovered(caller, true);
         q.Enqueue(start);
 
         while (q.Count > 0) {
@@ -533,7 +571,7 @@ public class WorldGrid : MonoBehaviour
             }
             children2 = new WorldTile[children.Length];
             for (int i = 0; i < children.Length; i++) {
-                if (children[i].isDiscovered) {
+                if (children[i].getIsDiscovered(caller)) {
                     children2[i] = children[i];
                     children[i] = null;
                 } else {
@@ -545,21 +583,22 @@ public class WorldGrid : MonoBehaviour
             unChildren.Remove(null);
             disChildren.Remove(null);
             foreach (WorldTile iChild in unChildren) {
-                iChild.discoveryParentCoord = parent.tileCoord;
-                iChild.lengthToOrigin = parent.lengthToOrigin + 1;
-                iChild.isDiscovered = true;
+                iChild.setDiscoveryParentCoord(caller, parent.tileCoord);
+                iChild.setLengthToOrigin(caller, parent.getLengthToOrigin(caller) + 1);
+                iChild.setIsDiscovered(caller, true);
                 q.Enqueue(iChild);
             }
             foreach (WorldTile iChild in disChildren) {
-                if (iChild == stop && parent.lengthToOrigin >= pathMinLength) {
+                if (iChild == stop && parent.getLengthToOrigin(caller) >= pathMinLength) {
                     return parent;
                 }
             }
         }
+        Debug.Log("stop tile did not match any records");
         return null;
     }
 
-    public List<WorldTile> Gather(WorldTile endpt) {
+    public List<WorldTile> Gather(MonoBehaviour caller, WorldTile endpt) {
         if (endpt == null) {
             return null;
         }
@@ -569,7 +608,7 @@ public class WorldGrid : MonoBehaviour
 
         while (curr != null) {
             ring.Add(curr);
-            curr = GetTile(curr.discoveryParentCoord);
+            curr = GetTile(curr.getDiscoveryParentCoord(caller));
         }
         if (ring.Count == 0) {
             return null;
@@ -578,6 +617,7 @@ public class WorldGrid : MonoBehaviour
     }
 
     public List<WorldTile> WithinDuckRing(WorldTile check) {
+        Debug.Log("is it within a duck ring?");
         foreach (List<WorldTile> ring in duckRings) {
             foreach (WorldTile tile in ring) {
                 if (tile == check) {
@@ -589,6 +629,7 @@ public class WorldGrid : MonoBehaviour
     }
 
     public bool RemoveDuckRing(WorldTile check) {
+        Debug.Log("removing duck ring");
         int removeIndex = duckRings.Count;
         for (int i = 0; i < duckRings.Count; i++) {
             foreach (WorldTile tile in duckRings[i]) {
@@ -603,41 +644,45 @@ public class WorldGrid : MonoBehaviour
         return (removeIndex != duckRings.Count);
     }
 
-    public List<WorldTile> AddNewDuckRing(WorldTile endpt) {
-        List<WorldTile> ring = Gather(endpt);
+    public List<WorldTile> AddNewDuckRing(MonoBehaviour caller, WorldTile endpt) {
+        Debug.Log("adding new duck ring");
+        List<WorldTile> ring = Gather(caller, endpt);
         duckRings.Add(ring);
         return ring;
     }
 
-    public List<WorldTile> CheckDuckRing(WorldTile origin) {
+    public List<WorldTile> CheckDuckRing(MonoBehaviour caller, WorldTile origin) {
+        Debug.Log("checking ring");
         // returns null if no ring found
         // the significance of returning a set of V2's in a ring
         // is not such that there is only one ring. It is to return
         // the shortest ring and leave enough information on the
         // WGrid to generate other paths later.
-        origin.lengthToOrigin = 0;
-        origin.isDiscovered = true;
+        origin.setLengthToOrigin(caller, 0);
+        origin.setIsDiscovered(caller, true);
         WorldTile BFSEnd;
         WorldTile[] arms = GetAdjacentTilesWithType<BasicDuck>(origin.tileCoord);
         if (arms == null) {
             return null;
         }
         for (int i = 0; i < arms.Length; i++) {
-            BFSEnd = BFSstopstart<BasicDuck>(origin, arms[i], false, 5);
+            BFSEnd = BFSstopstart<BasicDuck>(caller, origin, arms[i], false, 5);
             if (BFSEnd != null) {
-            arms[i].discoveryParentCoord = origin.tileCoord;
-            return AddNewDuckRing(BFSEnd);
+            arms[i].setDiscoveryParentCoord(caller, origin.tileCoord);
+            return AddNewDuckRing(caller, BFSEnd);
             }
         }
         return null;
     }
 
-    public void ResetDiscoveryChannels() {
+    public void ResetDiscoveryChannels(MonoBehaviour caller) {
         foreach (WorldTile iWorldTile in discoverySet) {
-            iWorldTile.discoveryParentCoord = Vector2Int.zero;
-            iWorldTile.isDiscovered = false;
-            iWorldTile.lengthToOrigin = 0;
+            iWorldTile.ResetIdentity(caller);
         }
+    }
+
+    public void ToggleWaving() {
+        DoWaving = !DoWaving;
     }
 
     private void BezierBoil(int order, Vector2[] controls, float t) { // puts result in controls[0]
@@ -688,14 +733,12 @@ public class WorldGrid : MonoBehaviour
         GameObject victimObj;
         BasicBlight victim;
         WorldTile[] row;
-        int localMoney;
 
         foreach (List<WorldTile> rowList in rows) {
             row = rowList.ToArray();
             victimObj = GetObjectAtCell<BasicBlight>(row[0].tileCoord);
-            localMoney = FindAnyObjectByType<GameController>().money;
             if (victimObj != null) {
-                FindAnyObjectByType<GameController>().money++;
+                FindAnyObjectByType<GameController>().wallet++;
                 victim = victimObj.GetComponent<BasicBlight>();
                 victim.Growth = -1f;
             }

@@ -7,9 +7,12 @@ public class BasicDuck : MonoBehaviour
     public DuckController Controller;
     public WorldGrid World;
 
+    public bool shouldWake;
+    private bool once;
     private bool eventKill;
     public GameObject zzz;
     public GameObject HPbar;
+    public int attackRange;
     public float MaxHealth;
     private float healthPool;
     public float HP {
@@ -36,6 +39,12 @@ public class BasicDuck : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if (!once) { // we cannot have Awake here due to how Instantiate() does things
+            once = true;
+        } else {
+            return;
+        }
+        shouldWake = true;
         transform.localScale = new Vector3(3.2f, 3.2f, 3.2f);
         HP = MaxHealth;
         if (transform.parent != null) {
@@ -52,33 +61,42 @@ public class BasicDuck : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        BasicBlight victim;
-
         if (eventKill) {
             Controller.Unregister(gameObject);
             Destroy(gameObject);
         }
+        if (!shouldWake) {
+            this.enabled = false;
+            return;
+        }
+        if (!Controller.enabled) {
+            return; 
+        }
+
+        BasicBlight victim;
+
         if (cooldown > 0f) {
             cooldown -= speed * Time.deltaTime;
         }
 
-        if (cooldown < 0f && World.CountAdjacentCellsWithType<BasicBlight>(cell) > 0)
+        if (cooldown < 0f && World.CountAdjacentCellRangeWithType<BasicBlight>(cell, attackRange) > 0)
         {
-            WorldTile target = World.GetRandomAdjacentTileWithType<BasicBlight>(cell);
+            WorldTile target = World.GetRandomAdjacentTileRangeWithType<BasicBlight>(cell, attackRange);
             victim = World.GetObjectAtCell<BasicBlight>(target.tileCoord).GetComponent<BasicBlight>();
-            victim.enabled = true;
+            victim.Wake();
             victim.Damage(power);
-            Damage(0.5f * (healthPool + Random.Range(0f, 0.1f)) / power);
-            FindAnyObjectByType<GameController>().money += (int) power;
+            Damage(0.25f * (MaxHealth + healthPool * Random.Range(0f, 0.1f)) / power);
+            FindAnyObjectByType<GameController>().wallet += (int) (power * 1.5);
             cooldown = 1.0f;
         }
         if (HP < MaxHealth && World.CountAdjacentCellsWithType<BasicBlight>(cell) == 0) {
             HP += 0.00625f * power * Time.deltaTime;
         }
+
     }
 
     public bool Damage(float amount) {
-        this.enabled = true; // force response
+        Wake(); // force response
         HP -= amount;
         if (HP < 0f) {
             Kill();
@@ -87,12 +105,12 @@ public class BasicDuck : MonoBehaviour
     }
  
     public void Kill() {
-        this.enabled = true;
+        Wake();
         eventKill = true;
     }
 
     public void Sleep() {
-        this.enabled = false;
+        shouldWake = false;
         zzz.GetComponent<SpriteRenderer>().enabled = true;
     }
 

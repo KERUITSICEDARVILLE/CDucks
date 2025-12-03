@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class BasicBlight : MonoBehaviour
@@ -8,11 +7,13 @@ public class BasicBlight : MonoBehaviour
 
     public Animation minus;
 
+    public bool shouldWake;
+    private bool once;
     private float growth;
     public float Growth {
         set
         {
-            GetComponent<SpriteRenderer>().size = new Vector2( 0.25f + 0.75f * growth / MaxGrowth, 0.25f + 0.75f * growth / MaxGrowth);
+            GetComponent<SpriteRenderer>().size = new Vector2(0.25f + 0.75f * growth / MaxGrowth, 0.25f + 0.75f * growth / MaxGrowth);
             growth = value;
         }
         get
@@ -25,6 +26,8 @@ public class BasicBlight : MonoBehaviour
     public float tolerance;
     public float Taut;
 
+    public int Lineage;
+
     public Vector2Int cell {
         get { return transform.parent.GetComponent<WorldTile>().tileCoord; }
     }
@@ -32,6 +35,12 @@ public class BasicBlight : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if (!once) { // we cannot have Awake here due to how Instantiate() does things
+            once = true;
+        } else {
+            return;
+        }
+        shouldWake = true;
         if (transform.parent != null) {
             if (transform.parent.parent != null) {
                 World = transform.parent.parent.GetComponent<WorldGrid>();
@@ -48,17 +57,18 @@ public class BasicBlight : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        GameObject obj = World.GetObjectAtCell<BlightMutation>(cell);
-        if (obj != null) {
-            GrowthRate += Random.Range(0.5f, 1.0f);
-            GetComponent<SpriteRenderer>().color = new Vector4(1f, 1f / GrowthRate, 1f / GrowthRate, 1f);
-            Destroy(obj);
+        if (!shouldWake) {
+            this.enabled = false;
+            return;
         }
-
+        if (!Controller.enabled) {
+            return; 
+        }
         if (Growth <= 0.0)
         {
+            FindAnyObjectByType<GameController>().wallet += 2;
             Controller.Unregister(gameObject);
             Destroy(gameObject);
         }
@@ -66,13 +76,9 @@ public class BasicBlight : MonoBehaviour
         {
             Growth += Time.deltaTime * GrowthRate;
         }
-
-        if (Random.Range(MaxGrowth - tolerance, MaxGrowth) > MaxGrowth - tolerance * Mathf.Pow(Growth / MaxGrowth, Taut)) {
+        else if (Random.value > .9)
+        {
             BlightSpread();
-        }
-
-        if (transform.parent.GetComponent<WorldTile>().isBeingPressed) {
-            Growth -= Time.deltaTime * GrowthRate * 4f;
         }
         
     }
@@ -108,6 +114,15 @@ public class BasicBlight : MonoBehaviour
     {
         //minus.Play();
         Growth -= amount;
+    }
+
+    public void Wake() {
+        this.enabled = true;
+        shouldWake = true;
+    }
+
+    public void Sleep() {
+        shouldWake = false;
     }
 
 }

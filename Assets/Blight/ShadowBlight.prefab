@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2967337111675365541}
   - component: {fileID: 7601684734038434274}
   m_Layer: 0
-  m_Name: BasicBlight
+  m_Name: ShadowBlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53,10 +53,11 @@ MonoBehaviour:
   Controller: {fileID: 0}
   World: {fileID: 0}
   minus: {fileID: 0}
-  MaxGrowth: 10
-  GrowthRate: 0.5
+  MaxGrowth: 35
+  GrowthRate: 2.5
   tolerance: 1
   Taut: 20
+  Lineage: 3
 --- !u!212 &2967337111675365541
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -104,7 +105,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -8251610326034200038, guid: 03d044a62a3039347b08e310734d16df, type: 3}
+  m_Sprite: {fileID: -1710846971304576112, guid: 166dfb653f5647b4fa3d4d72dfc2df71, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

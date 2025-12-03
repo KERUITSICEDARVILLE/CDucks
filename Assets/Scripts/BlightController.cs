@@ -7,21 +7,27 @@ using System.Collections.Generic;
 public class BlightController : MonoBehaviour
 {
     public int allowance;
+    public int terrorAllowance;
     public WorldGrid World;
     public TMP_Text AlgaeCount;
     private HashSet<GameObject> Subset;
+    private HashSet<GameObject> Mutations;
+    private HashSet<int> idSet; 
     private float timer;
-    const float timerMax = 5f;
+    const float timerMax = 2f;
+    const int moderation = 4096;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
         timer = timerMax;
-        allowance = 40;
         Subset = new HashSet<GameObject>();
+        Mutations = new HashSet<GameObject>();
+        idSet = new HashSet<int>();
     }
 
     void Update()
     {
+        int loopModerator = moderation;
         if (timer > 0) {
             timer -= Time.deltaTime;
             return;
@@ -32,7 +38,7 @@ public class BlightController : MonoBehaviour
         List<GameObject> dead = new List<GameObject>();
 
         foreach (GameObject iChild in Subset) {
-            if (iChild.GetComponent<BasicBlight>().enabled) {
+            if (iChild.GetComponent<BasicBlight>().shouldWake) { // changed
             live.Add(iChild);
             } else {
             dead.Add(iChild);                
@@ -43,7 +49,7 @@ public class BlightController : MonoBehaviour
             if (World.CountAdjacentCellsWithoutType<BasicBlight>(
                 iChild.transform.parent.GetComponent<WorldTile>().tileCoord
                 ) == 0) {
-                iChild.GetComponent<BasicBlight>().enabled = false;
+                iChild.GetComponent<BasicBlight>().Sleep();
             }
         } // kill within borders
 
@@ -52,57 +58,106 @@ public class BlightController : MonoBehaviour
 
         if (live.Count > allowance) {
             needKill = live.Count - allowance;
-            while (needKill != 0) {
+            while (needKill != 0 && loopModerator != 0) {
                 select = Random.Range(0, live.Count);
-                if (live[select].GetComponent<BasicBlight>().enabled) {
-                    live[select].GetComponent<BasicBlight>().enabled = false;
+                if (live[select].GetComponent<BasicBlight>().shouldWake) {
+                    live[select].GetComponent<BasicBlight>().Sleep();
                     needKill--;
                 }
+                loopModerator--;
             }
         } else {
             needLive = allowance - live.Count;
-            while (needLive != 0 && dead.Count > 0) {
+            while (needLive != 0 && dead.Count > 0 && loopModerator != 0) {
                 select = Random.Range(0, dead.Count);
-                dead[select].GetComponent<BasicBlight>().enabled = true;
+                dead[select].GetComponent<BasicBlight>().Wake();
                 needLive--;
+                loopModerator--;
             }
         } // bring total alive to allowance
 
         List<GameObject> shouldLive = new List<GameObject>();
 
+        bool shouldLiveAllActive = true;
+
+        int maxLineage = 0;
+        float maxGrowth = 0.5f;
+
+        BasicBlight iterate;
+
         foreach (GameObject iChild in Subset) {
-            if (iChild.GetComponent<BasicBlight>().enabled
+            iterate = iChild.GetComponent<BasicBlight>();
+            if (iterate.shouldWake
                 || World.CountAdjacentCellsWithoutType<BasicBlight>(iChild.transform.parent.GetComponent<WorldTile>().tileCoord) > 0) {
+                maxGrowth = maxGrowth > iterate.GrowthRate ? maxGrowth : iterate.GrowthRate;
+                maxLineage = maxGrowth > iterate.GrowthRate ? maxLineage : iterate.Lineage;
+                shouldLiveAllActive &= iterate.shouldWake; // changed
                 shouldLive.Add(iChild);
             }
         } // select all enabled or at border cells
+
+        if (shouldLiveAllActive) {
+            return;
+        }
+
         if (shouldLive.Count > 0)
         {
             for (int i = 0; i < allowance; i++)
             {
                 // take one random
                 select = Random.Range(0, shouldLive.Count);
-                while (!shouldLive[select].GetComponent<BasicBlight>().enabled)
+                while (!shouldLive[select].GetComponent<BasicBlight>().shouldWake && loopModerator != 0)
                 {
                     select = Random.Range(0, shouldLive.Count);
+                    loopModerator--;
+
                 }
-                shouldLive[select].GetComponent<BasicBlight>().enabled = false;
+                shouldLive[select].GetComponent<BasicBlight>().Sleep();
                 // give one random
                 select = Random.Range(0, shouldLive.Count);
-                while (shouldLive[select].GetComponent<BasicBlight>().enabled)
+                while (shouldLive[select].GetComponent<BasicBlight>().shouldWake && loopModerator != 0)
                 {
                     select = Random.Range(0, shouldLive.Count);
+                    loopModerator--;
                 }
-                shouldLive[select].GetComponent<BasicBlight>().enabled = true;
+                shouldLive[select].GetComponent<BasicBlight>().Wake();
             } // jumble all of the previously selected
+        }
+
+        int terror = terrorAllowance;
+
+        foreach (GameObject iChild in shouldLive) {
+            iterate = iChild.GetComponent<BasicBlight>();
+            if (iterate.Lineage == maxLineage && !iterate.shouldWake && terror > 0) {
+                iterate.Wake();
+                terror--;
+            }
         }
 
     }
 
+    // need to lock down these functions to only be accessible from one blight mutation
     public void Register(GameObject caller) {
         Subset.Add(caller);
         AlgaeCount.text = "" + Subset.Count;
     }
+
+    public int GiveMeUniqueID() {
+        int selection = Random.Range(0, 256);
+        while (idSet.Contains(selection)) {
+            selection = Random.Range(0, 256);
+        }
+        idSet.Add(selection);
+        return selection;
+    }
+
+    public void RegisterMutation(GameObject caller) {
+        Mutations.Add(caller);
+    }
+
+    public void UnregisterMutation(GameObject caller) {
+        Mutations.Remove(caller);
+    }    
 
     public void Unregister(GameObject caller) {
         Subset.Remove(caller);
@@ -114,23 +169,48 @@ public class BlightController : MonoBehaviour
         return flat[Random.Range(0, flat.Count)]; 
     }
 
-    public void GiveMeTarget(BlightMutation caller) {
+    public void GiveTarget(GameObject subject) {
+        BlightMutation mut = subject.GetComponent<BlightMutation>();
+        MonoBehaviour whichCaller = subject.GetComponent<MonoBehaviour>();
+        if (mut == null) {
+            return;
+        }
         WorldTile stop = GrabRandomBlight().transform.parent.GetComponent<WorldTile>();
-        WorldTile endpt = World.BFSstopstart<BasicDuck>(stop, World.GetTile(caller.cell), true, 0);
-        List<WorldTile> path = World.Gather(endpt);
+        WorldTile endpt = World.BFSstopstart<BasicDuck>(whichCaller, stop, World.GetTile(mut.cell), true, 0);
+        List<WorldTile> path = World.Gather(whichCaller, endpt);
         if (path == null) {
-            Destroy(caller.gameObject);
+            Destroy(mut.gameObject);
             return;
         }
         path.Reverse();
         path.Add(stop);
-        caller.Path = path;
-        caller.TargetTile = endpt;
-        World.ResetDiscoveryChannels();
+        mut.Path = path;
+        mut.TargetTile = endpt;
+        World.ResetDiscoveryChannels(whichCaller);
     }
 
     public void RetargetNear(BlightMutation caller, WorldTile tile) {
         //
+    }
+
+    public void Nuke() {
+        foreach (GameObject iChild in Subset) {
+            Destroy(iChild);
+        }
+        Subset = new HashSet<GameObject>();
+        foreach (GameObject iChild in Mutations) {
+            Destroy(iChild);
+        }
+        Mutations = new HashSet<GameObject>();
+    }
+
+    public bool isFull() {
+        return Subset.Count > 999;
+    }
+
+    public bool bossCriteria() {
+        return Subset.Count < 800;
+        // are there blight within range of end tiles?
     }
 
 }

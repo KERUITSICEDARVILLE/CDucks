@@ -9,17 +9,18 @@ public class DuckController : MonoBehaviour
     public TMP_Text DuckCount;
     private HashSet<GameObject> Subset;
     private float timer;
-    const float timerMax = 5f;
+    const float timerMax = 2f;
+    const int moderation = 4096;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
         timer = timerMax;
-        allowance = 30;
         Subset = new HashSet<GameObject>();
     }
 
     void Update()
     {
+        int loopModerator = moderation;
         if (timer > 0) {
             timer -= Time.deltaTime;
             return;
@@ -30,7 +31,7 @@ public class DuckController : MonoBehaviour
         List<GameObject> dead = new List<GameObject>();
 
         foreach (GameObject iChild in Subset) {
-            if (iChild.GetComponent<BasicDuck>().enabled) {
+            if (iChild.GetComponent<BasicDuck>().shouldWake) {
             live.Add(iChild);
             } else {
             dead.Add(iChild);                
@@ -50,47 +51,58 @@ public class DuckController : MonoBehaviour
 
         if (live.Count > allowance) {
             needKill = live.Count - allowance;
-            while (needKill != 0) {
+            while (needKill != 0 && loopModerator != 0) {
                 select = Random.Range(0, live.Count);
-                if (live[select].GetComponent<BasicDuck>().enabled) {
+                if (live[select].GetComponent<BasicDuck>().shouldWake) {
                     live[select].GetComponent<BasicDuck>().Sleep();
                     needKill--;
                 }
+                loopModerator--;
             }
         } else {
             needLive = allowance - live.Count;
-            while (needLive != 0 && dead.Count > 0) {
+            while (needLive != 0 && dead.Count > 0 && loopModerator != 0) {
                 select = Random.Range(0, dead.Count);
                 dead[select].GetComponent<BasicDuck>().Wake();
                 needLive--;
+                loopModerator--;
             }
         } // bring total alive to allowance
 
         List<GameObject> shouldLive = new List<GameObject>();
 
+        bool shouldLiveAllActive = true;
+
         // potentially prioritize ducks with low health even higher
         foreach (GameObject iChild in Subset) {
-            if (iChild.GetComponent<BasicDuck>().enabled
+            if (iChild.GetComponent<BasicDuck>().shouldWake
                 || World.CountAdjacentCellsWithType<BasicBlight>(iChild.transform.parent.GetComponent<WorldTile>().tileCoord) > 0) {
+                shouldLiveAllActive &= iChild.GetComponent<BasicDuck>().shouldWake;
                 shouldLive.Add(iChild);
             }
         } // select all enabled or at border cells
 
-        if (shouldLive.Count == 0) {
+        if (shouldLive.Count == 0 || shouldLiveAllActive) {
             return;
         }
+
+        // While the below code exists in exactly the same way, and does exactly the
+        // same thing in BlightController, it here brings the entire game to its knees
+        // I have spent hours trying to figure out exactly why.
 
         for (int i = 0; i < allowance; i++) {
             // take one random
             select = Random.Range(0, shouldLive.Count);
-            while (!shouldLive[select].GetComponent<BasicDuck>().enabled) {
+            while (!shouldLive[select].GetComponent<BasicDuck>().shouldWake && loopModerator != 0) {
                 select = Random.Range(0, shouldLive.Count);
+                loopModerator--;
             }
             shouldLive[select].GetComponent<BasicDuck>().Sleep();
             // give one random
             select = Random.Range(0, shouldLive.Count);
-            while (shouldLive[select].GetComponent<BasicDuck>().enabled) {
+            while (shouldLive[select].GetComponent<BasicDuck>().shouldWake && loopModerator != 0) {
                 select = Random.Range(0, shouldLive.Count);
+                loopModerator--;
             }
             shouldLive[select].GetComponent<BasicDuck>().Wake();
         } // jumble all of the previously selected
@@ -107,4 +119,12 @@ public class DuckController : MonoBehaviour
         Subset.Remove(caller);
         DuckCount.text = "" + Subset.Count;
     }
+
+    public void Nuke() {
+        foreach (GameObject iChild in Subset) {
+            Destroy(iChild);
+        }
+        Subset = new HashSet<GameObject>();
+    }
+    
 }
