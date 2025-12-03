@@ -106,7 +106,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   tileCoord: {x: 0, y: 0}
   color: {r: 0, g: 0, b: 0, a: 0}
+  pressed: {r: 0, g: 0, b: 0, a: 0}
   heighlight: {r: 0, g: 0, b: 0, a: 0}
+  isBeingPressed: 0
+  discoveryParentCoord: {x: 0, y: 0}
+  lengthToOrigin: 0
+  isDiscovered: 0
+  initialTransform: {x: 0, y: 0, z: 0}
 --- !u!60 &1435297658951186796
 PolygonCollider2D:
   m_ObjectHideFlags: 0

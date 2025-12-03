@@ -7,7 +7,9 @@ public class WorldTile : MonoBehaviour
     [Header("Identity Information")]
     public Vector2Int tileCoord;
     public Color color;
+    public Color pressed;
     public Color heighlight;
+    public bool isBeingPressed;
 
     [Header("Discovery and Relevant Metadata")]
     public Vector2Int discoveryParentCoord;
@@ -25,10 +27,6 @@ public class WorldTile : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void OnMouseEnter()
     {
@@ -38,12 +36,20 @@ public class WorldTile : MonoBehaviour
 
     public void OnMouseExit()
     {
+        isBeingPressed = false;
         GetComponent<SpriteRenderer>().color = color;
         FindAnyObjectByType<GameController>().ExitTile(this);
     }
 
     public void OnMouseDown()
     {
+        isBeingPressed = true;
+        //GetComponent<SpriteRenderer>().color = pressed;
         FindAnyObjectByType<GameController>().ClickTile(this);
+    }
+
+    public void OnMouseUp() {
+        isBeingPressed = false;
+        //GetComponent<SpriteRenderer>().color = color;
     }
 }

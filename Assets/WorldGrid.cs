@@ -1,12 +1,11 @@
+using UnityEngine;
 using NUnit.Framework;
 using System.Collections.Generic;
-using UnityEngine;
 using static UnityEngine.EventSystems.EventTrigger;
 
 [ExecuteInEditMode]
 public class WorldGrid : MonoBehaviour
 {
-    public Power empty;
     public GameObject tile;
     public float shiftLeft;
     public float shiftUp;
@@ -22,21 +21,28 @@ public class WorldGrid : MonoBehaviour
     public Color color2;
     public Color color3;
 
+    public bool DoDrift;
+
     [Header("BFS and animation")]
+    public bool DoWaving;
     public HashSet<WorldTile> discoverySet;
     public List<List<WorldTile>> duckRings;
     public List<List<WorldTile>> rows;
     public Vector3[] rowAnimPs;
 
-    const float toppleTime = 2f;
+    public float toppleTime;
     private float toppleControlTime;
     public Vector3 waveNormal;
+
+    [Header("Performance Concerns")]
+    private Dictionary<Vector2Int, WorldTile> tileMap;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         toppleControlTime = 0f;
 
+        tileMap = new Dictionary<Vector2Int, WorldTile>();
         discoverySet = new HashSet<WorldTile>();
         duckRings = new List<List<WorldTile>>();
         rows = new List<List<WorldTile>>();
@@ -47,11 +53,16 @@ public class WorldGrid : MonoBehaviour
 
         for (int i = 0; i < transform.childCount; i++) {
         iChild = transform.GetChild(i).GetComponent<WorldTile>();
+        tileMap.Add(iChild.tileCoord, iChild);
+        }
+
+        for (int i = 0; i < transform.childCount; i++) {
+        iChild = transform.GetChild(i).GetComponent<WorldTile>();
 
         // set creation
         discoverySet.Add(iChild);
 
-        // row creation
+            // row creation
             if (!iChild.isDiscovered) {
                 row = new List<WorldTile>();
                 upperRight = iChild.tileCoord;
@@ -65,7 +76,7 @@ public class WorldGrid : MonoBehaviour
                 }
 
                 rows.Add(row);
-            }
+            } // end row creation
         }
 
         rowAnimPs = new Vector3[rows.Count];
@@ -101,22 +112,33 @@ public class WorldGrid : MonoBehaviour
             }
         }
 
-        if (FindAnyObjectByType<GameController>().ringMenuBasis != null && Random.Range(0f, 50f) < 29f) {
-            return;
-        }
-
         // potentially move to Controller
-        if (Application.isPlaying) {
-        AnimateRows(toppleControlTime, toppleControlTime + Time.deltaTime);
+        if (DoWaving)
+        {
+            if (Application.isPlaying)
+            {
+                AnimateRows(toppleControlTime / toppleTime);
+            }
         }
-
-        if (toppleControlTime < toppleTime) {
+        
+        if (toppleControlTime < toppleTime)
+        {
             toppleControlTime += Time.deltaTime;
-        } else {
+        }
+        else
+        {
             toppleControlTime = 0f;
             // slide everything left
-            ReparentRows();
+            if (FindAnyObjectByType<GameController>().money > 0
+                && FindAnyObjectByType<GameController>().borderCleanse)
+            {
+                ReparentRows();
+                FindAnyObjectByType<GameController>().money--;
+            } else {
+                FindAnyObjectByType<GameController>().borderCleanse = false;
+            }
         }
+        // no seriously, please move this to the Controller
 
     }
 
@@ -200,16 +222,9 @@ public class WorldGrid : MonoBehaviour
 
     public WorldTile GetTile(Vector2Int cell)
     {
-
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            WorldTile tile = transform.GetChild(i).gameObject.GetComponent<WorldTile>();
-            if (tile.tileCoord == cell)
-            {
-                return tile;
-            }
+        if (tileMap.ContainsKey(cell)) {
+            return tileMap[cell];
         }
-
         return null;
     }
 
@@ -279,6 +294,108 @@ public class WorldGrid : MonoBehaviour
         }
         return adjacent.ToArray();
     }
+
+    public bool boolint(int x) {
+        return x == 0 ? false : true;
+    }
+
+    // START RANGE CAPABILITIES
+    public Vector2Int[] CellNeighborhood(Vector2Int cell_origin, int range) {
+        if (range < 1) {
+            range = 1;
+        }
+        HashSet<Vector2Int>neighborhood_a = new HashSet<Vector2Int>();
+        HashSet<Vector2Int>neighborhood_b;
+        Vector2Int[] neighbors;
+        neighborhood_a.Add(cell_origin);
+        while (boolint(range--)) {
+            neighborhood_b = new HashSet<Vector2Int>(neighborhood_a);
+            foreach (Vector2Int cell in neighborhood_a) {
+                neighbors = sides(cell);
+                for (int i = 0; i < neighbors.Length; i++) {
+                    neighborhood_b.Add(neighbors[i] + cell);
+                }
+            }
+            neighborhood_a = neighborhood_b;
+        }
+        neighborhood_a.Remove(cell_origin);
+        return new List<Vector2Int>(neighborhood_a).ToArray();
+    }
+
+    public int CountAdjacentCellRangeWithType<T>(Vector2Int cell, int range)
+    {
+
+        int count = 0;
+        foreach (Vector2Int side in CellNeighborhood(cell, range))
+        {
+            if (GetObjectAtCell<T>(cell) != null)
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public WorldTile[] GetAdjacentTileRangeWithType<T>(Vector2Int cell, int range)
+    {
+        if (CountAdjacentCellRangeWithType<T>(cell, range) == 0)
+        {
+            return null;
+        }
+
+        List<WorldTile>ret = new List<WorldTile>();
+
+        foreach (Vector2Int neighbor in CellNeighborhood(cell, range)) {
+            if (GetObjectAtCell<T>(neighbor) != null) {
+                ret.Add(GetTile(neighbor));
+            }
+        }
+
+        return ret.ToArray();
+    }
+
+    public WorldTile GetRandomAdjacentTileRangeWithType<T>(Vector2Int cell, int range) {
+        WorldTile[] cells = GetAdjacentTileRangeWithType<T>(cell, range);
+        return cells[Random.Range(0, cells.Length)];
+    }
+
+    public WorldTile[] GetAdjacentTileStripeWithType<T>(Vector2Int cell, int stripe)
+    {
+        if (stripe == 1) {
+            GetAdjacentTileRangeWithType<T>(cell, 1);
+        }
+
+        if (CountAdjacentCellRangeWithType<T>(cell, stripe) == 0)
+        {
+            return null;
+        }
+
+        List<WorldTile>rangeBigger = new List<WorldTile>();
+        List<WorldTile>rangeLesser = new List<WorldTile>();
+
+        foreach (Vector2Int neighbor in CellNeighborhood(cell, stripe)) {
+            if (GetObjectAtCell<T>(neighbor) != null) {
+                rangeBigger.Add(GetTile(neighbor));
+            }
+        }
+
+        foreach (Vector2Int neighbor in CellNeighborhood(cell, stripe - 1)) {
+            if (GetObjectAtCell<T>(neighbor) != null) {
+                rangeLesser.Add(GetTile(neighbor));
+            }
+        }
+
+        foreach (WorldTile removable in rangeLesser) {
+            rangeBigger.Remove(removable);
+        }
+
+        if (rangeBigger.Count == 0) {
+            return null;
+        }
+
+        return rangeBigger.ToArray();
+    }
+    // END RANGE CAPABILITIES
 
     public int CountAdjacentCellsWithType<T>(Vector2Int cell)
     {
@@ -351,6 +468,9 @@ public class WorldGrid : MonoBehaviour
     public Vector2Int GetRandomAdjacentTileWithoutType<T>(Vector2Int cell)
     {
         WorldTile[] ret = GetAdjacentTilesWithoutType<T>(cell);
+        if (ret == null) {
+            return Vector2Int.zero;
+        }
         return ret[Random.Range(0, ret.Length)].tileCoord;
     }
 
@@ -364,7 +484,7 @@ public class WorldGrid : MonoBehaviour
 
     public bool IsFull<T>()
     {
-        return EntityCount<T>() == transform.childCount;
+        return EntityCount<T>() >= transform.childCount;
     }
 
     public int EntityCount<T>()
@@ -378,6 +498,7 @@ public class WorldGrid : MonoBehaviour
                 if (tile.GetChild(j).GetComponent<T>() != null)
                 {
                     count++;
+                    break;
                 }
             }
         }
@@ -389,7 +510,7 @@ public class WorldGrid : MonoBehaviour
         return GetTile(cell) != null;
     }
 
-    public WorldTile BFSstopstart<T>(WorldTile stop, WorldTile start, bool evade) {
+    public WorldTile BFSstopstart<T>(WorldTile stop, WorldTile start, bool evade, int pathMinLength) {
         if (start.isDiscovered) { // enforce start not being discovered
             return null;
         }
@@ -430,12 +551,30 @@ public class WorldGrid : MonoBehaviour
                 q.Enqueue(iChild);
             }
             foreach (WorldTile iChild in disChildren) {
-                if (iChild == stop && parent.lengthToOrigin > 6) {
+                if (iChild == stop && parent.lengthToOrigin >= pathMinLength) {
                     return parent;
                 }
             }
         }
         return null;
+    }
+
+    public List<WorldTile> Gather(WorldTile endpt) {
+        if (endpt == null) {
+            return null;
+        }
+        List<WorldTile> ring = new List<WorldTile>();
+
+        WorldTile curr = endpt;
+
+        while (curr != null) {
+            ring.Add(curr);
+            curr = GetTile(curr.discoveryParentCoord);
+        }
+        if (ring.Count == 0) {
+            return null;
+        }
+        return ring;
     }
 
     public List<WorldTile> WithinDuckRing(WorldTile check) {
@@ -465,14 +604,7 @@ public class WorldGrid : MonoBehaviour
     }
 
     public List<WorldTile> AddNewDuckRing(WorldTile endpt) {
-        List<WorldTile> ring = new List<WorldTile>();
-
-        WorldTile curr = endpt;
-
-        while (curr != null) {
-            ring.Add(curr);
-            curr = GetTile(curr.discoveryParentCoord);
-        }
+        List<WorldTile> ring = Gather(endpt);
         duckRings.Add(ring);
         return ring;
     }
@@ -491,7 +623,7 @@ public class WorldGrid : MonoBehaviour
             return null;
         }
         for (int i = 0; i < arms.Length; i++) {
-            BFSEnd = BFSstopstart<BasicDuck>(origin, arms[i], false);
+            BFSEnd = BFSstopstart<BasicDuck>(origin, arms[i], false, 5);
             if (BFSEnd != null) {
             arms[i].discoveryParentCoord = origin.tileCoord;
             return AddNewDuckRing(BFSEnd);
@@ -517,64 +649,36 @@ public class WorldGrid : MonoBehaviour
         }
     }
 
-    private void AnimateRows(float time1, float time2) {
-        List<WorldTile>[] rowArray = rows.ToArray();
-        WorldTile[] singleRow;
-        float thetaRange, halfPlane, theta1, theta2;
-        float r, realX, tilexValue;
-        Vector2[] closestDeltasArr;
-        Vector2 delta;    
+    private void AnimateRows(float sweep) {
+        List<WorldTile> row;
+        float thetaRange, halfPlane, theta;
+        float r, realX, tilexValue, t;
 
-        Vector2[] ctl1Points = new Vector2[3];
-        Vector2[] ctl2Points = new Vector2[3];
+        Vector2[] ctlPoints = new Vector2[3];
 
-        for (int i = 0; i < rowArray.Length; i++) {
+        for (int i = 0; i < rows.Count; i++) {
+        row = rows[i];
         realX = rowAnimPs[i].x + rowAnimPs[i].z;
         halfPlane = Mathf.Atan(Mathf.Abs(rowAnimPs[i].y / realX));
         thetaRange = (Mathf.PI - 2f * halfPlane);
-        theta1 = time1 / toppleTime * thetaRange + halfPlane;
-        theta2 = time2 / toppleTime * thetaRange + halfPlane;
+        theta = sweep * thetaRange + halfPlane;
 
         r = new Vector2(realX, rowAnimPs[i].y).magnitude;
 
-        singleRow = rowArray[i].ToArray();
+        // find relevant x and t(x)
 
-        closestDeltasArr = new Vector2[singleRow.Length];
-
-            for (float t = 0; t < 1f; t += 0.01f) { // test out points on row
-
-            ctl1Points[0] = new Vector2(0f, 0f);
-            ctl1Points[1] = new Vector2(r * Mathf.Cos(theta1) + rowAnimPs[i].x,
-                                        r * Mathf.Sin(theta1) + rowAnimPs[i].y);
-            ctl1Points[2] = new Vector2(2f * rowAnimPs[i].x, 0f);
-
-            ctl2Points[0] = new Vector2(0f, 0f);
-            ctl2Points[1] = new Vector2(r * Mathf.Cos(theta2) + rowAnimPs[i].x,
-                                        r * Mathf.Sin(theta2) + rowAnimPs[i].y);
-            ctl2Points[2] = new Vector2(2f * rowAnimPs[i].x, 0f);
-
-            BezierBoil(3, ctl1Points, t);
-            BezierBoil(3, ctl2Points, t);
-
-            ctl1Points[0].x = 0f;
-
-            delta = ctl2Points[0];// - ctl1Points[0];
-
-                for (int c = 0; c < singleRow.Length; c++) {
-                    tilexValue = 2f * realX * ((float)c + 5.5f) / (float)(singleRow.Length + 10) - rowAnimPs[i].z;
-                    if (closestDeltasArr[c] == null) {
-                        closestDeltasArr[c] = delta;
-                    } else {
-                        if (Mathf.Abs(delta.x - tilexValue) < Mathf.Abs(closestDeltasArr[c].x - tilexValue)) {
-                            closestDeltasArr[c] = delta;
-                        }
-                    }
-                }
-
-            }
-
-            for (int c = 0; c < singleRow.Length; c++) {
-                singleRow[c].transform.localPosition = singleRow[c].initialTransform + closestDeltasArr[c].y * waveNormal * 0.5f;
+            for (int c = 0; c < row.Count; c++) {
+                tilexValue = 2f * rowAnimPs[i].x * ((float)c + 0.5f) / (float)row.Count;
+                ctlPoints[0] = new Vector2(0f, 0f);
+                ctlPoints[1] = new Vector2( r * Mathf.Cos(theta) + rowAnimPs[i].x,
+                                        r * Mathf.Sin(theta) + rowAnimPs[i].y);
+                ctlPoints[2] = new Vector2(2f * rowAnimPs[i].x, 0f);
+                t = (Mathf.Sqrt(/*b^2*/ ctlPoints[1].x * ctlPoints[1].x
+                                /*4ac*/ + tilexValue * (ctlPoints[2].x - 2f * ctlPoints[1].x)) - ctlPoints[1].x)
+                    / (ctlPoints[2].x - 2f * ctlPoints[1].x);
+                BezierBoil(3, ctlPoints, t);
+                //Debug.Log(ctlPoints[0].x + "same as?: " + tilexValue);
+                row[c].transform.localPosition = row[c].initialTransform + ctlPoints[0].y * waveNormal * 0.5f;
             }
 
         }
@@ -590,12 +694,8 @@ public class WorldGrid : MonoBehaviour
             row = rowList.ToArray();
             victimObj = GetObjectAtCell<BasicBlight>(row[0].tileCoord);
             localMoney = FindAnyObjectByType<GameController>().money;
-            if (FindAnyObjectByType<GameController>().borderCleanse
-                && victimObj != null
-                && localMoney != 0) {
-                localMoney = 3 * localMoney / 5 == 0 ? 1 : 3 * localMoney / 5;
-                Debug.Log("Reducing to: " + localMoney);
-                FindAnyObjectByType<GameController>().money -= localMoney;
+            if (victimObj != null) {
+                FindAnyObjectByType<GameController>().money++;
                 victim = victimObj.GetComponent<BasicBlight>();
                 victim.Growth = -1f;
             }
