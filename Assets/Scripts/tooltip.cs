@@ -5,6 +5,7 @@ public class tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public string msg;
     public int id;
+    public int fontSize;
     private GameController Controller;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -20,10 +21,10 @@ public class tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     }
 
     public void OnPointerEnter(PointerEventData pointerEventData) {
-        Controller.Wisdom(id, msg);
+        Controller.Wisdom(fontSize, id, msg);
     }
 
     public void OnPointerExit(PointerEventData pointerEventData) {
-        Controller.Wisdom(id, "");
+        Controller.Wisdom(fontSize, id, "");
     }
 }
