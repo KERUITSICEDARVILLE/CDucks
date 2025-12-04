@@ -375,7 +375,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 225bf3c650d6947c0bdbb81d4fd82521, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Next_Scene_Start_Button
-  Block: {fileID: 0}
+  Block: {fileID: 1674448265}
   TimerMax: 0.5
 --- !u!95 &349106429
 Animator:
@@ -1301,7 +1301,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1674448266
 RectTransform:
   m_ObjectHideFlags: 0
