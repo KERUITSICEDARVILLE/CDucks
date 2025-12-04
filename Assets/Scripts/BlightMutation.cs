@@ -70,7 +70,7 @@ public class BlightMutation : MonoBehaviour
         {
             objBlight = obj.GetComponent<BasicBlight>();
             // begin transformation
-            objBlight.GrowthRate += Random.Range(3.0f, 4.0f);
+            objBlight.GrowthRate += Random.Range(1.0f, 2.0f);
             objBlight.MaxGrowth += Random.Range(4.0f, 5.0f);
             obj.GetComponent<SpriteRenderer>().color = new Vector4(1f, 1f / objBlight.GrowthRate, 1f / objBlight.GrowthRate, 1f);
             objBlight.Lineage = Controller.GiveMeUniqueID();

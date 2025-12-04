@@ -85,6 +85,8 @@ public class GameController : MonoBehaviour
     public GameObject UI;
     public GameObject SettingsUI;
     public GameObject GrassOverlay;
+    public TMP_Text MouseWisdom;
+    public GameObject Mouse;
     public GameObject Shop;
     public GameObject Tangle;
     public GameObject RingMenu;
@@ -794,5 +796,26 @@ public class GameController : MonoBehaviour
     public void Nuke() {
         Application.Quit();
     }
+
+    public void Wisdom(int caller, string callerMsg) {
+        // index into Wisdom string list
+        // if off turn on
+        Mouse.SetActive(!Mouse.activeSelf);
+            if (callerMsg.Length == 0) {
+                return;
+            }
+        string extra;
+            if (caller < 0 || caller > 7) {
+                extra = "";
+            } else {
+                extra = caller < unlocks ? " ($purchase$)" : " (not unlocked)";
+            }
+        callerMsg += extra;
+        //MouseWisdom.fontSize = 20 / callerMsg.Length;
+        MouseWisdom.text = callerMsg;
+    }
+
+    // add Mouse Inquiry Tutorial Mode
+    // add main menu (Kale)
 
 }
