@@ -1,20 +1,22 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/Sprites/Powers/Clean.png.meta
-guid: 7e1f3e0203bd24ad4bb8c25797debed2
-========
-guid: 90939b28d65a9014ca75d70240ca37a8
->>>>>>>> wip/CheckDuckRing:Assets/Sprites/Duck/zzz.png.meta
+guid: 22f76a66d198b431b994559b65ee4d32
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6995180988234750447
-    second: zzz_0
+      213: 6206636944955622666
+    second: Button_Start_0
   - first:
-      213: 8814660102144196367
-    second: zzz_1
+      213: 1783425480434610836
+    second: Button_Start_1
   - first:
-      213: -3711361254672884462
-    second: zzz_2
+      213: -1951221364198533367
+    second: Button_Start_2
+  - first:
+      213: 7640533615478200095
+    second: Button_Start_3
+  - first:
+      213: 5242019090398173593
+    second: Button_Start_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -47,7 +49,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -56,7 +58,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -85,7 +87,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -110,13 +112,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: zzz_0
+      name: Button_Start_0
       rect:
         serializedVersion: 2
-        x: 15
-        y: 68
-        width: 52
-        height: 44
+        x: 8
+        y: 10
+        width: 12
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -125,20 +127,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fe95c47fb00e31160800000000000000
-      internalID: 6995180988234750447
+      spriteID: a0545e1da67622650800000000000000
+      internalID: 6206636944955622666
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: zzz_1
+      name: Button_Start_1
       rect:
         serializedVersion: 2
-        x: 50
-        y: 31
-        width: 37
-        height: 35
+        x: 19
+        y: 10
+        width: 9
+        height: 14
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -147,20 +149,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f0ffc1c29a6f35a70800000000000000
-      internalID: 8814660102144196367
+      spriteID: 4927fa4860000c810800000000000000
+      internalID: 1783425480434610836
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: zzz_2
+      name: Button_Start_2
       rect:
         serializedVersion: 2
-        x: 85
-        y: 3
-        width: 37
-        height: 35
+        x: 27
+        y: 10
+        width: 13
+        height: 11
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -169,8 +171,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 21d131e3a989e7cc0800000000000000
-      internalID: -3711361254672884462
+      spriteID: 9071bccd18edbe4e0800000000000000
+      internalID: -1951221364198533367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Button_Start_3
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 10
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f17520d87d0a80a60800000000000000
+      internalID: 7640533615478200095
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Button_Start_4
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 10
+        width: 9
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 999dffcd6946fb840800000000000000
+      internalID: 5242019090398173593
       vertices: []
       indices: 
       edges: []
@@ -179,7 +225,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -189,9 +235,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      zzz_0: 6995180988234750447
-      zzz_1: 8814660102144196367
-      zzz_2: -3711361254672884462
+      Button_Start_0: 6206636944955622666
+      Button_Start_1: 1783425480434610836
+      Button_Start_2: -1951221364198533367
+      Button_Start_3: 7640533615478200095
+      Button_Start_4: 5242019090398173593
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
