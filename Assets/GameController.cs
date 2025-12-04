@@ -190,8 +190,13 @@ public class GameController : MonoBehaviour
     {
         // if the player zooms in on something that is not a region, we should do something about that...
 
+        if (Time.deltaTime > 0.1f) {
+            return;
+        }
+
         if (fadeInTimer > 0) {
             fadeInTimer -= Time.deltaTime;
+            Debug.Log("decreasing to " + fadeInTimer / fadeInTime);
             Block.color = new Color(1f, 1f, 1f, fadeInTimer / fadeInTime);
         }
 
