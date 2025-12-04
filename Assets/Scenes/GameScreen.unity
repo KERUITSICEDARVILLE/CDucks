@@ -17269,6 +17269,7 @@ GameObject:
   - component: {fileID: 64613691}
   - component: {fileID: 64613690}
   - component: {fileID: 64613689}
+  - component: {fileID: 64613692}
   m_Layer: 5
   m_Name: Pan
   m_TagString: Untagged
@@ -17391,6 +17392,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 64613687}
   m_CullTransparentMesh: 1
+--- !u!114 &64613692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 64613687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8417fe28a2abd25439f9c975545078be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::tooltip
+  msg: Map follows your mouse (pan)
+  id: 9
+  fontSize: 20
 --- !u!1 &65222638
 GameObject:
   m_ObjectHideFlags: 0
@@ -32678,6 +32694,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1297188338}
+  - {fileID: 1380242063}
   m_Father: {fileID: 1033225140}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -83719,7 +83736,7 @@ GameObject:
   - component: {fileID: 285599595}
   - component: {fileID: 285599594}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: GuideText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83764,7 +83781,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Inquire the Mouse
+  m_text: Guide (on)
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -194112,6 +194129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   gameEnd: 0
+  toolTipsActive: 1
   BossPrefab: {fileID: 8588978222341637796, guid: c9cbd6573efa70f45af1ee5508d1b04f, type: 3}
   CameraObject: {fileID: 1033225137}
   cameraOrigin: {x: 0, y: 0, z: -6}
@@ -194145,6 +194163,8 @@ MonoBehaviour:
   UI: {fileID: 2035499227}
   SettingsUI: {fileID: 919995141}
   GrassOverlay: {fileID: 1297188337}
+  MouseWisdom: {fileID: 1502490175}
+  Mouse: {fileID: 1380242062}
   Shop: {fileID: 1214141274}
   Tangle: {fileID: 1034572729}
   RingMenu: {fileID: 5706275581080811531, guid: 18a4cd09ce068e14fb7b17650fff2f1c, type: 3}
@@ -222145,6 +222165,7 @@ GameObject:
   - component: {fileID: 809751245}
   - component: {fileID: 809751244}
   - component: {fileID: 809751243}
+  - component: {fileID: 809751246}
   m_Layer: 5
   m_Name: PowerButton4
   m_TagString: Untagged
@@ -222266,6 +222287,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 809751241}
   m_CullTransparentMesh: 1
+--- !u!114 &809751246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 809751241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8417fe28a2abd25439f9c975545078be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::tooltip
+  msg: A strong wind pushes everything to the bottom left of the map. Algae fall
+    off, die and give you money. $1 per usage.
+  id: 7
+  fontSize: 13
 --- !u!1 &810248178
 GameObject:
   m_ObjectHideFlags: 0
@@ -225490,7 +225527,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 824860089}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 707780711}
+        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
+        m_MethodName: ToggleWisdom
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 285599594}
+          m_ObjectArgumentAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &824860089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253388,6 +253437,7 @@ GameObject:
   - component: {fileID: 929146341}
   - component: {fileID: 929146340}
   - component: {fileID: 929146339}
+  - component: {fileID: 929146342}
   m_Layer: 5
   m_Name: CleanerButton
   m_TagString: Untagged
@@ -253510,6 +253560,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 929146337}
   m_CullTransparentMesh: 1
+--- !u!114 &929146342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 929146337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8417fe28a2abd25439f9c975545078be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  msg: Press and hold on algae spores to damage them and get $$$
+  id: 0
+  fontSize: 18
 --- !u!1 &929230591
 GameObject:
   m_ObjectHideFlags: 0
@@ -259442,6 +259507,7 @@ GameObject:
   - component: {fileID: 954150299}
   - component: {fileID: 954150298}
   - component: {fileID: 954150297}
+  - component: {fileID: 954150300}
   m_Layer: 5
   m_Name: DuckButton4
   m_TagString: Untagged
@@ -259565,6 +259631,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 954150295}
   m_CullTransparentMesh: 1
+--- !u!114 &954150300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954150295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8417fe28a2abd25439f9c975545078be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::tooltip
+  msg: Super Duck
+  id: 4
+  fontSize: 30
 --- !u!1 &954644180
 GameObject:
   m_ObjectHideFlags: 0
@@ -345840,92 +345921,92 @@ MonoBehaviour:
   DoDrift: 0
   DoWaving: 1
   rowAnimPs:
-  - {x: 5.7862415, y: -40.8965, z: 4.0471077}
-  - {x: 5.896573, y: -40.46491, z: 4.392635}
-  - {x: 5.2534447, y: -40.62014, z: 4.162057}
-  - {x: 5.184477, y: -40.577065, z: 4.084115}
-  - {x: 5.4234247, y: -40.544827, z: 4.8696513}
-  - {x: 5.2802777, y: -40.294365, z: 4.497368}
-  - {x: 5.6037793, y: -40.07683, z: 4.3818607}
-  - {x: 5.303026, y: -40.45583, z: 4.570414}
-  - {x: 5.8533773, y: -40.495712, z: 4.073539}
-  - {x: 5.258649, y: -40.25599, z: 4.2023897}
-  - {x: 5.5555086, y: -40.75633, z: 4.040703}
-  - {x: 5.845489, y: -40.261482, z: 4.034578}
-  - {x: 5.2964478, y: -40.971138, z: 4.708143}
-  - {x: 5.2066364, y: -40.959496, z: 4.241164}
-  - {x: 5.0070786, y: -40.375546, z: 4.362671}
-  - {x: 5.163508, y: -40.170734, z: 4.2570114}
-  - {x: 5.0925684, y: -40.817726, z: 4.059765}
-  - {x: 5.9470835, y: -40.067127, z: 4.086629}
-  - {x: 5.2853556, y: -40.86194, z: 4.0335155}
-  - {x: 5.4151907, y: -40.391434, z: 4.7598405}
-  - {x: 5.8104434, y: -40.73261, z: 4.4837446}
-  - {x: 5.116852, y: -40.682983, z: 4.2112656}
-  - {x: 5.2907486, y: -40.9732, z: 4.2314577}
-  - {x: 5.0388117, y: -40.193195, z: 4.7042766}
-  - {x: 5.833737, y: -40.24451, z: 4.9723}
-  - {x: 5.9991236, y: -40.09342, z: 4.41793}
-  - {x: 5.771845, y: -40.19935, z: 4.2817836}
-  - {x: 5.388965, y: -40.151295, z: 4.895082}
-  - {x: 5.092056, y: -40.28482, z: 4.0303984}
-  - {x: 5.1429358, y: -40.58023, z: 4.945826}
-  - {x: 5.988141, y: -40.158226, z: 4.028948}
-  - {x: 5.651903, y: -40.448967, z: 4.1278334}
-  - {x: 5.4469795, y: -40.48899, z: 4.9866915}
-  - {x: 5.5169253, y: -40.49696, z: 4.3557005}
-  - {x: 5.3060217, y: -40.593864, z: 4.8889585}
-  - {x: 5.960931, y: -40.214184, z: 4.9179406}
-  - {x: 5.012556, y: -40.936096, z: 4.7137804}
-  - {x: 5.028418, y: -40.207397, z: 4.7628}
-  - {x: 5.362624, y: -40.286053, z: 4.9653015}
-  - {x: 5.490177, y: -40.00345, z: 4.5794353}
-  - {x: 5.626519, y: -40.86215, z: 4.2750874}
-  - {x: 5.640975, y: -40.674698, z: 4.424201}
-  - {x: 5.3564034, y: -40.424232, z: 4.8603687}
-  - {x: 5.9170837, y: -40.56456, z: 4.4802628}
-  - {x: 5.313563, y: -40.72032, z: 4.168967}
-  - {x: 5.033773, y: -40.914856, z: 4.5896983}
-  - {x: 5.0936985, y: -40.747253, z: 4.9561276}
-  - {x: 5.229636, y: -40.46012, z: 4.899343}
-  - {x: 5.895865, y: -40.130875, z: 4.43802}
-  - {x: 5.183065, y: -40.152576, z: 4.7669983}
-  - {x: 5.3849745, y: -40.046223, z: 4.8764653}
-  - {x: 5.499503, y: -40.9172, z: 4.213047}
-  - {x: 5.7357388, y: -40.76763, z: 4.5456715}
-  - {x: 5.259827, y: -40.350002, z: 4.8175497}
-  - {x: 5.8040094, y: -40.66265, z: 4.55774}
-  - {x: 5.3331795, y: -40.360638, z: 4.5816054}
-  - {x: 5.318634, y: -40.16809, z: 4.526413}
-  - {x: 5.5634937, y: -40.178875, z: 4.603486}
-  - {x: 5.1398673, y: -40.481426, z: 4.3132095}
-  - {x: 5.9589567, y: -40.44098, z: 4.176694}
-  - {x: 5.1762204, y: -40.085953, z: 4.742625}
-  - {x: 5.286664, y: -40.36103, z: 4.455077}
-  - {x: 5.4346066, y: -40.194614, z: 4.469189}
-  - {x: 5.0088553, y: -40.909046, z: 4.166915}
-  - {x: 5.0635424, y: -40.283073, z: 4.6322308}
-  - {x: 5.406472, y: -40.889664, z: 4.0929637}
-  - {x: 5.4520817, y: -40.87535, z: 4.3889637}
-  - {x: 5.130975, y: -40.431747, z: 4.7934346}
-  - {x: 5.2841616, y: -40.95454, z: 4.582025}
-  - {x: 5.6991305, y: -40.56035, z: 4.3572845}
-  - {x: 5.2045784, y: -40.525734, z: 4.127296}
-  - {x: 5.903089, y: -40.55731, z: 4.3701744}
-  - {x: 5.371222, y: -40.293613, z: 4.03071}
-  - {x: 5.2709703, y: -40.225647, z: 4.589939}
-  - {x: 5.7661595, y: -40.165905, z: 4.931102}
-  - {x: 5.667272, y: -40.256886, z: 4.6972136}
-  - {x: 5.6511097, y: -40.727264, z: 4.66178}
-  - {x: 5.792158, y: -40.40396, z: 4.003852}
-  - {x: 5.3992977, y: -40.69297, z: 4.796976}
-  - {x: 5.0451307, y: -40.872047, z: 4.8522606}
-  - {x: 5.887653, y: -40.635742, z: 4.4878197}
-  - {x: 5.4268236, y: -40.20857, z: 4.0648556}
-  - {x: 5.9017186, y: -40.971413, z: 4.1574926}
-  - {x: 5.5042696, y: -40.493713, z: 4.964594}
-  - {x: 5.9283977, y: -40.71017, z: 4.910359}
-  - {x: 5.8994637, y: -40.286057, z: 4.1785946}
+  - {x: 5.5949817, y: -40.014908, z: 4.5819817}
+  - {x: 5.2111807, y: -40.96186, z: 4.7747073}
+  - {x: 5.749526, y: -40.187576, z: 4.246935}
+  - {x: 5.74092, y: -40.876095, z: 4.646329}
+  - {x: 5.8864665, y: -40.80867, z: 4.9238005}
+  - {x: 5.5676603, y: -40.489624, z: 4.4637513}
+  - {x: 5.619938, y: -40.041153, z: 4.287869}
+  - {x: 5.189685, y: -40.54618, z: 4.4587846}
+  - {x: 5.4024744, y: -40.001083, z: 4.4285583}
+  - {x: 5.2706885, y: -40.081966, z: 4.2944527}
+  - {x: 5.075141, y: -40.993496, z: 4.2421904}
+  - {x: 5.066074, y: -40.209442, z: 4.183748}
+  - {x: 5.678257, y: -40.708595, z: 4.7844863}
+  - {x: 5.449683, y: -40.36366, z: 4.8128138}
+  - {x: 5.000679, y: -40.863987, z: 4.9833}
+  - {x: 5.6705127, y: -40.171104, z: 4.8194466}
+  - {x: 5.766183, y: -40.1381, z: 4.986723}
+  - {x: 5.958791, y: -40.527863, z: 4.652092}
+  - {x: 5.8611603, y: -40.667473, z: 4.2283287}
+  - {x: 5.8731856, y: -40.998146, z: 4.3677444}
+  - {x: 5.4264374, y: -40.528866, z: 4.423112}
+  - {x: 5.2074594, y: -40.871647, z: 4.724318}
+  - {x: 5.134201, y: -40.62037, z: 4.536942}
+  - {x: 5.553379, y: -40.956333, z: 4.875514}
+  - {x: 5.3960414, y: -40.118057, z: 4.5816526}
+  - {x: 5.7509985, y: -40.478325, z: 4.0890093}
+  - {x: 5.284453, y: -40.57361, z: 4.484297}
+  - {x: 5.0036736, y: -40.10991, z: 4.3355665}
+  - {x: 5.365753, y: -40.491932, z: 4.9374123}
+  - {x: 5.7078485, y: -40.820847, z: 4.3477783}
+  - {x: 5.109647, y: -40.392326, z: 4.8612366}
+  - {x: 5.886351, y: -40.523186, z: 4.803379}
+  - {x: 5.7700214, y: -40.315536, z: 4.1719413}
+  - {x: 5.8743978, y: -40.828217, z: 4.6033583}
+  - {x: 5.1316605, y: -40.50276, z: 4.3134747}
+  - {x: 5.9133697, y: -40.46122, z: 4.9638295}
+  - {x: 5.6297274, y: -40.60917, z: 4.8542824}
+  - {x: 5.191621, y: -40.456028, z: 4.6541677}
+  - {x: 5.3766155, y: -40.993393, z: 4.75374}
+  - {x: 5.8496633, y: -40.746353, z: 4.373382}
+  - {x: 5.888784, y: -40.769955, z: 4.386564}
+  - {x: 5.5668173, y: -40.504177, z: 4.5177765}
+  - {x: 5.0325403, y: -40.428703, z: 4.0320272}
+  - {x: 5.263461, y: -40.565674, z: 4.4474335}
+  - {x: 5.150186, y: -40.23999, z: 4.0250616}
+  - {x: 5.6012397, y: -40.05155, z: 4.5276413}
+  - {x: 5.9078617, y: -40.665062, z: 4.2486396}
+  - {x: 5.7128234, y: -40.219864, z: 4.1797395}
+  - {x: 5.7975984, y: -40.41137, z: 4.509532}
+  - {x: 5.847953, y: -40.01704, z: 4.601493}
+  - {x: 5.1329455, y: -40.590416, z: 4.0147943}
+  - {x: 5.6672916, y: -40.733116, z: 4.1623206}
+  - {x: 5.3769283, y: -40.05324, z: 4.478471}
+  - {x: 5.865193, y: -40.09511, z: 4.486767}
+  - {x: 5.418511, y: -40.995712, z: 4.944684}
+  - {x: 5.0507746, y: -40.856552, z: 4.7495165}
+  - {x: 5.055473, y: -40.473873, z: 4.0006104}
+  - {x: 5.3133984, y: -40.6819, z: 4.9925766}
+  - {x: 5.2752156, y: -40.664986, z: 4.4722157}
+  - {x: 5.5776567, y: -40.42546, z: 4.215431}
+  - {x: 5.869256, y: -40.69242, z: 4.600848}
+  - {x: 5.7377143, y: -40.26213, z: 4.4567404}
+  - {x: 5.348981, y: -40.998863, z: 4.2722225}
+  - {x: 5.675775, y: -40.09361, z: 4.920574}
+  - {x: 5.5119295, y: -40.202522, z: 4.987237}
+  - {x: 5.611259, y: -40.73015, z: 4.9003105}
+  - {x: 5.5142026, y: -40.654945, z: 4.846836}
+  - {x: 5.7554827, y: -40.921368, z: 4.889292}
+  - {x: 5.054731, y: -40.53205, z: 4.0029554}
+  - {x: 5.438337, y: -40.281517, z: 4.032728}
+  - {x: 5.2772074, y: -40.423264, z: 4.6366005}
+  - {x: 5.1937284, y: -40.605267, z: 4.760083}
+  - {x: 5.7920675, y: -40.663414, z: 4.2275915}
+  - {x: 5.0779543, y: -40.396187, z: 4.4676743}
+  - {x: 5.720037, y: -40.114388, z: 4.1412983}
+  - {x: 5.848531, y: -40.914177, z: 4.6399393}
+  - {x: 5.989798, y: -40.6484, z: 4.5361505}
+  - {x: 5.9138846, y: -40.26819, z: 4.8114605}
+  - {x: 5.9159846, y: -40.64354, z: 4.5202346}
+  - {x: 5.821339, y: -40.89081, z: 4.96682}
+  - {x: 5.584887, y: -40.7851, z: 4.401658}
+  - {x: 5.6703267, y: -40.659054, z: 4.7017126}
+  - {x: 5.9031453, y: -40.56301, z: 4.858189}
+  - {x: 5.2338395, y: -40.751354, z: 4.3327775}
+  - {x: 5.909687, y: -40.45816, z: 4.3325853}
+  - {x: 5.994611, y: -40.513763, z: 4.590626}
   toppleTime: 3
   waveNormal: {x: -0.5, y: 0.866, z: 0}
 --- !u!1 &1280868447
@@ -347610,6 +347691,7 @@ GameObject:
   - component: {fileID: 1286964043}
   - component: {fileID: 1286964042}
   - component: {fileID: 1286964041}
+  - component: {fileID: 1286964044}
   m_Layer: 5
   m_Name: DuckButton5
   m_TagString: Untagged
@@ -347733,6 +347815,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1286964039}
   m_CullTransparentMesh: 1
+--- !u!114 &1286964044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1286964039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8417fe28a2abd25439f9c975545078be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::tooltip
+  msg: Robot Duck
+  id: 5
+  fontSize: 30
 --- !u!1 &1287374901
 GameObject:
   m_ObjectHideFlags: 0
@@ -374297,6 +374394,82 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1380242062
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1380242063}
+  - component: {fileID: 1380242065}
+  - component: {fileID: 1380242064}
+  m_Layer: 0
+  m_Name: MouseBubble
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1380242063
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1380242062}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1502490174}
+  m_Father: {fileID: 113984258}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 191.8, y: 35.6}
+  m_SizeDelta: {x: 283.9, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1380242064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1380242062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 503745a7f39686e4faba1b900a68b1e2, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1380242065
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1380242062}
+  m_CullTransparentMesh: 1
 --- !u!1 &1380296519
 GameObject:
   m_ObjectHideFlags: 0
@@ -408210,6 +408383,142 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1502490173
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1502490174}
+  - component: {fileID: 1502490176}
+  - component: {fileID: 1502490175}
+  m_Layer: 0
+  m_Name: Inform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1502490174
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1502490173}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1380242063}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -24.7926, y: 0.029}
+  m_SizeDelta: {x: 209.5554, y: 85.492}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1502490175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1502490173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: New Text
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4279505940
+  m_fontColor: {r: 0.078431375, g: 0.078431375, b: 0.078431375, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 20.76
+  m_fontSizeBase: 20.76
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1502490176
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1502490173}
+  m_CullTransparentMesh: 1
 --- !u!1 &1502964083
 GameObject:
   m_ObjectHideFlags: 0
@@ -448854,6 +449163,7 @@ GameObject:
   - component: {fileID: 1668215337}
   - component: {fileID: 1668215336}
   - component: {fileID: 1668215335}
+  - component: {fileID: 1668215338}
   m_Layer: 5
   m_Name: DuckButton3
   m_TagString: Untagged
@@ -448977,6 +449287,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1668215333}
   m_CullTransparentMesh: 1
+--- !u!114 &1668215338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1668215333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8417fe28a2abd25439f9c975545078be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::tooltip
+  msg: Ninja Duck
+  id: 3
+  fontSize: 30
 --- !u!1 &1668340849
 GameObject:
   m_ObjectHideFlags: 0
@@ -461854,6 +462179,7 @@ GameObject:
   - component: {fileID: 1723395074}
   - component: {fileID: 1723395073}
   - component: {fileID: 1723395072}
+  - component: {fileID: 1723395075}
   m_Layer: 5
   m_Name: DuckButton6
   m_TagString: Untagged
@@ -461977,6 +462303,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1723395070}
   m_CullTransparentMesh: 1
+--- !u!114 &1723395075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1723395070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8417fe28a2abd25439f9c975545078be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::tooltip
+  msg: Mythic Duck
+  id: 6
+  fontSize: 30
 --- !u!1 &1724404257
 GameObject:
   m_ObjectHideFlags: 0
@@ -490815,6 +491156,7 @@ GameObject:
   - component: {fileID: 1832067468}
   - component: {fileID: 1832067467}
   - component: {fileID: 1832067466}
+  - component: {fileID: 1832067469}
   m_Layer: 5
   m_Name: DuckButton1
   m_TagString: Untagged
@@ -490938,6 +491280,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1832067464}
   m_CullTransparentMesh: 1
+--- !u!114 &1832067469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1832067464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8417fe28a2abd25439f9c975545078be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::tooltip
+  msg: Basic Duck
+  id: 1
+  fontSize: 30
 --- !u!1 &1832270072
 GameObject:
   m_ObjectHideFlags: 0
@@ -530902,6 +531259,7 @@ GameObject:
   - component: {fileID: 1967136715}
   - component: {fileID: 1967136714}
   - component: {fileID: 1967136713}
+  - component: {fileID: 1967136716}
   m_Layer: 5
   m_Name: DuckButton2
   m_TagString: Untagged
@@ -531025,6 +531383,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1967136711}
   m_CullTransparentMesh: 1
+--- !u!114 &1967136716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1967136711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8417fe28a2abd25439f9c975545078be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::tooltip
+  msg: Army Duck
+  id: 2
+  fontSize: 30
 --- !u!1 &1967733167
 GameObject:
   m_ObjectHideFlags: 0
@@ -535143,6 +535516,7 @@ GameObject:
   - component: {fileID: 1985137314}
   - component: {fileID: 1985137313}
   - component: {fileID: 1985137312}
+  - component: {fileID: 1985137315}
   m_Layer: 5
   m_Name: Redeem
   m_TagString: Untagged
@@ -535265,6 +535639,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1985137310}
   m_CullTransparentMesh: 1
+--- !u!114 &1985137315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1985137310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8417fe28a2abd25439f9c975545078be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::tooltip
+  msg: You may redeem your money at any time (3/4 is taken from you if you are in
+    the middle of a round)
+  id: 37
+  fontSize: 16
 --- !u!1 &1985332081
 GameObject:
   m_ObjectHideFlags: 0
@@ -548987,6 +549377,7 @@ GameObject:
   - component: {fileID: 2039624481}
   - component: {fileID: 2039624480}
   - component: {fileID: 2039624479}
+  - component: {fileID: 2039624482}
   m_Layer: 5
   m_Name: DuckRemoval
   m_TagString: Untagged
@@ -549110,6 +549501,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2039624477}
   m_CullTransparentMesh: 1
+--- !u!114 &2039624482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2039624477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8417fe28a2abd25439f9c975545078be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::tooltip
+  msg: Get (a perentage of) your money back (limits and policy may apply)
+  id: 8
+  fontSize: 18
 --- !u!1 &2039785757
 GameObject:
   m_ObjectHideFlags: 0

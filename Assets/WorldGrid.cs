@@ -675,6 +675,10 @@ public class WorldGrid : MonoBehaviour
         return null;
     }
 
+    public void PurgeDiscoveryChannels(MonoBehaviour caller) {
+        // [TODO]
+    }
+
     public void ResetDiscoveryChannels(MonoBehaviour caller) {
         foreach (WorldTile iWorldTile in discoverySet) {
             iWorldTile.ResetIdentity(caller);

@@ -32,6 +32,7 @@ public class GameController : MonoBehaviour
             return gamePause;
         }
     }
+    public bool toolTipsActive;
     public GameObject BossPrefab;
     public GameObject CameraObject;
     public Vector3 cameraOrigin;
@@ -85,6 +86,8 @@ public class GameController : MonoBehaviour
     public GameObject UI;
     public GameObject SettingsUI;
     public GameObject GrassOverlay;
+    public TMP_Text MouseWisdom;
+    public GameObject Mouse;
     public GameObject Shop;
     public GameObject Tangle;
     public GameObject RingMenu;
@@ -431,7 +434,7 @@ public class GameController : MonoBehaviour
             if (occupant == null) {
             tileset = World.CellNeighborhoodStripe(caller.tileCoord, GetDuckForMode(cursorMode).GetComponent<BasicDuck>().attackRange);
                 foreach (Vector2Int cell in tileset) {
-                    World.GetTile(cell).TileColor = new Color(1f, 0.25f, 0f, 1f);
+                    World.GetTile(cell).TileColor = new Color(0.18f, 0.5f, 0.18f, 1f);
                 }
             tileset = World.CellNeighborhood(caller.tileCoord, GetDuckForMode(cursorMode).GetComponent<BasicDuck>().attackRange - 1);
                 foreach (Vector2Int cell in tileset) {
@@ -794,5 +797,28 @@ public class GameController : MonoBehaviour
     public void Nuke() {
         Application.Quit();
     }
+
+    public void ToggleWisdom(TMP_Text caller) {
+        toolTipsActive = !toolTipsActive;
+        caller.text = "Guide" + (toolTipsActive ? " (on)" : " (off)");
+    }
+
+    public void Wisdom(int size, int caller, string callerMsg) {
+        // index into Wisdom string list
+        // if off turn on
+        Mouse.SetActive(callerMsg.Length != 0 && toolTipsActive);
+        string extra;
+            if (caller < 1 || caller > 7) {
+                extra = "";
+            } else {
+                extra = caller < unlocks ? " ($purchase$)" : " (not unlocked)";
+            }
+        callerMsg += extra;
+        MouseWisdom.fontSize = size;
+        MouseWisdom.text = callerMsg;
+    }
+
+    // add Mouse Inquiry Tutorial Mode
+    // add main menu (Kale)
 
 }
