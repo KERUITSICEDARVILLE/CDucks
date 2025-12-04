@@ -1,9 +1,8 @@
 using TMPro;
 using UnityEngine;
-
 using UnityEngine.UI;
-
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -820,5 +819,9 @@ public class GameController : MonoBehaviour
 
     // add Mouse Inquiry Tutorial Mode
     // add main menu (Kale)
+
+    public void Back() {
+        SceneManager.LoadScene("Start Screen");
+    }
 
 }
