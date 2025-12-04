@@ -434,7 +434,7 @@ public class GameController : MonoBehaviour
             if (occupant == null) {
             tileset = World.CellNeighborhoodStripe(caller.tileCoord, GetDuckForMode(cursorMode).GetComponent<BasicDuck>().attackRange);
                 foreach (Vector2Int cell in tileset) {
-                    World.GetTile(cell).TileColor = new Color(1f, 0.25f, 0f, 1f);
+                    World.GetTile(cell).TileColor = new Color(0.18f, 0.5f, 0.18f, 1f);
                 }
             tileset = World.CellNeighborhood(caller.tileCoord, GetDuckForMode(cursorMode).GetComponent<BasicDuck>().attackRange - 1);
                 foreach (Vector2Int cell in tileset) {
