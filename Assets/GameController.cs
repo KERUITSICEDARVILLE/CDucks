@@ -1,15 +1,15 @@
 using TMPro;
 using UnityEngine;
-
 using UnityEngine.UI;
-
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     [Header("Game State")]
+    public float fadeInTime;
     public bool gameEnd;
     private bool gamePause;
     public bool Pause {
@@ -65,6 +65,7 @@ public class GameController : MonoBehaviour
 
     public bool borderCleanse;
     public int cursorMode;
+    private float fadeInTimer;
 
     [Header("Map Region State")]
     public GameObject Scroll;
@@ -79,6 +80,7 @@ public class GameController : MonoBehaviour
     private Vector3 eventualCamera;
 
     [Header("Scene Setup")]
+    public Image Block;
     public AudioSource gameLoopAudio;
     public AudioSource menuMuse;
     public BlightController bController;
@@ -162,7 +164,7 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
-        money = 0;
+        fadeInTimer = fadeInTime;
         AudioListener.volume = 0.3f;
         gameEnd = false;
         uniTime = 0f;
@@ -187,6 +189,11 @@ public class GameController : MonoBehaviour
     void Update()
     {
         // if the player zooms in on something that is not a region, we should do something about that...
+
+        if (fadeInTimer > 0) {
+            fadeInTimer -= Time.deltaTime;
+            Block.color = new Color(1f, 1f, 1f, fadeInTimer / fadeInTime);
+        }
 
         if (Input.GetKeyDown("escape")) {
             Pause = !Pause;
@@ -820,5 +827,9 @@ public class GameController : MonoBehaviour
 
     // add Mouse Inquiry Tutorial Mode
     // add main menu (Kale)
+
+    public void Back() {
+        SceneManager.LoadScene("Start Screen");
+    }
 
 }
