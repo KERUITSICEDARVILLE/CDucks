@@ -2,12 +2,19 @@ using UnityEngine;
 
 public class ControllerComm : MonoBehaviour
 {
+    public RegionController rController;
     public GameController Controller;
+    public regionInfo regionData;
     public int region;
+
+    public Vector2Int origin;
+    public int radius;
 
     void Awake()
     {
         GetComponent<SpriteRenderer>().color = new Vector4(1f, 1f, 1f, 0f);
+        regionData.origin = origin;
+        regionData.radius = radius;
     }
 
     void Update() {
@@ -22,6 +29,8 @@ public class ControllerComm : MonoBehaviour
             return;
         }
         this.enabled = true;
+        // trigger pulse in Controller
+        // this will look like updating each tiles random green color value
         GetComponent<SpriteRenderer>().color = new Vector4(1f, 1f, 1f, 1f);
     }
 

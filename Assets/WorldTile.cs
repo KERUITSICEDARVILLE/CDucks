@@ -17,6 +17,7 @@ public class Identity {
 public class WorldTile : MonoBehaviour
 {
     [Header("Identity Information")]
+    public bool isUnlocked;
     public Vector2Int tileCoord;
     public Color color;
     public Color heighlight;
@@ -61,11 +62,9 @@ public class WorldTile : MonoBehaviour
     }
 
     void Update() { // fear not for this is (almost) never touched
-        if (!Application.isPlaying) {
+        if (!Application.isPlaying || !isUnlocked) {
             return;
         }
-        //Debug.Log("first time?");
-        //Debug.Break();
         float t;
         float decay = 0f;
         if (colorTimer > 0f) {
@@ -83,24 +82,39 @@ public class WorldTile : MonoBehaviour
 
     public void OnMouseEnter()
     {
-        render.color = heighlight;
-        Controller.HoverTile(this);
+        if (isUnlocked) {
+            render.color = heighlight;
+            Controller.HoverTile(this);
+        } else {
+            GameObject q = Instantiate(FindAnyObjectByType<WorldGrid>().QMark);
+            q.transform.SetParent(transform);
+            q.transform.localPosition = new Vector3(0f, 0f, q.transform.localPosition.z);
+            q.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
+        }
     }
 
     public void OnMouseExit()
     {
-        render.color = color;
-        Controller.ExitTile(this);
+        if (isUnlocked) {
+            render.color = color;
+            Controller.ExitTile(this);
+        } else {
+            Destroy(transform.GetChild(0).gameObject);
+        }
     }
 
     public void OnMouseDown()
     {
-        Controller.ClickTile(this);
+        if (isUnlocked) {
+            Controller.ClickTile(this);
+        } else {
+            Controller.Focus(FindAnyObjectByType<BlightController>().GrabRandomBlight());
+        }
     }
 
     public void OnMouseOver()
     {
-        if (Input.GetMouseButton(0)) {
+        if (Input.GetMouseButton(0) && isUnlocked) {
             Controller.ClickTile(this);
         }
     }

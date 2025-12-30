@@ -170,6 +170,7 @@ public class BlightController : MonoBehaviour
     }
 
     public void GiveTarget(GameObject subject) {
+        int loopModerator = moderation;
         BlightMutation mut = subject.GetComponent<BlightMutation>();
         MonoBehaviour whichCaller = subject.GetComponent<MonoBehaviour>();
         if (mut == null) {
@@ -177,6 +178,12 @@ public class BlightController : MonoBehaviour
         }
         WorldTile stop = GrabRandomBlight().transform.parent.GetComponent<WorldTile>();
         WorldTile endpt = World.BFSstopstart<BasicDuck>(whichCaller, stop, World.GetTile(mut.cell), true, 0);
+        while (endpt == null && loopModerator > 1) {
+            World.ResetDiscoveryChannels(whichCaller);
+            stop = GrabRandomBlight().transform.parent.GetComponent<WorldTile>();
+            endpt = World.BFSstopstart<BasicDuck>(whichCaller, stop, World.GetTile(mut.cell), true, 0);
+            loopModerator--;
+        }
         List<WorldTile> path = World.Gather(whichCaller, endpt);
         if (path == null) {
             Destroy(mut.gameObject);

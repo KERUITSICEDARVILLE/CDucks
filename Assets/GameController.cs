@@ -67,10 +67,9 @@ public class GameController : MonoBehaviour
     public int cursorMode;
     private float fadeInTimer;
 
-    [Header("Map Region State")]
+    [Header("Map Region State (&Visual)")]
     public GameObject Scroll;
     public float zoomPercent;
-    public int RegionNum;
     public Vector3[] cameraMove;
     public Vector2[] regionZoomCoeff;
     private int regionIndex;
@@ -80,11 +79,14 @@ public class GameController : MonoBehaviour
     private Vector3 eventualCamera;
 
     [Header("Scene Setup")]
-    public Image Block;
+    public GameObject miniCamObj;
+    public GameObject miniMap;
+    public GameObject Block;
     public AudioSource gameLoopAudio;
     public AudioSource menuMuse;
     public BlightController bController;
     public DuckController dController;
+    public RegionController rController;
     public GameObject UI;
     public GameObject SettingsUI;
     public GameObject GrassOverlay;
@@ -164,6 +166,7 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+
         fadeInTimer = fadeInTime;
         AudioListener.volume = 0.3f;
         gameEnd = false;
@@ -178,7 +181,7 @@ public class GameController : MonoBehaviour
         borderCleanse = false;
         RegionZoomTimer = 0;
         RoundStartMessageTimer = 0;
-        RoundTimer = 0;
+        RoundTimer = RoundDurations[Round];
         Cursor.SetCursor(GetCursorForMode(0), Vector2.zero, CursorMode.Auto);
         eventualCamera = cameraOrigin;
         menuMuse.Stop();
@@ -190,14 +193,27 @@ public class GameController : MonoBehaviour
     {
         // if the player zooms in on something that is not a region, we should do something about that...
 
+        // region setup now triggers first round
+        switch (rController.regionState) {
+            case 0:
+                return;
+            case 1:
+                StartNextRound();
+                rController.regionState = 2;
+                break;
+            case 2:
+                break;
+        }
+
         if (Time.deltaTime > 0.1f) {
             return;
         }
 
-        if (fadeInTimer > 0) {
+        if (fadeInTimer > 0f) {
             fadeInTimer -= Time.deltaTime;
-            Debug.Log("decreasing to " + fadeInTimer / fadeInTime);
-            Block.color = new Color(1f, 1f, 1f, fadeInTimer / fadeInTime);
+            Block.GetComponent<Image>().color = new Color(1f, 1f, 1f, fadeInTimer / fadeInTime);
+        } else {
+            Block.SetActive(false);
         }
 
         if (Input.GetKeyDown("escape")) {
@@ -723,7 +739,7 @@ public class GameController : MonoBehaviour
     }
 
     public void MapFocus(int caller) {
-        if (caller >= RegionNum || gameEnd) {
+        if (caller >= rController.regionTotal || gameEnd) {
             regionIndex = -1;
             return;
         }
@@ -736,6 +752,15 @@ public class GameController : MonoBehaviour
         prevCamera = CameraObject.transform.localPosition;
         eventualCamSize = regionZoomCoeff[caller][0];
         eventualCamera = cameraMove[caller];
+    }
+
+    public void Focus(GameObject Me) {
+        RegionZoomTimer = RegionZoomDuration;
+        prevCamSize = CameraObject.GetComponent<Camera>().orthographicSize;
+        prevCamera = CameraObject.transform.localPosition;
+        eventualCamSize = prevCamSize;
+        eventualCamera = Me.transform.position;
+        eventualCamera.z = prevCamera.z;
     }
 
     public void MapUnfocus() {
@@ -753,17 +778,21 @@ public class GameController : MonoBehaviour
         Scroll.GetComponent<RectTransform>().sizeDelta = new Vector2(105f, 8.5f);
     }
 
-    public void StartNextRound()
-    {
-
+    public void Payout(int Round) {
         if (wallet == 0 && money == 0) {
             wallet = 4;
         } else {
             money += (int)((float)wallet * RoundModifiers[Round]);
             wallet = Round * GetCost(Round); // base on next duck tier price
         }
+    }
 
+    public void StartNextRound()
+    {
+
+        Payout(Round);
         RoundTimer = RoundDurations[Round];
+        World.RegionTilesLevelUp(Round);
         Round += 1;
         DisplayRound();
         Upgrade();

@@ -6,7 +6,11 @@ using static UnityEngine.EventSystems.EventTrigger;
 [ExecuteInEditMode]
 public class WorldGrid : MonoBehaviour
 {
+    public GameController Controller;
+    public RegionController rController;
+
     public GameObject tile;
+    public GameObject QMark;
     public float shiftLeft;
     public float shiftUp;
 
@@ -24,10 +28,8 @@ public class WorldGrid : MonoBehaviour
 
     public bool DoDrift;
 
-    [Header("BFS and animation")]
+    [Header("Rows and Animation")]
     public bool DoWaving;
-    public HashSet<WorldTile> discoverySet;
-    public List<List<WorldTile>> duckRings;
     public List<List<WorldTile>> rows;
     public Vector3[] rowAnimPs;
 
@@ -35,8 +37,13 @@ public class WorldGrid : MonoBehaviour
     private float toppleControlTime;
     public Vector3 waveNormal;
 
-    [Header("Performance Concerns")]
-    private Dictionary<Vector2Int, WorldTile> tileMap;
+    [Header("Lookups and Region Info")]
+    public HashSet<WorldTile> discoverySet;
+    public List<List<WorldTile>> duckRings;
+    public RegionController mapRegions;
+    private Dictionary<Vector2Int, WorldTile> tileMap; // has effective getter/setter
+    private List<HashSet<WorldTile>>regionTiles;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -44,6 +51,7 @@ public class WorldGrid : MonoBehaviour
         toppleControlTime = 0f;
 
         tileMap = new Dictionary<Vector2Int, WorldTile>();
+        regionTiles = new List<HashSet<WorldTile>>();
         discoverySet = new HashSet<WorldTile>();
         duckRings = new List<List<WorldTile>>();
         rows = new List<List<WorldTile>>();
@@ -87,6 +95,22 @@ public class WorldGrid : MonoBehaviour
                                     Random.Range(5f, 6f),
                                     Random.Range(-41f, -40f),
                                     Random.Range(4f, 5f));
+        }
+
+        if (Application.isPlaying) {
+            for (int i = 0; i < rController.regionTotal; i++) {
+                regionTiles.Add(new HashSet<WorldTile>());
+                regionInfo region = rController.Comms[i].regionData;
+                Vector2Int[] neighborhood = CellNeighborhood(region.origin, region.radius);
+                tileMap[region.origin].isUnlocked = false;
+                tileMap[region.origin].render.color = new Color(0f, Random.Range(0f, 1f), Random.Range(0f, 1f), 1f);
+                regionTiles[i].Add(tileMap[region.origin]);
+                foreach (Vector2Int neighbor in neighborhood) {
+                    tileMap[neighbor].isUnlocked = false;
+                    tileMap[neighbor].render.color = new Color(0f, Random.Range(0f, 1f), Random.Range(0f, 1f), 1f);
+                    regionTiles[i].Add(tileMap[neighbor]);
+                }
+            }
         }
 
         ResetDiscoveryChannels(this);
@@ -146,13 +170,13 @@ public class WorldGrid : MonoBehaviour
         {
             toppleControlTime = 0f;
             // slide everything left
-            if (FindAnyObjectByType<GameController>().money > 0
-                && FindAnyObjectByType<GameController>().borderCleanse)
+            if (Controller.money > 0
+                && Controller.borderCleanse)
             {
                 ReparentRows();
-                FindAnyObjectByType<GameController>().money--;
+                Controller.money--;
             } else {
-                FindAnyObjectByType<GameController>().borderCleanse = false;
+                Controller.borderCleanse = false;
             }
         }
         // no seriously, please move this to the Controller
@@ -245,7 +269,11 @@ public class WorldGrid : MonoBehaviour
 
     public WorldTile GetRandomTile()
     {
-        return transform.GetChild(Random.Range(0, transform.childCount)).GetComponent<WorldTile>();
+        WorldTile tile = transform.GetChild(Random.Range(0, transform.childCount)).GetComponent<WorldTile>();
+        while (!OnGrid(tile.tileCoord)) {
+            tile = transform.GetChild(Random.Range(0, transform.childCount)).GetComponent<WorldTile>();
+        }
+        return tile;
     }
 
     public GameObject GetObjectAtCell<T>(Vector2Int cell)
@@ -434,6 +462,24 @@ public class WorldGrid : MonoBehaviour
     }
     // END RANGE CAPABILITIES
 
+    // region, worldtile activation, leveling, levelup, level, ...
+    public void RegionTilesLevelUp(int level) { // random unlock order means that...
+        regionInfo region;
+        for (int i = 0; i < rController.regionTotal; i++) {
+            region = rController.Comms[i].regionData;
+            if (level == region.unlockLevel) {
+                foreach (WorldTile neighbor in regionTiles[i]) {
+                    neighbor.isUnlocked = true;
+                    neighbor.TileColor = new Color(0f, 0f, 0f, 0f);
+                        // go through each stripe / time
+                        // trigger pulse in Controller
+                        // just set each tileColor in stripe to null ^
+                        // until there are no stripes left
+                }
+            }
+        }
+    }
+
     public int CountAdjacentCellsWithType<T>(Vector2Int cell)
     {
 
@@ -544,7 +590,11 @@ public class WorldGrid : MonoBehaviour
 
     private bool OnGrid(Vector2Int cell)
     {
-        return GetTile(cell) != null;
+        WorldTile tile = GetTile(cell);
+        if (tile != null) {
+            return tile.isUnlocked;
+        }
+    return false;
     }
 
     public WorldTile BFSstopstart<T>(MonoBehaviour caller, WorldTile stop, WorldTile start, bool evade, int pathMinLength) {
@@ -594,7 +644,7 @@ public class WorldGrid : MonoBehaviour
                 }
             }
         }
-        Debug.Log("stop tile did not match any records");
+        // Debug.Log("stop tile did not match any records");
         return null;
     }
 
@@ -629,7 +679,7 @@ public class WorldGrid : MonoBehaviour
     }
 
     public bool RemoveDuckRing(WorldTile check) {
-        Debug.Log("removing duck ring");
+        //Debug.Log("removing duck ring");
         int removeIndex = duckRings.Count;
         for (int i = 0; i < duckRings.Count; i++) {
             foreach (WorldTile tile in duckRings[i]) {
@@ -742,7 +792,7 @@ public class WorldGrid : MonoBehaviour
             row = rowList.ToArray();
             victimObj = GetObjectAtCell<BasicBlight>(row[0].tileCoord);
             if (victimObj != null) {
-                FindAnyObjectByType<GameController>().wallet++;
+                Controller.wallet++;
                 victim = victimObj.GetComponent<BasicBlight>();
                 victim.Growth = -1f;
             }
