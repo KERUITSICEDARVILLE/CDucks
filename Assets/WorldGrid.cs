@@ -41,8 +41,8 @@ public class WorldGrid : MonoBehaviour
     public HashSet<WorldTile> discoverySet;
     public List<List<WorldTile>> duckRings;
     public RegionController mapRegions;
+    public List<List<HashSet<WorldTile>>>regionTiles;
     private Dictionary<Vector2Int, WorldTile> tileMap; // has effective getter/setter
-    private List<HashSet<WorldTile>>regionTiles;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -51,7 +51,7 @@ public class WorldGrid : MonoBehaviour
         toppleControlTime = 0f;
 
         tileMap = new Dictionary<Vector2Int, WorldTile>();
-        regionTiles = new List<HashSet<WorldTile>>();
+        regionTiles = new List<List<HashSet<WorldTile>>>();
         discoverySet = new HashSet<WorldTile>();
         duckRings = new List<List<WorldTile>>();
         rows = new List<List<WorldTile>>();
@@ -60,6 +60,8 @@ public class WorldGrid : MonoBehaviour
         Vector2Int upperRight;
         WorldTile upperRightTile;
 
+        HashSet<WorldTile>loners = new HashSet<WorldTile>();
+
         for (int i = 0; i < transform.childCount; i++) {
         iChild = transform.GetChild(i).GetComponent<WorldTile>();
         tileMap.Add(iChild.tileCoord, iChild);
@@ -67,7 +69,9 @@ public class WorldGrid : MonoBehaviour
 
         for (int i = 0; i < transform.childCount; i++) {
         iChild = transform.GetChild(i).GetComponent<WorldTile>();
-
+            if (CountAdjacentCellsWithoutType<MonoBehaviour>(iChild.tileCoord) != 6) {
+                loners.Add(iChild);
+            }
         // set creation
         discoverySet.Add(iChild);
 
@@ -99,17 +103,38 @@ public class WorldGrid : MonoBehaviour
 
         if (Application.isPlaying) {
             for (int i = 0; i < rController.regionTotal; i++) {
-                regionTiles.Add(new HashSet<WorldTile>());
                 regionInfo region = rController.Comms[i].regionData;
-                Vector2Int[] neighborhood = CellNeighborhood(region.origin, region.radius);
-                tileMap[region.origin].isUnlocked = false;
+                regionTiles.Add(new List<HashSet<WorldTile>>());
+                regionTiles[i].Add(
+                    new HashSet<WorldTile>(
+                        new WorldTile[1] {
+                            tileMap[region.origin]
+                        }
+                    )
+                );
                 tileMap[region.origin].render.color = new Color(0f, Random.Range(0f, 1f), Random.Range(0f, 1f), 1f);
-                regionTiles[i].Add(tileMap[region.origin]);
-                foreach (Vector2Int neighbor in neighborhood) {
-                    tileMap[neighbor].isUnlocked = false;
-                    tileMap[neighbor].render.color = new Color(0f, Random.Range(0f, 1f), Random.Range(0f, 1f), 1f);
-                    regionTiles[i].Add(tileMap[neighbor]);
+                for (int j = 1; j < region.radius + 1; j++) {
+                    WorldTile [] stripe = GetAdjacentTileStripe(region.origin, j);
+                    if (stripe != null) {
+                        foreach (WorldTile single in stripe) {
+                            single.render.color = new Color(0f, Random.Range(0f, 1f), Random.Range(0f, 1f), 1f);
+                        }
+                        regionTiles[i].Add(
+                            new HashSet<WorldTile>(
+                                stripe
+                            )
+                        );
+                    } else {
+                        Debug.Log("no stripe with " + j + " distance");
+                    }
                 }
+                WorldTile [] range = GetAdjacentTileRangeWithoutType<MonoBehaviour>(region.origin, region.radius);
+            }
+            foreach (WorldTile tile in loners) {
+                tile.render.color = new Color(0.7f, 0f, 0f, 1f);
+            }
+            foreach (WorldTile single in discoverySet) {
+                single.isUnlocked = false;
             }
         }
 
@@ -387,6 +412,15 @@ public class WorldGrid : MonoBehaviour
         return new List<Vector2Int>(neighborhood_b).ToArray();
     }
 
+    public WorldTile [] GetAdjacentTileStripe(Vector2Int cell, int stripe) {
+        List<WorldTile> ret = new List<WorldTile>();
+        Vector2Int [ ] neighbors = CellNeighborhoodStripe(cell, stripe);
+        foreach (Vector2Int neighbor in neighbors) {
+            ret.Add(GetTile(neighbor));
+        }
+        return ret.ToArray();
+    }
+
     public int CountAdjacentCellRangeWithType<T>(Vector2Int cell, int range)
     {
 
@@ -412,6 +446,24 @@ public class WorldGrid : MonoBehaviour
 
         foreach (Vector2Int neighbor in CellNeighborhood(cell, range)) {
             if (GetObjectAtCell<T>(neighbor) != null) {
+                ret.Add(GetTile(neighbor));
+            }
+        }
+
+        return ret.ToArray();
+    }
+
+    public WorldTile[] GetAdjacentTileRangeWithoutType<T>(Vector2Int cell, int range)
+    {
+        if (CountAdjacentCellRangeWithType<T>(cell, range) == 6)
+        {
+            return null;
+        }
+
+        List<WorldTile>ret = new List<WorldTile>();
+
+        foreach (Vector2Int neighbor in CellNeighborhood(cell, range)) {
+            if (GetObjectAtCell<T>(neighbor) == null) {
                 ret.Add(GetTile(neighbor));
             }
         }
@@ -461,24 +513,6 @@ public class WorldGrid : MonoBehaviour
         return rangeBigger.ToArray();
     }
     // END RANGE CAPABILITIES
-
-    // region, worldtile activation, leveling, levelup, level, ...
-    public void RegionTilesLevelUp(int level) { // random unlock order means that...
-        regionInfo region;
-        for (int i = 0; i < rController.regionTotal; i++) {
-            region = rController.Comms[i].regionData;
-            if (level == region.unlockLevel) {
-                foreach (WorldTile neighbor in regionTiles[i]) {
-                    neighbor.isUnlocked = true;
-                    neighbor.TileColor = new Color(0f, 0f, 0f, 0f);
-                        // go through each stripe / time
-                        // trigger pulse in Controller
-                        // just set each tileColor in stripe to null ^
-                        // until there are no stripes left
-                }
-            }
-        }
-    }
 
     public int CountAdjacentCellsWithType<T>(Vector2Int cell)
     {
@@ -565,11 +599,23 @@ public class WorldGrid : MonoBehaviour
         return ret[Random.Range(0, ret.Length)];
     }
 
+    // first empty tile negates
+    // <T> for historical (/s) reasons
     public bool IsFull<T>()
     {
-        return EntityCount<T>() >= transform.childCount;
+        bool found = false;
+
+        foreach (WorldTile iWorldTile in discoverySet) {
+            if (iWorldTile.isUnlocked && GetObjectAtCell<MonoBehaviour>(iWorldTile.tileCoord) == null) {
+                found = true;
+                break;
+            }
+        }
+
+        return !found;
     }
 
+    // obsolete due to {b/d}controllers
     public int EntityCount<T>()
     {
         int count = 0;

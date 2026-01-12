@@ -107,6 +107,10 @@ public class GameController : MonoBehaviour
     public float[] RoundModifiers;
     private float RoundTimer;
     private float RoundStartMessageTimer;
+    public float whirlDuration;
+    private float whirlTimer;
+    private int whirlRegion;
+    public int whirlStripe;
 
     [Header("UI Elements")]
     public TMP_Text RoundTMP;
@@ -177,6 +181,8 @@ public class GameController : MonoBehaviour
         selection = -1;
         UnsetZoom();
         regionIndex = -1;
+        whirlRegion = -1;
+        whirlTimer = 0f;
         ringMenuBasis = null;
         borderCleanse = false;
         RegionZoomTimer = 0;
@@ -260,6 +266,33 @@ public class GameController : MonoBehaviour
             ForceBounds();
         } else if (regionIndex != -1 && zoomPercent + scroll < 0f) {
             MapUnfocus();
+        }
+
+        // animate "whirlpool"
+        if (whirlTimer > 0f) {
+            whirlTimer -= Time.deltaTime;
+        } else if (whirlRegion != -1) {
+            regionInfo region = rController.Comms[whirlRegion].regionData;
+            HashSet<WorldTile> stripe;
+            stripe = World.regionTiles[whirlRegion][whirlStripe];
+            foreach (WorldTile single in stripe) {
+                if (region.radius != whirlStripe
+                    || World.CountAdjacentCellsWithoutType<GameController>(single.tileCoord) > 3) {
+                    single.isUnlocked = true;
+                    single.TileColor = new Color(0f, 0f, 0f, 0f);
+                } else {
+                    // is single's number of neighbors greater than 3?
+                    single.render.color = new Color(0.7f, 0f, 0f, 1f);
+                }
+            }
+
+            whirlStripe++;
+            
+            if (region.radius < whirlStripe) {
+                whirlRegion = -1;
+            }
+
+            whirlTimer = whirlDuration;
         }
 
         // Have we lost yet? Progress to next round if no blight or timer < 0f
@@ -755,6 +788,9 @@ public class GameController : MonoBehaviour
     }
 
     public void Focus(GameObject Me) {
+        if (Me == null) {
+            return;
+        }
         RegionZoomTimer = RegionZoomDuration;
         prevCamSize = CameraObject.GetComponent<Camera>().orthographicSize;
         prevCamera = CameraObject.transform.localPosition;
@@ -787,16 +823,30 @@ public class GameController : MonoBehaviour
         }
     }
 
+    // region, worldtile activation, leveling, levelup, level, ...
+    public void RegionTilesLevelUp(int level) { // see "Update(): animate whirlpool"
+        regionInfo region;
+        for (int i = 0; i < rController.regionTotal; i++) {
+            region = rController.Comms[i].regionData;
+            if (level == region.unlockLevel) {
+                whirlTimer = whirlDuration;
+                whirlRegion = i;
+                whirlStripe = 0;
+            }
+        }
+    }
+
     public void StartNextRound()
     {
 
         Payout(Round);
+        RegionTilesLevelUp(Round);
         RoundTimer = RoundDurations[Round];
-        World.RegionTilesLevelUp(Round);
         Round += 1;
         DisplayRound();
         Upgrade();
-        SpawnRound();
+        // takes an ungodly amount of time with the locked stuff
+        //SpawnRound();
         RoundTMP.text = "" + Round;
         RoundTime.transform.localPosition = Vector3.zero;
         SkipButton.interactable = false;

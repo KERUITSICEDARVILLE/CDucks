@@ -166,7 +166,11 @@ public class BlightController : MonoBehaviour
 
     public GameObject GrabRandomBlight() {
         List<GameObject>flat = new List<GameObject>(Subset);
-        return flat[Random.Range(0, flat.Count)]; 
+        if (flat.Count > 0) {
+            return flat[Random.Range(0, flat.Count)]; 
+        } else {
+            return null;
+        }
     }
 
     public void GiveTarget(GameObject subject) {
